@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jsbintask.cn/categories/index.html</loc>
+    
+    <lastmod>2019-01-09T07:25:40.068Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/</loc>
     
-    <lastmod>2019-01-08T06:15:00.000Z</lastmod>
+    <lastmod>2019-01-09T06:15:00.000Z</lastmod>
     
   </url>
   

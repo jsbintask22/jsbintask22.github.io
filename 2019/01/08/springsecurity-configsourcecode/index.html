@@ -14,7 +14,7 @@
 <meta property="og:description" content="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://pkdfqapwh.bkt.clouddn.com/alien_telephone_line_by_hypex2772_dcwhux0-fullview.jpg">
-<meta property="og:updated_time" content="2019-01-08T06:15:00.000Z">
+<meta property="og:updated_time" content="2019-01-09T06:15:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springsecurity系列教程-初始化配置源码解析">
 <meta name="twitter:description" content="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析">
@@ -70,7 +70,7 @@
         </hgroup>
 
         
-            <p class="header-subtitle">是我走错的路，不怨鞋</p>
+            <p class="header-subtitle">Do it right at the first time.</p>
         
         
         
@@ -123,7 +123,7 @@
                             
                                 <li><a href="/tags">所有标签</a></li>
                             
-                                <li><a href="/tags/recommend">推荐阅读</a></li>
+                                <li><a href="/categories/recommend">推荐阅读</a></li>
                             
                                 <li><a href="/instagram">光影之路</a></li>
                             
@@ -200,14 +200,14 @@
               <h1 class="header-author"><a href="/" title="Me">jsbintask</a></h1>
             </hgroup>
             
-            <p class="header-subtitle">是我走错的路，不怨鞋</p>
+            <p class="header-subtitle">Do it right at the first time.</p>
             
             <nav class="header-menu">
                 <ul>
                 
                     <li><a href="/tags">所有标签</a></li>
                 
-                    <li><a href="/tags/recommend">推荐阅读</a></li>
+                    <li><a href="/categories/recommend">推荐阅读</a></li>
                 
                     <li><a href="/instagram">光影之路</a></li>
                 
@@ -257,6 +257,10 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
@@ -271,7 +275,7 @@
       
           
         <h1 id="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析"><a href="#Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析" class="headerlink" title="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析"></a>Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析</h1><p><img src="http://pkdfqapwh.bkt.clouddn.com/alien_telephone_line_by_hypex2772_dcwhux0-fullview.jpg"><br><a id="more"></a><br><em>上一篇博客我们介绍了hellowrold入门，并且成功的看到了springsecurity的拦截效果，接下来我们就来看看springsecurity是如何做到的。</em></p>
-<h1 id="启动配置详解"><a href="#启动配置详解" class="headerlink" title="启动配置详解"></a>启动配置详解</h1><p>我们知道（不知道的就当知道吧，哈哈），springboot启动时会帮我自动配置好很多的默认配置项，并且加载配置类都会写在spring.factories文件中，所以我们这里开始，看看springsecurity做了<br>那些配置，打开idea，ctrl+shift+n * 2，查找spring.factories文件：如下：<br><a href="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo3.png" target="_blank" rel="noopener">spring.factories</a><br>随后在该配置文件中，查找security，如下：<br><a href="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo4.png" target="_blank" rel="noopener">security</a><br>我们可以看到，一共初始化了9个security相关的类，这里我们不关注oauth2（以后再说）和reactive（springboot2以后新特性），还有<br><strong>SecurityAutoConfiguration， SecurityRequestMatcherProviderAutoConfiguration， SecurityFilterAutoConfiguration</strong>这三个类，首先我们看下</p>
+<h1 id="启动配置详解"><a href="#启动配置详解" class="headerlink" title="启动配置详解"></a>启动配置详解</h1><p>我们知道（不知道的就当知道吧，哈哈），springboot启动时会帮我自动配置好很多的默认配置项，并且加载配置类都会写在spring.factories文件中，所以我们这里开始，看看springsecurity做了<br>那些配置，打开idea，ctrl+shift+n * 2，查找spring.factories文件：如下：<br><a href="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo3.png" target="_blank" rel="noopener">spring.factories</a><br>随后在该配置文件中，查找security，如下：<br><a href="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo4.png" target="_blank" rel="noopener">security</a><br>我们可以看到，一共初始化了9个security相关的类，这里我们不关注oauth2（以后再说）和reactive（springboot2以后新特性），还有<br><strong>SecurityAutoConfiguration， SecurityRequestMatcherProviderAutoConfiguration， SecurityFilterAutoConfiguration, UserDetailsServiceAutoConfiguration</strong>这四个类，首先我们看下</p>
 <h3 id="SecurityAutoConfiguration："><a href="#SecurityAutoConfiguration：" class="headerlink" title="SecurityAutoConfiguration："></a>SecurityAutoConfiguration：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(DefaultAuthenticationEventPublisher.class)</span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(SecurityProperties.class)</span><br><span class="line"><span class="meta">@Import</span>(&#123; SpringBootWebSecurityConfiguration.class, WebSecurityEnablerConfiguration.class,</span><br><span class="line">		SecurityDataConfiguration.class &#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecurityAutoConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="meta">@ConditionalOnMissingBean</span>(AuthenticationEventPublisher.class)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> DefaultAuthenticationEventPublisher <span class="title">authenticationEventPublisher</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">			ApplicationEventPublisher publisher)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> DefaultAuthenticationEventPublisher(publisher);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>1.可以看出，这个类初始化了DefaultAuthenticationEventPublisher，看名字就知道，一个事件发布器，其内部实现就是spring的ApplicationEventPublisher，<br>用于springsecurity各种权限时间的交互，如登陆失败，会发布一个事件，然后通知其它组件做出相应的响应。</p>
@@ -369,7 +373,7 @@
         <p><span>本文标题:</span><a href="/2019/01/08/springsecurity-configsourcecode/">springsecurity系列教程-初始化配置源码解析</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
         <p><span>发布时间:</span>2019年01月08日 - 14时15分</p>
-        <p><span>最后更新:</span>2019年01月08日 - 14时15分</p>
+        <p><span>最后更新:</span>2019年01月09日 - 14时15分</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/01/08/springsecurity-configsourcecode/" title="springsecurity系列教程-初始化配置源码解析">http://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/</a>
             <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
