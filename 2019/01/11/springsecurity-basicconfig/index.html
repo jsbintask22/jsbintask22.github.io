@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>jsbintask的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="java,springsecurity,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springsecurity系列教程（三）-基础配置详解">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/index.html">
+<meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/dmease-472de8ab-809d-4979-b023-bcaeefe493f9.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo13.png">
+<meta property="og:updated_time" content="2019-01-11T06:15:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springsecurity系列教程（三）-基础配置详解">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/dmease-472de8ab-809d-4979-b023-bcaeefe493f9.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: true,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+                <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+            <h1 class="header-author"><a href="/" title="Hi Mate">jsbintask</a></h1>
+        </hgroup>
+
+        
+            <p class="header-subtitle">Do it right at the first time.</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                            <div class="icon-wrap icon-link hide" data-idx="2">
+                                <div class="loopback_l"></div>
+                                <div class="loopback_r"></div>
+                            </div>
+                        
+                        
+                            <div class="icon-wrap icon-me hide" data-idx="3">
+                                <div class="user"></div>
+                                <div class="shoulder"></div>
+                            </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                            <li>友情链接</li>
+                        
+                        
+                            <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                            
+                                <li><a href="/tags">所有标签</a></li>
+                            
+                                <li><a href="/categories/recommend">推荐阅读</a></li>
+                            
+                                <li><a href="/instagram">光影之路</a></li>
+                            
+                                <li><a href="/archives">文章归档</a></li>
+                            
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                            
+                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                            
+                                <a class="fl Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                    <section class="switch-part switch-part2">
+                        <div class="widget tagcloud" id="js-tagcloud">
+                            <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/springboot/" style="font-size: 10px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 10px;">springsecurity</a>
+                        </div>
+                    </section>
+                
+
+                
+                    <section class="switch-part switch-part3">
+                        <div id="js-friends">
+                            
+                                <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com">gayhub</a>
+                            
+                        </div>
+                    </section>
+                
+
+                
+                    
+                    <section class="switch-part switch-part4">
+                        
+                        <div id="js-aboutme">96年，java工程师，爱折腾！</div>
+                    </section>
+                
+            </div>
+        </div>
+
+        
+            <div class="left-wechat-public">
+                <img src="/img/wechat_public.jpg" width="150px" height="150px" alt="jsbintask">
+            </div>
+        
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">jsbintask</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">jsbintask</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Do it right at the first time.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags">所有标签</a></li>
+                
+                    <li><a href="/categories/recommend">推荐阅读</a></li>
+                
+                    <li><a href="/instagram">光影之路</a></li>
+                
+                    <li><a href="/archives">文章归档</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                    
+                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                    
+                        <a class="Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-springsecurity-basicconfig" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/11/springsecurity-basicconfig/" class="article-date">
+      <time datetime="2019-01-11T02:15:00.000Z" itemprop="datePublished">2019-01-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      springsecurity系列教程（三）-基础配置详解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springsecurity/">springsecurity</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><img src="http://qiniu.jsbintask.cn/dmease-472de8ab-809d-4979-b023-bcaeefe493f9.jpg"><br><a id="more"></a><br><em><a href="https://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/#more">上一章</a>我们从源码角度探究了springboot对于帮我们初始化的springsecurity默认配置，这章我们来学习下springsecurity中的基础配置</em></p>
+<h1 id="修改基础配置"><a href="#修改基础配置" class="headerlink" title="修改基础配置"></a>修改基础配置</h1><ul>
+<li>上一章我们已经知道，springsecurity中所有配置基本都来源于一个默认的WebSecurityConfigurerAdapter，那我们首先写一个类继承它，放弃springboot帮我们做的默认配置，<br>叫SecurityConfig，为了看到更多的配置，我们加上一个注解（其实springboot已经帮我们加上），@EnableWebSecurity(debug = true)，修改debug位true，<br>然后打开我们的配置文件application.yml，修改spring的log信息为debug，如下：<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8080</span></span><br><span class="line"></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  freemarker:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    cache:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    template-loader-path:</span> <span class="attr">classpath:/templates/</span></span><br><span class="line"><span class="attr">    suffix:</span> <span class="string">.html</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  security:</span></span><br><span class="line"><span class="attr">    user:</span></span><br><span class="line"><span class="attr">      name:</span> <span class="string">user</span></span><br><span class="line"><span class="attr">      password:</span> <span class="string">admin</span></span><br><span class="line"><span class="attr">      roles:</span> <span class="string">user,</span> <span class="string">admin</span></span><br><span class="line"><span class="attr">logging:</span></span><br><span class="line"><span class="attr">  level:</span></span><br><span class="line">    <span class="string">org.springframework.*:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="配置详解"><a href="#配置详解" class="headerlink" title="配置详解"></a>配置详解</h1><ul>
+<li>打开SecurityConfig，首先明确我们的目的：修改原来的登陆页面，登陆成功后，跳转到我们的hello页面，所以首先添加登陆页面login.html，并且添加视图解析（和第一章一样添加controller同样效果）：<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>login page<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">This is login page from jsbintask</span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/login"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></span><br><span class="line">    username: <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"username"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    password: <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"password"</span> /&gt;</span><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">"submit"</span>&gt;</span>submit<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里请记住这个表单提交的地址/login，写一个类WebMvcConfig实现WebMvcConfigurer（2.0以前需要继承WebMvcConfigurerAdapter），添加如下配置:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebMvc</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addViewController(<span class="string">"/index"</span>).setViewName(<span class="string">"login"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>接着继续回来SecurityConfig,首先覆盖下原方法<strong>configure(HttpSecurity http)</strong>，我们看下原来实现是什么：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		logger.debug(<span class="string">"Using default configure(HttpSecurity). If subclassed this will potentially override subclass configure(HttpSecurity)."</span>);</span><br><span class="line"></span><br><span class="line">		http</span><br><span class="line">			.authorizeRequests()</span><br><span class="line">				.anyRequest().authenticated()</span><br><span class="line">				.and()</span><br><span class="line">			.formLogin().and()</span><br><span class="line">			.httpBasic();</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以看出，默认配置就是所有页面全部被拦截，开启登陆表单验证以及http basic验证，我们继续查看<strong>formLogin()</strong>方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> FormLoginConfigurer&lt;HttpSecurity&gt; <span class="title">formLogin</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> getOrApply(<span class="keyword">new</span> FormLoginConfigurer&lt;&gt;());</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>熟悉的apply方法，上一章已经介绍，这是添加拦截器，FormLoginConfigurer如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">FormLoginConfigurer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(<span class="keyword">new</span> UsernamePasswordAuthenticationFilter(), <span class="keyword">null</span>);</span><br><span class="line">		usernameParameter(<span class="string">"username"</span>);</span><br><span class="line">		passwordParameter(<span class="string">"password"</span>);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>加了一个UsernamePasswordAuthenticationFilter拦截器。接下来，我们修改configure配置如下，值得注意的是，因为现在我们的页面是自己的定义，但是所有页面<br>都是需要权限的，所以我们必须放行登陆（error页面在BaseErrorController中定义），错误页面：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    http.formLogin()</span><br><span class="line">            .loginPage(<span class="string">"/index"</span>)</span><br><span class="line">            <span class="comment">// 和login.html中表单提交的一直必须一样，这样才能让springsecurity帮你处理请求</span></span><br><span class="line">            .loginProcessingUrl(<span class="string">"/login"</span>)</span><br><span class="line">            .and()</span><br><span class="line">            .authorizeRequests()</span><br><span class="line">            .antMatchers(<span class="string">"/index"</span>, <span class="string">"/login"</span>, <span class="string">"/error"</span>).permitAll()</span><br><span class="line">            .anyRequest()</span><br><span class="line">            .authenticated();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接着启动项目，查看控制台，发现多个springsecurity的日志：<br>o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@60d40ff4, org.springframework.security.web.context.SecurityContextPersistenceFilter@58867cd5, org.springframework.security.web.header.HeaderWriterFilter@2c05ff9d, org.springframework.security.web.csrf.CsrfFilter@44ed0a8f, org.springframework.security.web.authentication.logout.LogoutFilter@70211df5, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4c5228e7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a8ab2, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@71926a36, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2e5b7fba, org.springframework.security.web.session.SessionManagementFilter@2e1ddc90, org.springframework.security.web.access.ExceptionTranslationFilter@2687725a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@c29fe36]<br>看得出这就是我们上一章说的过滤器链了。并且UsernamePasswordAuthenticationFilter也在其中<br>接下来打开浏览器，直接访问主界面， <a href="http://localhost:8080/hello" target="_blank" rel="noopener">http://localhost:8080/hello</a>，自动跳转到了我们自定义的登陆页面：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo8.png" alt="security"><br>然后点击提交，发现403错误了，纳尼？ 赶紧检查控制台，发现走了一个CrsfFilter，这个filter需要一个参数，防止xss攻击的，但是我们不需要，所以我们禁掉，如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    http.formLogin()</span><br><span class="line">            .loginPage(<span class="string">"/index"</span>)</span><br><span class="line">            .loginProcessingUrl(<span class="string">"/login"</span>)</span><br><span class="line">            .and()</span><br><span class="line">            .authorizeRequests()</span><br><span class="line">            .antMatchers(<span class="string">"/index"</span>, <span class="string">"/login"</span>, <span class="string">"/error"</span>, <span class="string">"/favicon.ico"</span>).permitAll()</span><br><span class="line">            .anyRequest()</span><br><span class="line">            .authenticated()</span><br><span class="line">            .and()</span><br><span class="line">            .csrf()</span><br><span class="line">            .disable();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这回正常了，我们输入错误的用户名，密码，果然，回到了原来的登陆页面，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo9.png" alt="security"><br>并且后面带了一个error的参数，所以如果我们的login页面再做下处理，就能回显用户名密码错误了。然后我们继续输入我们一开始已经配置用户名密码，继续，这回出现了404，<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo10.png" alt="security"><br>看地址我们知道它是登陆成功后帮我回到了 <a href="http://localhost:8080作为了默认页面，所以我们要加上登陆成功后的页面如下，也就是hello" target="_blank" rel="noopener">http://localhost:8080作为了默认页面，所以我们要加上登陆成功后的页面如下，也就是hello</a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    http.formLogin()</span><br><span class="line">            .loginPage(<span class="string">"/index"</span>)</span><br><span class="line">            .loginProcessingUrl(<span class="string">"/login"</span>)</span><br><span class="line">            .successForwardUrl(<span class="string">"/hello"</span>)</span><br><span class="line">            .and()</span><br><span class="line">            .authorizeRequests()</span><br><span class="line">            .antMatchers(<span class="string">"/index"</span>, <span class="string">"/login"</span>, <span class="string">"/error"</span>, <span class="string">"/favicon.ico"</span>).permitAll()</span><br><span class="line">            .anyRequest()</span><br><span class="line">            .authenticated()</span><br><span class="line">            .and()</span><br><span class="line">            .csrf()</span><br><span class="line">            .disable();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>继续登陆，果然，成功后帮我们重定向到了hello页面：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo11.png" alt="security"></p>
+<h1 id="自定义数据查询"><a href="#自定义数据查询" class="headerlink" title="自定义数据查询"></a>自定义数据查询</h1><p>经过上面的配置，我们一开始的目的达到了，自定义登陆页面，并且登陆成功后跳转到主界面，但是现在还有个问题是，我们的用户名密码是配置配置文件中的，这样肯定不行，<br>因为我们一般都是使用数据库的。接下来就是我们自定义数据源了。</p>
+<h2 id="内存中的数据源"><a href="#内存中的数据源" class="headerlink" title="内存中的数据源"></a>内存中的数据源</h2><p>上一篇博客我们已经通过源码分析了springboot在启动的时候帮我们初始化了一个在内存中的UserDetailService，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo12.png" alt="security"><br>那我们现在先来覆盖掉这个，回到先前的SecurityConfig，并且继承方法<strong>configure(AuthenticationManagerBuilder auth)</strong>，<br>在自定义UserDetailsService的时候，发现它要求返回一个UserDetails，所以我们需要继承这个类来返回自己的实体类User，因为我们这里使用内存中的实现，可以直接用它提供的工具方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    auth.userDetailsService(<span class="keyword">new</span> InMemoryUserDetailsManager(</span><br><span class="line">            User.builder().username(<span class="string">"jsbintask1"</span>).password(<span class="string">"&#123;noop&#125;123456"</span>).authorities(<span class="string">"jsbintask1"</span>).build(),</span><br><span class="line">            User.builder().username(<span class="string">"jsbintask2"</span>).password(<span class="string">"&#123;noop&#125;123456"</span>).authorities(<span class="string">"jsbintask2"</span>).build()</span><br><span class="line">    ));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>值得注意的是，如果我们以这种方式定义密码的时候，要在密码前面加上{noop}这个前缀或者配置一个密码加密器的bean，否则验证会出错。另外还有一点就是一定要添加roles或者authorities，<br>否则springsecurity不予通过。现在我们重新登陆，并且使用一开始配置文件中的用户名密码，发现此时已经不行了。 再用我们的新用户名密码，通过！<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo13.png" alt="security"><br>到这里，我们的自定义内存中的数据源就定义好了，接下来我们换成数据库中的形式。</p>
+<h2 id="db形式的数据源"><a href="#db形式的数据源" class="headerlink" title="db形式的数据源"></a>db形式的数据源</h2><ul>
+<li>因为要使用数据库，那我们就选用spring-data jpa去操作数据库，首先引入依赖:<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>接下来就是配置mysql数据源和hibernate的属性了：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  datasource:</span></span><br><span class="line"><span class="attr">    driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">jason</span></span><br><span class="line"><span class="attr">    url:</span>  <span class="attr">jdbc:mysql://localhost:3306/springsecurity_demos?useSSL=false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  jpa:</span></span><br><span class="line"><span class="attr">    show-sql:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    hibernate:</span></span><br><span class="line"><span class="attr">      ddl-auto:</span> <span class="string">update</span></span><br><span class="line"><span class="attr">    properties:</span></span><br><span class="line"><span class="attr">      hibernate:</span></span><br><span class="line"><span class="attr">        format_sql:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>初始化sql脚本如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> springsecurity_demos;</span><br><span class="line"><span class="keyword">USE</span> springsecurity_demos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">NAMES</span> utf8mb4;</span><br><span class="line"><span class="keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for role</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`role`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`role`</span>  (</span><br><span class="line">                       <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">                       <span class="string">`role_name`</span> <span class="built_in">varchar</span>(<span class="number">16</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">                       <span class="string">`description`</span> <span class="built_in">varchar</span>(<span class="number">64</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">                       PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>) <span class="keyword">USING</span> BTREE</span><br><span class="line">) <span class="keyword">ENGINE</span> = <span class="keyword">InnoDB</span> AUTO_INCREMENT = <span class="number">3</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> = utf8 <span class="keyword">COLLATE</span> = utf8_general_ci ROW_FORMAT = Dynamic;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Records of role</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`role`</span> <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'user'</span>, <span class="string">'this is a user role.'</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`role`</span> <span class="keyword">VALUES</span> (<span class="number">2</span>, <span class="string">'admin'</span>, <span class="string">'this is a admin role.'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Table structure for user</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`user`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span>  (</span><br><span class="line">                       <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">                       <span class="string">`username`</span> <span class="built_in">varchar</span>(<span class="number">16</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">                       <span class="string">`password`</span> <span class="built_in">varchar</span>(<span class="number">64</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">                       <span class="string">`age`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">                       <span class="string">`address`</span> <span class="built_in">varchar</span>(<span class="number">32</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span>,</span><br><span class="line">                       <span class="string">`role_id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">                       PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>) <span class="keyword">USING</span> BTREE</span><br><span class="line">) <span class="keyword">ENGINE</span> = <span class="keyword">InnoDB</span> AUTO_INCREMENT = <span class="number">2</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> = utf8 <span class="keyword">COLLATE</span> = utf8_general_ci ROW_FORMAT = Dynamic;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="comment">-- Records of user</span></span><br><span class="line"><span class="comment">-- ----------------------------</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`user`</span> <span class="keyword">VALUES</span> (<span class="number">1</span>, <span class="string">'jsbintask'</span>, <span class="string">'$2a$10$WfUOGFJzAkPeRU3ZK2q6v.FNFcgIBrhixFNQ/htTKx71RK/OBMYaC'</span>, <span class="number">22</span>, <span class="string">'China, Wuhan'</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<p>我们的数据库一共有两张表，user表和role表，此处为了简单，我们的user和role设为1对多关系，user表中添加role_id，然后编写User, Role实体类，UserRepository, RoleRepository:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table</span></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Integer roleId;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">User</span>, <span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function">User <span class="title">findByUsername</span><span class="params">(String username)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Role</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)</span><br><span class="line">    <span class="keyword">private</span> Integer id;</span><br><span class="line">    <span class="keyword">private</span> String roleName;</span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RoleRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Role</span>, <span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>好了，接下就是要与sprinsecurity结合了，在此之前，还有一点需要我们明白，springsecurity中对于用户的表示有自己的实体类相对应，它就是UserDetails，所以我们编写一个AuthUser实现这个接口：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthUser</span> <span class="keyword">implements</span> <span class="title">UserDetails</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Role&gt; roles;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Collection&lt;? extends GrantedAuthority&gt; getAuthorities() &#123;</span><br><span class="line">        <span class="keyword">return</span> roles.isEmpty() ? Collections.EMPTY_LIST :</span><br><span class="line">                (roles.parallelStream().map(role -&gt; <span class="keyword">new</span> SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList()));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> password;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> username;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAccountNonExpired</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAccountNonLocked</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isCredentialsNonExpired</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEnabled</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中关于账号过期，enable全部设置为通过，接下来就是编写CustomUserDetailsService，返回我们自己的AuthUser：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomUserDetailsServiceImpl</span> <span class="keyword">implements</span> <span class="title">UserDetailsService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> UserRepository userRepository;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span></span><br><span class="line">    <span class="keyword">private</span> RoleRepository roleRepository;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> UserDetails <span class="title">loadUserByUsername</span><span class="params">(String username)</span> <span class="keyword">throws</span> UsernameNotFoundException </span>&#123;</span><br><span class="line">        User user = userRepository.findByUsername(username);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (user == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UsernameNotFoundException(<span class="string">"user: "</span> + username + <span class="string">" is not found."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> AuthUser(user.getUsername(), user.getPassword(), roleRepository.findAllById(Collections.singletonList(user.getRoleId())));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意，此处如果没有找到用户，要抛出 UsernameNotFoundException，然后springsecurity会处理。<br><strong>到此，其实我们的UserDetails已经注入了Spring中， what？ 不是还只定义了吗，其实我们加上@Service和@Primary之后，springsecurity就能自己检测到这个bean，然后作为自己的UserDetailsService，<br>当然，如果我们像上面一样使用覆盖方法的方式同样可行。 但是接下来还有差一步，我们上面已经说到了，再springsecurity中一定要对密码进行处理，比如我们上面就是不加密，在前面加上{noop}，这里我们不这里处理，<br>我们配置一个密码加密器：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> BCryptPasswordEncoder <span class="title">bCryptPasswordEncoder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> BCryptPasswordEncoder();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同样，springsecurity也能检测到，这样定义就ok了，那这样就有另一个问题了，我们的密码是加密过了，所以我们的数据库初始化一个加密过的密码才行，所以我们再使用这个加密器生成一个密码“123456”：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    BCryptPasswordEncoder bCryptPasswordEncoder = <span class="keyword">new</span> BCryptPasswordEncoder();</span><br><span class="line">    System.out.println(bCryptPasswordEncoder.encode(<span class="string">"123456"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后将密码放入数据库。然后同样去登陆，输入数据库中用户名，密码，同样帮我们转发了主页面hello，至此，我们的db中的数据源定义也同样通过了！</p>
+<p><strong><em>源码地址（麻烦点个star哦）：<a href="https://github.com/jsbintask22/spring-security-demos.git" target="_blank" rel="noopener">https://github.com/jsbintask22/spring-security-demos.git</a></em></strong></p>
+<h1 id="结束语："><a href="#结束语：" class="headerlink" title="结束语："></a>结束语：</h1><p>本次我们手把手操作并且总结了springsecurity的一般用法，并且提出了很多值得注意的点。 那么接下来我们就站在一个高一点角度来分析一下springsecurity的架构吧。<br><strong>如果你觉得对你有用，关注我！（左方二维码）。</strong></p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>谢谢你支持我分享知识</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/wechatimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，心意已收</div>
+            <div class="shang_payselect">
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <!--<span class="radiobox"></span>-->
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">微信</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/01/11/springsecurity-basicconfig/">springsecurity系列教程（三）-基础配置详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年01月11日 - 10时15分</p>
+        <p><span>最后更新:</span>2019年01月11日 - 14时15分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/11/springsecurity-basicconfig/" title="springsecurity系列教程（三）-基础配置详解">http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/08/springsecurity-configsourcecode/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springsecurity系列教程（二）-初始化配置源码解析</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#修改基础配置"><span class="toc-number">1.</span> <span class="toc-text">修改基础配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置详解"><span class="toc-number">2.</span> <span class="toc-text">配置详解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自定义数据查询"><span class="toc-number">3.</span> <span class="toc-text">自定义数据查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存中的数据源"><span class="toc-number">3.1.</span> <span class="toc-text">内存中的数据源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#db形式的数据源"><span class="toc-number">3.2.</span> <span class="toc-text">db形式的数据源</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#结束语："><span class="toc-number">4.</span> <span class="toc-text">结束语：</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="springsecurity-basicconfig"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/01/08/springsecurity-configsourcecode/" title="下一篇: springsecurity系列教程（二）-初始化配置源码解析">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springsecurity系列教程（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springsecurity系列教程（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springsecurity系列教程（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 jsbintask
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">本站访问量:
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本文阅读量:
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?f1c1bcd43bb13500d087f18deb22025f";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+
+  </div>
+</body>
+</html>
