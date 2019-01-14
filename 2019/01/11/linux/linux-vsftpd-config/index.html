@@ -5,15 +5,20 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="java,javascript,spring,springboot,html,css,vue,netty,it">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://jsbintask.cn/about/index.html">
+  <meta name="keywords" content="linux,运维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux环境中vsftp的常用配置">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2018-12-27T08:42:43.027Z">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png">
+<meta property="og:updated_time" content="2019-01-11T06:15:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
+<meta name="twitter:title" content="linux环境中vsftp的常用配置">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -39,7 +44,7 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: false,
+          isPost: true,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -227,11 +232,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="page-" class="article article-type-page" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-linux/linux-vsftpd-config" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/about/index.html" class="article-date">
-      <time datetime="2018-12-27T08:42:43.000Z" itemprop="datePublished">2018-12-27</time>
+      <a href="/2019/01/11/linux/linux-vsftpd-config/" class="article-date">
+      <time datetime="2019-01-11T02:15:00.000Z" itemprop="datePublished">2019-01-11</time>
 </a>
     </div>
   
@@ -244,7 +249,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      about
+      linux环境中vsftp的常用配置
     </h1>
   
 
@@ -254,6 +259,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -261,42 +270,24 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta {
-        display: none;
-    }
-    #container .article .article-title {
-        padding-right: 0;
-    }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover {
-        border-left: none;
-    }
-    .article-title {
-        font-size: 1.6em
-    }
-    .article-meta {
-        display: none;
-    }
-    .article-entry hr {
-        margin: 0;
-    }
-    #container .article-info-post.article-info {
-      display: none;
-      }
-    #container .article .article-title {
-    padding: 0;
-    }
-</style>
+        <p><img src="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg" alt="vsftpd"><br><a id="more"></a></p>
+<h1 id="Linux上vsftpd的配置"><a href="#Linux上vsftpd的配置" class="headerlink" title="Linux上vsftpd的配置"></a>Linux上vsftpd的配置</h1><p>最近正好项目遇上需要配置ftp的情况，感觉对于ftp的配置都差不多，所以特意写下本篇博客，话不多说，直接动手。<br><strong><em>配置最终目的如下：<br>1.取消匿名登陆，必须账号密码登陆<br>2.只有配置文件中的用户允许登陆<br>3.所有用户登陆后访问相同的ftp环境<br>4.所有用户不能够切换到上级目录</em></strong></p>
+<h2 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h2><p>新建一个不能ssh登陆的用户，作为我们的ftp的访问用户（不用root）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd ftp_user -d /home/ftp_user -s /sbin/nologin ftp_user  --新建用户 ftp_user并且主目录为/home/ftp_user</span><br><span class="line">chmod -R 755 /home/ftp_user  --修改该目录访问权限</span><br><span class="line">passwd ftp_user  --设置该账号密码</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装配置vsftpd"><a href="#安装配置vsftpd" class="headerlink" title="安装配置vsftpd"></a>安装配置vsftpd</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum -y install vsftpd  --安装</span><br><span class="line">cd /etc/vsftpd  --切换到vsftp目录下</span><br><span class="line">mv vsftpd.conf vsftpd.conf.bak  --备份原来的配置文件</span><br><span class="line">wget http://resource.jsbintask.cn/vsftpd/vsftpd.conf  --获取配置文件</span><br></pre></td></tr></table></figure>
+<p>改配置文件已经做好了大多数的配置，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png" alt="vsftpd"><br>接下来编辑改配置文件，vim vsftpd.conf，在最下方加入我们一开始配置用户设置的主文件夹：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_root=/home/ftp_user</span><br></pre></td></tr></table></figure></p>
+<p>接下来编辑ftpusers，删除所有配置，空文件就行（该文件是哪些用户不能访问）<br>编辑user_list（该文件控制哪些用户可以登录ftp），加入我们刚刚添加的用户ftp_user，删掉其他所有行数，例如：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png" alt="vsftpd"><br>只有用户jason和root可以登录。</p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service vsftpd start</span><br></pre></td></tr></table></figure>
+<p>如果启动过程中报错，重新编辑vsftp.conf，注释掉 改行（这是vsftpd2.3以后的新配置）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png" alt="vsftpd"><br>重新启动，成功。<br>接下来使用ftp工具连接即可</p>
+<h2 id="问题解决："><a href="#问题解决：" class="headerlink" title="问题解决："></a>问题解决：</h2><ol>
+<li>关闭防火墙或者开启如下端口  20， 21（ftp）， 61001-62000范围端口。</li>
+<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://resource.jsbintask.cn/vsftpd/config.sh</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>运行 config.sh，如果运行失败，请修改脚本中的 setsebool -P tftp_home_dir 1 为 setsebool -P ftp_home_dir 1</p>
+<ol start="3">
+<li>编辑安全配置文件 vim /etc/sysconfig/selinux，SELINUX=enforcing 改为 SELINUX=disabled<br>再次访问，成功。<br><strong><em>更多文章请扫描左方二维码</em></strong></li>
+</ol>
 
-
-          
-        
       
       
         <div class="page-reward">
@@ -345,10 +336,76 @@
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年01月11日 - 10时15分</p>
+        <p><span>最后更新:</span>2019年01月11日 - 14时15分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/11/linux/linux-vsftpd-config/" title="linux环境中vsftp的常用配置">http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+<nav id="article-nav">
+  
+    <a href="/2019/01/11/springsecurity-basicconfig/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          springsecurity系列教程（三）-基础配置详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/01/08/springsecurity-configsourcecode/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springsecurity系列教程（二）-初始化配置源码解析</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux上vsftpd的配置"><span class="toc-number">1.</span> <span class="toc-text">Linux上vsftpd的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#新建用户"><span class="toc-number">1.1.</span> <span class="toc-text">新建用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装配置vsftpd"><span class="toc-number">1.2.</span> <span class="toc-text">安装配置vsftpd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-number">1.3.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题解决："><span class="toc-number">1.4.</span> <span class="toc-text">问题解决：</span></a></li></ol></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
 
 
 
@@ -368,7 +425,80 @@
 
     
 
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="linux-vsftpd-config"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
 
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2019/01/11/springsecurity-basicconfig/" title="上一篇: springsecurity系列教程（三）-基础配置详解">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/01/08/springsecurity-configsourcecode/" title="下一篇: springsecurity系列教程（二）-初始化配置源码解析">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springsecurity系列教程（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springsecurity系列教程（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springsecurity系列教程（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
 
 
 
