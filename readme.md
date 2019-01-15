@@ -1,5 +1,8 @@
 # Blog
 本博客使用github page和[spfk-j](https://github.com/jsbintask22/hexo-theme-spfk-j.git)主题搭建，该主题是再spfk的基础上进行修改，修改了部分ui，加入了一些新东西，如集成畅言插件等。
+![demo](https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo1.png)
+![demo](https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo2.png)
+![demo](https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo3.png)
 
 # 主题
 拉取:
@@ -211,10 +214,5 @@ Loading: true
 # 是否显示二维码名片，此处的路径是 spfk下source 里面的路径
 qrcodePath: /img/wechat_public.jpg
 ```
-
-# 作品展示
-![demo](https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo1.png)
-![demo](https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo2.png)
-![demo](https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo3.png)
 
 **另外欢迎fork和star，如果搭建过程有问题，可随时和作者联系 jsbintask@foxmail.com**
