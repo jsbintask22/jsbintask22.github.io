@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>jsbintask的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Blog本博客使用github page和spfk-j主题搭建，该主题是再spfk的基础上进行修改，修改了部分ui，加入了一些新东西，如集成畅言插件等。 主题拉取:1$ git clone https://github.com/jsbintask22/hexo-theme-spfk-j.git themes/spfk-j 配置修改hexo根目录下的 _config.yml ： theme: spf">
+<meta name="keywords" content="java,javascript,spring,springboot,html,css,vue,netty,it">
+<meta property="og:type" content="website">
+<meta property="og:title" content="jsbintask的博客">
+<meta property="og:url" content="http://jsbintask.cn/readme.html">
+<meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:description" content="Blog本博客使用github page和spfk-j主题搭建，该主题是再spfk的基础上进行修改，修改了部分ui，加入了一些新东西，如集成畅言插件等。 主题拉取:1$ git clone https://github.com/jsbintask22/hexo-theme-spfk-j.git themes/spfk-j 配置修改hexo根目录下的 _config.yml ： theme: spf">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo3.png">
+<meta property="og:updated_time" content="2019-01-15T02:32:56.054Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jsbintask的博客">
+<meta name="twitter:description" content="Blog本博客使用github page和spfk-j主题搭建，该主题是再spfk的基础上进行修改，修改了部分ui，加入了一些新东西，如集成畅言插件等。 主题拉取:1$ git clone https://github.com/jsbintask22/hexo-theme-spfk-j.git themes/spfk-j 配置修改hexo根目录下的 _config.yml ： theme: spf">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/favicon.png">
+  
+  
+      <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+      <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+    <script src="/js/pace.js"></script>
+    <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+      var yiliaConfig = {
+          rootUrl: '/',
+          fancybox: true,
+          animate: true,
+          isHome: false,
+          isPost: false,
+          isArchive: false,
+          isTag: false,
+          isCategory: false,
+          open_in_new: false
+      }
+  </script>
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+                <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+            <h1 class="header-author"><a href="/" title="Hi Mate">jsbintask</a></h1>
+        </hgroup>
+
+        
+            <p class="header-subtitle">Do it right at the first time.</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                            <div class="icon-wrap icon-link hide" data-idx="2">
+                                <div class="loopback_l"></div>
+                                <div class="loopback_r"></div>
+                            </div>
+                        
+                        
+                            <div class="icon-wrap icon-me hide" data-idx="3">
+                                <div class="user"></div>
+                                <div class="shoulder"></div>
+                            </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                            <li>友情链接</li>
+                        
+                        
+                            <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                            
+                                <li><a href="/tags">所有标签</a></li>
+                            
+                                <li><a href="/categories/recommend">推荐阅读</a></li>
+                            
+                                <li><a href="/instagram">光影之路</a></li>
+                            
+                                <li><a href="/archives">文章归档</a></li>
+                            
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                            
+                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                            
+                                <a class="fl Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                    <section class="switch-part switch-part2">
+                        <div class="widget tagcloud" id="js-tagcloud">
+                            <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/springboot/" style="font-size: 20px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 20px;">springsecurity</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a>
+                        </div>
+                    </section>
+                
+
+                
+                    <section class="switch-part switch-part3">
+                        <div id="js-friends">
+                            
+                                <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com">gayhub</a>
+                            
+                        </div>
+                    </section>
+                
+
+                
+                    
+                    <section class="switch-part switch-part4">
+                        
+                        <div id="js-aboutme">96年，java工程师，爱折腾！</div>
+                    </section>
+                
+            </div>
+        </div>
+
+        
+            <div class="left-wechat-public">
+                <img src="/img/wechat_public.jpg" width="150px" height="150px" alt="jsbintask">
+            </div>
+        
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">jsbintask</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">jsbintask</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Do it right at the first time.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags">所有标签</a></li>
+                
+                    <li><a href="/categories/recommend">推荐阅读</a></li>
+                
+                    <li><a href="/instagram">光影之路</a></li>
+                
+                    <li><a href="/archives">文章归档</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                    
+                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                    
+                        <a class="Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="page-" class="article article-type-page" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/readme.html" class="article-date">
+      <time datetime="2019-01-15T02:32:56.065Z" itemprop="datePublished">2019-01-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <style>
+    .article-meta {
+        display: none;
+    }
+    #container .article .article-title {
+        padding-right: 0;
+    }
+    .article-header {
+        padding: 0;
+        padding-top: 26px;
+        border-left: none;
+        text-align: center;
+    }
+    .article-header:hover {
+        border-left: none;
+    }
+    .article-title {
+        font-size: 1.6em
+    }
+    .article-meta {
+        display: none;
+    }
+    .article-entry hr {
+        margin: 0;
+    }
+    #container .article-info-post.article-info {
+      display: none;
+      }
+    #container .article .article-title {
+    padding: 0;
+    }
+</style>
+
+
+          
+        <h1 id="Blog"><a href="#Blog" class="headerlink" title="Blog"></a>Blog</h1><p>本博客使用github page和<a href="https://github.com/jsbintask22/hexo-theme-spfk-j.git" target="_blank" rel="noopener">spfk-j</a>主题搭建，该主题是再spfk的基础上进行修改，修改了部分ui，加入了一些新东西，如集成畅言插件等。</p>
+<h1 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h1><p>拉取:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/jsbintask22/hexo-theme-spfk-j.git themes/spfk-j</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><p>修改hexo根目录下的 <code>_config.yml</code> ： <code>theme: spfk-j</code></p>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> themes/spfk-j</span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
+<h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># &gt;&gt;&gt; Basic Setup | 基础设置 &lt;&lt;&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Header | 主菜单</span></span><br><span class="line"><span class="comment">## About Page: `hexo new page about`</span></span><br><span class="line"><span class="comment">## Tags Cloud Page: `hexo new page tags`</span></span><br><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="string">所有标签:</span> <span class="string">/tags</span></span><br><span class="line">  <span class="string">推荐阅读:</span> <span class="string">/categories/recommend</span></span><br><span class="line">  <span class="string">光影之路:</span> <span class="string">/instagram</span></span><br><span class="line">  <span class="string">文章归档:</span> <span class="string">/archives</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Link to your avatar | 填写头像地址</span></span><br><span class="line"><span class="attr">avatar:</span> <span class="string">img/head.jpg</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Small icon of Your site | 站点小图标地址</span></span><br><span class="line"><span class="attr">favicon:</span> <span class="string">img/favicon.png</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Social info. Bar | 社交信息展示</span></span><br><span class="line"><span class="attr">subnav:</span></span><br><span class="line"><span class="attr">  mail:</span> <span class="string">"mailto://jsbintask@gmail.com"</span></span><br><span class="line"><span class="attr">  github:</span> <span class="string">"https://github.com/jsbintask22"</span></span><br><span class="line"><span class="attr">  stackoverflow:</span> <span class="string">"https://stackoverflow.com/users/10720862/jasonzou"</span></span><br><span class="line"><span class="attr">  Instagram:</span> <span class="string">"https://www.instagram.com/jsbintask/"</span></span><br><span class="line">  <span class="comment"># zhihu: "#"</span></span><br><span class="line">  <span class="comment"># weibo: "#"</span></span><br><span class="line">  <span class="comment"># google: "jsbintask@gmail.com"</span></span><br><span class="line">  <span class="comment"># twitter: "#"</span></span><br><span class="line">  <span class="comment"># linkedin: "#"</span></span><br><span class="line">  <span class="comment"># facebook: "#"</span></span><br><span class="line">  <span class="comment"># rss: /atom.xml</span></span><br><span class="line">  <span class="comment"># pinterest: "#"</span></span><br><span class="line">  <span class="comment"># QQ: "1484432123"</span></span><br><span class="line">  <span class="comment"># wechat: "wechat://A1484432123"</span></span><br><span class="line">  <span class="comment"># douban: "#"</span></span><br><span class="line">  <span class="comment"># pinboard: "#"</span></span><br><span class="line">  <span class="comment"># segmentfault: "#"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; Conments 评论系统 &lt;&lt;&lt;</span></span><br><span class="line"><span class="attr">disqus:</span></span><br><span class="line">  <span class="comment"># on: true</span></span><br><span class="line"><span class="attr">  shortname:</span> <span class="string">jsbintask</span></span><br><span class="line">  <span class="comment"># https://help.disqus.com/customer/en/portal/articles/466208-what-s-a-shortname-</span></span><br><span class="line">  <span class="comment"># It is unnecessary to enable disqus here if</span></span><br><span class="line">  <span class="comment"># you have set "disqus_shortname" in your site's "_config.yml"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">duoshuo:</span></span><br><span class="line">  <span class="comment"># on: true</span></span><br><span class="line"><span class="attr">  domain:</span> <span class="string">jsbintask</span></span><br><span class="line">  <span class="comment"># 是否开启多说评论，http://duoshuo.com/create-site/</span></span><br><span class="line">  <span class="comment"># 使用上面网址登陆你的多说，然后创建站点，在 domain 中填入你设定的域名前半部分</span></span><br><span class="line">  <span class="comment"># http://&lt;要填的部分&gt;.duoshuo.com (domain只填上&lt;&gt;里的内容，不要填整个网址)</span></span><br><span class="line"></span><br><span class="line"><span class="attr">gitment:</span></span><br><span class="line">  <span class="comment"># on:</span></span><br><span class="line"><span class="attr">  owner:</span> <span class="string">jsbintask22</span></span><br><span class="line"><span class="attr">  repo:</span> <span class="string">jsbintask22.gitment.io</span></span><br><span class="line"><span class="attr">  client_id:</span> <span class="string">dab248f1d00073a66261</span></span><br><span class="line"><span class="attr">  client_secret:</span> <span class="number">944</span><span class="string">b58055daec75b1cb681cc860f34afac2b9e73</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># 畅言配置，主要去畅言官网注册 http://changyan.kuaizhan.com/，获取相应的appId和conf</span></span><br><span class="line">  <span class="comment"># 注意，除了此处外，每个md文件中还应加入 sourceId，用以唯一标识某篇文章，如没加，也将不会进行评论渲染</span></span><br><span class="line"><span class="attr">changyan:</span></span><br><span class="line"><span class="attr">  on:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  appId:</span> <span class="string">cyu0pbbdV</span></span><br><span class="line"><span class="attr">  conf:</span> <span class="string">prod_63c6b3d3f6f2019a79293cbf63760587</span></span><br><span class="line"></span><br><span class="line"><span class="attr">youyan:</span></span><br><span class="line">  <span class="comment">#on: true</span></span><br><span class="line"><span class="attr">  id:</span></span><br><span class="line">  <span class="comment"># 是否开启友言评论，http://www.uyan.cc/index.php</span></span><br><span class="line">  <span class="comment"># id 中填写你的友言用户数字ID，注册后进入后台管理即可查看</span></span><br><span class="line">  <span class="comment"># 友言服务在 Web 环境下运行，普通本地环境无法查看，请部署后在线上测试。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; Style Customisation 样式自定义 &lt;&lt;&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Background | 背景</span></span><br><span class="line"><span class="comment">## "background_sum": show images form /source/background/的图片数目</span></span><br><span class="line"><span class="comment">## "on: true": 自动随机显示这5张图片</span></span><br><span class="line"><span class="comment">## "on: false": 自定义显示图片设置background_image: 5</span></span><br><span class="line"><span class="attr">background:</span></span><br><span class="line"><span class="attr">  on:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment">#on: false</span></span><br><span class="line"><span class="attr">  background_sum:</span> <span class="number">24</span></span><br><span class="line"><span class="attr">  background_image:</span> <span class="number">109</span></span><br><span class="line"></span><br><span class="line"><span class="attr">highlight_style:</span></span><br><span class="line"><span class="attr">  on:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  inline_code:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">  code_block:</span> <span class="number">5</span></span><br><span class="line">  <span class="comment"># 通过 inline_code 切换内置文本高亮样式 Value: 0 - 9 可选</span></span><br><span class="line">  <span class="comment"># 通过 code_block 切换内置代码高亮配色主题  Value: 0 - 4</span></span><br><span class="line"></span><br><span class="line"><span class="attr">blockquote_style:</span></span><br><span class="line">  <span class="comment">#on: true</span></span><br><span class="line"><span class="attr">  blockquote:</span> <span class="number">1</span>  <span class="comment"># Value: 0 - 7 可选</span></span><br><span class="line">  <span class="comment"># 自定义文章「引用部分」的样式</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 左边栏宽度 px</span></span><br><span class="line"><span class="attr">left_col_width:</span> <span class="number">300</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 目录中标题不换行</span></span><br><span class="line"><span class="comment"># Keep TOC title on the same line |</span></span><br><span class="line"><span class="attr">toc_nowrap:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义"阅读全文"链接按钮的显示文字</span></span><br><span class="line"><span class="comment"># Customize the text on excerpt link</span></span><br><span class="line"><span class="attr">excerpt_link:</span> <span class="string">阅读全文</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否显示边栏中的搜索框（仅样式，未添加搜索功能）</span></span><br><span class="line"><span class="comment"># Search Box in left column</span></span><br><span class="line"><span class="comment"># search_box: true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否开启主页及加载头像时的动画效果</span></span><br><span class="line"><span class="comment"># Animation in Homepage and Loading avatar</span></span><br><span class="line"><span class="attr">animate:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; Small features | 小功能设置 &lt;&lt;&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否开启边栏多标签切换</span></span><br><span class="line"><span class="comment"># Birdhouse button in left column</span></span><br><span class="line"><span class="attr">tagcloud:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Blogroll, Link exchange | 友情链接</span></span><br><span class="line"><span class="comment"># friends: false</span></span><br><span class="line"><span class="attr">friends:</span></span><br><span class="line"><span class="attr">  gayhub:</span> <span class="attr">https://github.com</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打赏</span></span><br><span class="line"><span class="comment"># 请在需要打赏的文章的md文件头部，设置属性reward: true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打赏基础设定：0-关闭打赏； 1-文章对应的md文件里有reward:true属性，才有打赏； 2-所有文章均有打赏</span></span><br><span class="line"><span class="attr">reward_type:</span> <span class="number">2</span></span><br><span class="line"><span class="comment"># 打赏wording</span></span><br><span class="line"><span class="attr">reward_wording1:</span> <span class="string">'谢谢你支持我分享知识'</span></span><br><span class="line"><span class="attr">reward_wording2:</span> <span class="string">'扫码打赏，心意已收'</span></span><br><span class="line"><span class="comment"># 支付宝二维码图片地址，跟你设置头像的方式一样。比如：/img/alipay.jpg</span></span><br><span class="line"><span class="comment">#alipay: /img/alipay.png</span></span><br><span class="line"><span class="comment"># 微信二维码图片地址</span></span><br><span class="line"><span class="attr">weixin:</span> <span class="string">/img/weixin.png</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#是否开启“关于我”。</span></span><br><span class="line"><span class="attr">aboutme:</span> <span class="number">96</span><span class="string">年，java工程师，爱折腾！</span></span><br><span class="line"><span class="comment">#aboutme: false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否在新窗口打开链接</span></span><br><span class="line"><span class="comment"># Open ALL link in a new tab</span></span><br><span class="line"><span class="attr">open_in_new:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Customize feed link 自定义订阅地址</span></span><br><span class="line"><span class="attr">rss:</span> <span class="string">/atom.xml</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># &gt;&gt;&gt; Vendors | 第三方工具 &amp; 服务 &lt;&lt;&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># images viewer | 图片浏览器</span></span><br><span class="line"><span class="comment">## http://www.fancyapps.com/fancybox/</span></span><br><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Display Math(LaTeX, MathML...) | 数学公式支持</span></span><br><span class="line"><span class="comment">## https://www.mathjax.org/</span></span><br><span class="line"><span class="attr">mathjax:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Socail Share | 是否开启分享</span></span><br><span class="line"><span class="comment"># share: true</span></span><br><span class="line"><span class="attr">baidushare:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment">#showshare: true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 百度、谷歌站长验证。填写 HTML 标签 content</span></span><br><span class="line"><span class="comment"># Site Verification for Google and Baidu. HTML label content.</span></span><br><span class="line"><span class="attr">google_site:</span> <span class="comment"># pFW527fHrjfI0si2w4NQ0w3cTw12AvvuohAu1PUfqKA</span></span><br><span class="line"><span class="attr">baidu_site:</span> <span class="comment">#c167b9feb4f0b208b712c79629c188e4</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Fill in Google Analytics tracking ID, #e.g. UA-XXXXX-X, or Baidu Analytics hash key</span></span><br><span class="line"><span class="attr">google_analytics:</span></span><br><span class="line"><span class="attr">baidu_analytics:</span> <span class="string">f1c1bcd43bb13500d087f18deb22025f</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 不蒜子网站计数设置</span></span><br><span class="line"><span class="comment"># http://ibruce.info/2015/04/04/busuanzi/</span></span><br><span class="line"><span class="attr">visit_counter:</span></span><br><span class="line"><span class="attr">  on:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  site_visit:</span> <span class="string">本站访问量</span></span><br><span class="line"><span class="attr">  page_visit:</span> <span class="string">本文阅读量</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A标签提示</span></span><br><span class="line"><span class="attr">TipTitle:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Loading</span></span><br><span class="line"><span class="attr">Loading:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 是否显示二维码名片，此处的路径是 spfk下source 里面的路径</span></span><br><span class="line"><span class="attr">qrcodePath:</span> <span class="string">/img/wechat_public.jpg</span></span><br></pre></td></tr></table></figure>
+<h1 id="作品展示"><a href="#作品展示" class="headerlink" title="作品展示"></a>作品展示</h1><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo1.png" alt="demo"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo2.png" alt="demo"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/spfk-j/demo3.png" alt="demo"></p>
+<p><strong>另外欢迎fork和star，如果搭建过程有问题，可随时和作者联系 <a href="mailto:jsbintask@foxmail.com" target="_blank" rel="noopener">jsbintask@foxmail.com</a></strong></p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>谢谢你支持我分享知识</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/wechatimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，心意已收</div>
+            <div class="shang_payselect">
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <!--<span class="radiobox"></span>-->
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">微信</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+
+
+  
+</article>
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 jsbintask
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">本站访问量:
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本文阅读量:
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?f1c1bcd43bb13500d087f18deb22025f";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+
+  </div>
+</body>
+</html>
