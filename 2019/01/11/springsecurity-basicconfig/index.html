@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="keywords" content="java,springsecurity,springboot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springsecurity系列教程（三）-基础配置详解">
+<meta property="og:title" content="springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解">
 <meta property="og:url" content="http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:locale" content="zh_CN">
@@ -18,9 +18,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo11.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo12.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo13.png">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg">
 <meta property="og:updated_time" content="2019-01-11T06:15:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springsecurity系列教程（三）-基础配置详解">
+<meta name="twitter:title" content="springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解">
 <meta name="twitter:image" content="http://qiniu.jsbintask.cn/dmease-472de8ab-809d-4979-b023-bcaeefe493f9.jpg-blog_960_440.jpg">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
@@ -132,6 +133,8 @@
                             
                                 <li><a href="/archives">文章归档</a></li>
                             
+                                <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                            
                         </ul>
                     </nav>
                     <nav class="header-nav">
@@ -216,6 +219,8 @@
                 
                     <li><a href="/archives">文章归档</a></li>
                 
+                    <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                
                 <div class="clearfix"></div>
                 </ul>
             </nav>
@@ -252,7 +257,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      springsecurity系列教程（三）-基础配置详解
+      springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解
     </h1>
   
 
@@ -309,7 +314,7 @@
 <p>同样，springsecurity也能检测到，这样定义就ok了，那这样就有另一个问题了，我们的密码是加密过了，所以我们的数据库初始化一个加密过的密码才行，所以我们再使用这个加密器生成一个密码“123456”：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    BCryptPasswordEncoder bCryptPasswordEncoder = <span class="keyword">new</span> BCryptPasswordEncoder();</span><br><span class="line">    System.out.println(bCryptPasswordEncoder.encode(<span class="string">"123456"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>然后将密码放入数据库。然后同样去登陆，输入数据库中用户名，密码，同样帮我们转发了主页面hello，至此，我们的db中的数据源定义也同样通过了！</p>
 <p><strong><em>源码地址（麻烦点个star哦）：<a href="https://github.com/jsbintask22/spring-security-demos.git" target="_blank" rel="noopener">https://github.com/jsbintask22/spring-security-demos.git</a></em></strong></p>
-<h1 id="结束语："><a href="#结束语：" class="headerlink" title="结束语："></a>结束语：</h1><p>本次我们手把手操作并且总结了springsecurity的一般用法，并且提出了很多值得注意的点。 那么接下来我们就站在一个高一点角度来分析一下springsecurity的架构吧。<br><strong>如果你觉得对你有用，关注我！（左方二维码）。</strong></p>
+<h1 id="结束语："><a href="#结束语：" class="headerlink" title="结束语："></a>结束语：</h1><p>本次我们手把手操作并且总结了springsecurity的一般用法，并且提出了很多值得注意的点。 那么接下来我们就站在一个高一点角度来分析一下springsecurity的架构吧。<br>关注我！<br><img src="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg" alt="qrcode"></p>
 
       
       
@@ -360,12 +365,12 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/11/springsecurity-basicconfig/">springsecurity系列教程（三）-基础配置详解</a></p>
+        <p><span>本文标题:</span><a href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
         <p><span>发布时间:</span>2019年01月11日 - 10时15分</p>
         <p><span>最后更新:</span>2019年01月11日 - 14时15分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/11/springsecurity-basicconfig/" title="springsecurity系列教程（三）-基础配置详解">http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/</a>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/11/springsecurity-basicconfig/" title="springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解">http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/</a>
             <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
@@ -378,6 +383,15 @@
 
 
 <nav id="article-nav">
+  
+    <a href="/2019/01/16/springsecurity-architecture/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析
+        
+      </div>
+    </a>
   
   
     <a href="/2019/01/11/linux/linux-vsftpd-config/" id="article-nav-older" class="article-nav-link-wrap">
@@ -483,7 +497,9 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2019/01/16/springsecurity-architecture/" title="上一篇: springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
@@ -492,7 +508,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springsecurity系列教程（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springsecurity系列教程（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springsecurity系列教程（一）-helloworld</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

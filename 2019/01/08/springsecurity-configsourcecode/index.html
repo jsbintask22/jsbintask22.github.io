@@ -5,13 +5,13 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析">
+  <meta name="description" content="springboot整合springsecurity从Hello World到源码解析（二）：springsecurity配置加载解析">
 <meta name="keywords" content="java,springsecurity,springboot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springsecurity系列教程（二）-初始化配置源码解析">
+<meta property="og:title" content="springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析">
 <meta property="og:url" content="http://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
-<meta property="og:description" content="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析">
+<meta property="og:description" content="springboot整合springsecurity从Hello World到源码解析（二）：springsecurity配置加载解析">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://qiniu.jsbintask.cn/oakland_hills_by_chateaugrief_dcp3s98-fullview.jpg-blog_960_440.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo3.png">
@@ -19,10 +19,11 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo5.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo6.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo7.png">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg">
 <meta property="og:updated_time" content="2019-01-09T06:15:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springsecurity系列教程（二）-初始化配置源码解析">
-<meta name="twitter:description" content="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析">
+<meta name="twitter:title" content="springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析">
+<meta name="twitter:description" content="springboot整合springsecurity从Hello World到源码解析（二）：springsecurity配置加载解析">
 <meta name="twitter:image" content="http://qiniu.jsbintask.cn/oakland_hills_by_chateaugrief_dcp3s98-fullview.jpg-blog_960_440.jpg">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
@@ -134,6 +135,8 @@
                             
                                 <li><a href="/archives">文章归档</a></li>
                             
+                                <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                            
                         </ul>
                     </nav>
                     <nav class="header-nav">
@@ -218,6 +221,8 @@
                 
                     <li><a href="/archives">文章归档</a></li>
                 
+                    <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                
                 <div class="clearfix"></div>
                 </ul>
             </nav>
@@ -254,7 +259,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      springsecurity系列教程（二）-初始化配置源码解析
+      springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析
     </h1>
   
 
@@ -279,7 +284,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析"><a href="#Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析" class="headerlink" title="Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析"></a>Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析</h1><p><img src="http://qiniu.jsbintask.cn/oakland_hills_by_chateaugrief_dcp3s98-fullview.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br><em>上一篇博客我们介绍了hellowrold入门，并且成功的看到了springsecurity的拦截效果，接下来我们就来看看springsecurity是如何做到的。</em></p>
+        <h1 id="springboot整合springsecurity从Hello-World到源码解析（二）：springsecurity配置加载解析"><a href="#springboot整合springsecurity从Hello-World到源码解析（二）：springsecurity配置加载解析" class="headerlink" title="springboot整合springsecurity从Hello World到源码解析（二）：springsecurity配置加载解析"></a>springboot整合springsecurity从Hello World到源码解析（二）：springsecurity配置加载解析</h1><p><img src="http://qiniu.jsbintask.cn/oakland_hills_by_chateaugrief_dcp3s98-fullview.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br><em><a href="https://jsbintask.cn/2019/01/08/springsecurity-helloworld/#more">上一篇</a>博客我们介绍了hellowrold入门，并且成功的看到了springsecurity的拦截效果，接下来我们就来看看springsecurity是如何做到的。</em></p>
 <h1 id="启动配置详解"><a href="#启动配置详解" class="headerlink" title="启动配置详解"></a>启动配置详解</h1><p>我们知道（不知道的就当知道吧，哈哈），springboot启动时会帮我自动配置好很多的默认配置项，并且加载配置类都会写在spring.factories文件中，所以我们这里开始，看看springsecurity做了<br>那些配置，打开idea，ctrl+shift+n * 2，查找spring.factories文件：如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo3.png" alt="spring.factories"><br>随后在该配置文件中，查找security，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/images/springsecurity-demo4.png" alt="security"><br>我们可以看到，一共初始化了9个security相关的类，这里我们不关注oauth2（以后再说）和reactive（springboot2以后新特性），还有<br><strong>SecurityAutoConfiguration， SecurityRequestMatcherProviderAutoConfiguration， SecurityFilterAutoConfiguration, UserDetailsServiceAutoConfiguration</strong>这四个类，首先我们看下</p>
 <h3 id="SecurityAutoConfiguration："><a href="#SecurityAutoConfiguration：" class="headerlink" title="SecurityAutoConfiguration："></a>SecurityAutoConfiguration：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(DefaultAuthenticationEventPublisher.class)</span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span>(SecurityProperties.class)</span><br><span class="line"><span class="meta">@Import</span>(&#123; SpringBootWebSecurityConfiguration.class, WebSecurityEnablerConfiguration.class,</span><br><span class="line">		SecurityDataConfiguration.class &#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecurityAutoConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="meta">@ConditionalOnMissingBean</span>(AuthenticationEventPublisher.class)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> DefaultAuthenticationEventPublisher <span class="title">authenticationEventPublisher</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">			ApplicationEventPublisher publisher)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> DefaultAuthenticationEventPublisher(publisher);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
@@ -324,7 +329,7 @@
 <p>最后，还有最后一个配置类<strong>UserDetailsServiceAutoConfiguration</strong></p>
 <h2 id="UserDetailsServiceAutoConfiguration"><a href="#UserDetailsServiceAutoConfiguration" class="headerlink" title="UserDetailsServiceAutoConfiguration"></a>UserDetailsServiceAutoConfiguration</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(AuthenticationManager.class)</span><br><span class="line"><span class="meta">@ConditionalOnBean</span>(ObjectPostProcessor.class)</span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span>(&#123; AuthenticationManager.class, AuthenticationProvider.class,</span><br><span class="line">		UserDetailsService.class &#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserDetailsServiceAutoConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String NOOP_PASSWORD_PREFIX = <span class="string">"&#123;noop&#125;"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Pattern PASSWORD_ALGORITHM_PATTERN = Pattern</span><br><span class="line">			.compile(<span class="string">"^\\&#123;.+&#125;.*$"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Log logger = LogFactory</span><br><span class="line">			.getLog(UserDetailsServiceAutoConfiguration.class);</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="meta">@ConditionalOnMissingBean</span>(type = <span class="string">"org.springframework.security.oauth2.client.registration.ClientRegistrationRepository"</span>)</span><br><span class="line">	<span class="meta">@Lazy</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> InMemoryUserDetailsManager <span class="title">inMemoryUserDetailsManager</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">			SecurityProperties properties,</span></span></span><br><span class="line"><span class="function"><span class="params">			ObjectProvider&lt;PasswordEncoder&gt; passwordEncoder)</span> </span>&#123;</span><br><span class="line">		SecurityProperties.User user = properties.getUser();</span><br><span class="line">		List&lt;String&gt; roles = user.getRoles();</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> InMemoryUserDetailsManager(User.withUsername(user.getName())</span><br><span class="line">				.password(getOrDeducePassword(user, passwordEncoder.getIfAvailable()))</span><br><span class="line">				.roles(StringUtils.toStringArray(roles)).build());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> String <span class="title">getOrDeducePassword</span><span class="params">(SecurityProperties.User user,</span></span></span><br><span class="line"><span class="function"><span class="params">			PasswordEncoder encoder)</span> </span>&#123;</span><br><span class="line">		String password = user.getPassword();</span><br><span class="line">		<span class="keyword">if</span> (user.isPasswordGenerated()) &#123;</span><br><span class="line">			logger.info(String.format(<span class="string">"%n%nUsing generated security password: %s%n"</span>,</span><br><span class="line">					user.getPassword()));</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (encoder != <span class="keyword">null</span> || PASSWORD_ALGORITHM_PATTERN.matcher(password).matches()) &#123;</span><br><span class="line">			<span class="keyword">return</span> password;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> NOOP_PASSWORD_PREFIX + password;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这次这个配置很简单，因为我们没有配置oauth2，所以它帮我们做了一个UserDetails，并且是根据我们配置的用户密码，把他们load到内存（因为没有db），以后的权限判断就根据<br>userDetails来判断了，由此可知，如果我们要扩展，实现该类也是必然的。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次，我们从源码的角度查看了springboot帮我们做的配置（还真是绕了不少圈子），并且只得到了login页面的来源，接下来，我们就探究下springsecurity的具体配置！</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这次，我们从源码的角度查看了springboot帮我们做的配置（还真是绕了不少圈子），并且只得到了login页面的来源，接下来，我们就探究下springsecurity的具体配置！<br>关注我！<br><img src="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg" alt="qrcode"></p>
 
       
       
@@ -375,12 +380,12 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/08/springsecurity-configsourcecode/">springsecurity系列教程（二）-初始化配置源码解析</a></p>
+        <p><span>本文标题:</span><a href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
         <p><span>发布时间:</span>2019年01月08日 - 14时15分</p>
         <p><span>最后更新:</span>2019年01月09日 - 14时15分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/08/springsecurity-configsourcecode/" title="springsecurity系列教程（二）-初始化配置源码解析">http://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/</a>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/08/springsecurity-configsourcecode/" title="springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析">http://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/</a>
             <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/08/springsecurity-configsourcecode/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
@@ -405,7 +410,7 @@
   
   
     <a href="/2019/01/08/springsecurity-helloworld/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">springsecurity系列教程（一）-helloworld</div>
+      <div class="article-nav-title">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -416,7 +421,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析"><span class="toc-number">1.</span> <span class="toc-text">Springsecurity从helloworld到源码解析（二）：springsecurity配置加载解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动配置详解"><span class="toc-number">2.</span> <span class="toc-text">启动配置详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SecurityAutoConfiguration："><span class="toc-number">2.0.1.</span> <span class="toc-text">SecurityAutoConfiguration：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecurityRequestMatcherProviderAutoConfiguration"><span class="toc-number">2.1.</span> <span class="toc-text">SecurityRequestMatcherProviderAutoConfiguration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecurityFilterAutoConfiguration"><span class="toc-number">2.2.</span> <span class="toc-text">SecurityFilterAutoConfiguration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发现该类是在WebSecurityConfiguration中初始化的，那WebSecurityConfiguration又是在哪来的呢，上面我们说到-EnableWebSecurity的时候，开启WebSecurityAdapter的配置，其实那个时候已经导入了（哈哈，上面我也没注意到），"><span class="toc-number">2.3.</span> <span class="toc-text">发现该类是在WebSecurityConfiguration中初始化的，那WebSecurityConfiguration又是在哪来的呢，上面我们说到@EnableWebSecurity的时候，开启WebSecurityAdapter的配置，其实那个时候已经导入了（哈哈，上面我也没注意到），</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#springSecurityFilterChain"><span class="toc-number">2.3.1.</span> <span class="toc-text">springSecurityFilterChain</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserDetailsServiceAutoConfiguration"><span class="toc-number">2.4.</span> <span class="toc-text">UserDetailsServiceAutoConfiguration</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#springboot整合springsecurity从Hello-World到源码解析（二）：springsecurity配置加载解析"><span class="toc-number">1.</span> <span class="toc-text">springboot整合springsecurity从Hello World到源码解析（二）：springsecurity配置加载解析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动配置详解"><span class="toc-number">2.</span> <span class="toc-text">启动配置详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SecurityAutoConfiguration："><span class="toc-number">2.0.1.</span> <span class="toc-text">SecurityAutoConfiguration：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecurityRequestMatcherProviderAutoConfiguration"><span class="toc-number">2.1.</span> <span class="toc-text">SecurityRequestMatcherProviderAutoConfiguration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecurityFilterAutoConfiguration"><span class="toc-number">2.2.</span> <span class="toc-text">SecurityFilterAutoConfiguration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发现该类是在WebSecurityConfiguration中初始化的，那WebSecurityConfiguration又是在哪来的呢，上面我们说到-EnableWebSecurity的时候，开启WebSecurityAdapter的配置，其实那个时候已经导入了（哈哈，上面我也没注意到），"><span class="toc-number">2.3.</span> <span class="toc-text">发现该类是在WebSecurityConfiguration中初始化的，那WebSecurityConfiguration又是在哪来的呢，上面我们说到@EnableWebSecurity的时候，开启WebSecurityAdapter的配置，其实那个时候已经导入了（哈哈，上面我也没注意到），</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#springSecurityFilterChain"><span class="toc-number">2.3.1.</span> <span class="toc-text">springSecurityFilterChain</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UserDetailsServiceAutoConfiguration"><span class="toc-number">2.4.</span> <span class="toc-text">UserDetailsServiceAutoConfiguration</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -513,12 +518,12 @@
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/08/springsecurity-helloworld/" title="下一篇: springsecurity系列教程（一）-helloworld">
+            <a href="/2019/01/08/springsecurity-helloworld/" title="下一篇: springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springsecurity系列教程（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springsecurity系列教程（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springsecurity系列教程（一）-helloworld</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
