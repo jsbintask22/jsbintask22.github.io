@@ -5,15 +5,27 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="java,javascript,spring,springboot,html,css,vue,netty,it">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://jsbintask.cn/about/index.html">
+  <meta name="keywords" content="springboot,weblogic">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot在weblogic中的事务问题">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2018-12-27T08:42:43.027Z">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo10.png">
+<meta property="og:updated_time" content="2019-01-22T06:55:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
+<meta name="twitter:title" content="springboot在weblogic中的事务问题">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -39,7 +51,7 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: false,
+          isPost: true,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -231,11 +243,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="page-" class="article article-type-page" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-webcontainer/weblogic-springboot-tx" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/about/index.html" class="article-date">
-      <time datetime="2018-12-27T08:42:43.000Z" itemprop="datePublished">2018-12-27</time>
+      <a href="/2019/01/22/webcontainer/weblogic-springboot-tx/" class="article-date">
+      <time datetime="2019-01-22T06:15:00.000Z" itemprop="datePublished">2019-01-22</time>
 </a>
     </div>
   
@@ -248,7 +260,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      about
+      springboot在weblogic中的事务问题
     </h1>
   
 
@@ -258,6 +270,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -265,42 +281,20 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta {
-        display: none;
-    }
-    #container .article .article-title {
-        padding-right: 0;
-    }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover {
-        border-left: none;
-    }
-    .article-title {
-        font-size: 1.6em
-    }
-    .article-meta {
-        display: none;
-    }
-    .article-entry hr {
-        margin: 0;
-    }
-    #container .article-info-post.article-info {
-      display: none;
-      }
-    #container .article .article-title {
-    padding: 0;
-    }
-</style>
+        <p><img src="http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br>记录下最近项目中遇到的坑，关于事务的问题，我们的项目使用springboot构建，并且我们的连接池使用的是druid，在本地直接使用springboot打好jar包，<br>一切正常行，然后将项目打包成war包，上到weblogic中，运行也正常，但是一次导入excel表的case中，导入失败了，但是数据没有回滚！经过测试才发现在weblogic中springboot管理的事务失效了，马上查询资料，经过几小时的谷歌后找到了解决办法，在weblogic中放弃自己的连接池，转而使用weblogic中的jndi数据源。<br>配置步骤如下：</p>
+<ol>
+<li>启动weblogic，进入到管理界面，选择服务下边的数据源，点击新建按钮<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo1.png" alt="mark"></li>
+<li>选择一般数据源，选择你的数据库，输入名字，jndi名称（重要），建议 数据源名称和jndi名字一样，点击下一步<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo2.png" alt="mark"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo3.png" alt="mark"></li>
+<li>接着驱动程序选择 “for instance connections”。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo4.png" alt="mark"></li>
+<li>事务类型默认<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo5.png" alt="mark"></li>
+<li>填写数据源信息，最下方的oracle.jdbc.DRCPConnectionClass: 可不填写<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo6.png" alt="mark"></li>
+<li>继续后下一步确认你的信息<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo7.png" alt="mark"></li>
+<li>接着下一步，勾上AdminServer，点击完成<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo8.png" alt="mark"></li>
+<li>建立完毕<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo9.png" alt="mark"></li>
+<li>修改你的springboot项目配置文件，添加配置：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo10.png" alt="mark"><br>这里的jndi的name就是刚刚你新建的名字。</li>
+<li>去掉原来的数据源配置（同时存在的话，还是原来的数据源生效），重新打war包，运行，此时事务生效！</li>
+</ol>
 
-
-          
-        
       
       
         <div class="page-reward">
@@ -349,10 +343,67 @@
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年01月22日 - 14时15分</p>
+        <p><span>最后更新:</span>2019年01月22日 - 14时55分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/22/webcontainer/weblogic-springboot-tx/" title="springboot在weblogic中的事务问题">http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/22/api/ins-api/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ins获取个人信息</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
 
 
 
@@ -372,7 +423,78 @@
 
     
 
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="weblogic-springboot-tx"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
 
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/01/22/api/ins-api/" title="下一篇: ins获取个人信息">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
 
 
 

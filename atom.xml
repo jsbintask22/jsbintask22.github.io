@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jsbintask.cn/"/>
-  <updated>2019-01-22T06:15:00.000Z</updated>
+  <updated>2019-01-22T06:55:00.000Z</updated>
   <id>http://jsbintask.cn/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>springboot在weblogic中的事务问题</title>
+    <link href="http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/"/>
+    <id>http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/</id>
+    <published>2019-01-22T06:15:00.000Z</published>
+    <updated>2019-01-22T06:55:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br>记录下最近项目中遇到的坑，关于事务的问题，我们的项目使用springboot构建，并且我们的连接池使用的是druid，在本地直接使用springboot打好jar包，<br>一切正常行，然后将项目打包成war包，上到weblogic中，运行也正常，但是一次导入excel表的case中，导入失败了，但是数据没有回滚！经过测试才发现在weblogic中springboot管理的事务失效了，马上查询资料，经过几小时的谷歌后找到了解决办法，在weblogic中放弃自己的连接池，转而使用weblogic中的jndi数据源。<br>配置步骤如下：</p><ol><li>启动weblogic，进入到管理界面，选择服务下边的数据源，点击新建按钮<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo1.png" alt="mark"></li><li>选择一般数据源，选择你的数据库，输入名字，jndi名称（重要），建议 数据源名称和jndi名字一样，点击下一步<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo2.png" alt="mark"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo3.png" alt="mark"></li><li>接着驱动程序选择 “for instance connections”。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo4.png" alt="mark"></li><li>事务类型默认<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo5.png" alt="mark"></li><li>填写数据源信息，最下方的oracle.jdbc.DRCPConnectionClass: 可不填写<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo6.png" alt="mark"></li><li>继续后下一步确认你的信息<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo7.png" alt="mark"></li><li>接着下一步，勾上AdminServer，点击完成<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo8.png" alt="mark"></li><li>建立完毕<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo9.png" alt="mark"></li><li>修改你的springboot项目配置文件，添加配置：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo10.png" alt="mark"><br>这里的jndi的name就是刚刚你新建的名字。</li><li>去掉原来的数据源配置（同时存在的话，还是原来的数据源生效），重新打war包，运行，此时事务生效！</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg&quot; alt=&quot;cover&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
+    
+      <category term="weblogic" scheme="http://jsbintask.cn/tags/weblogic/"/>
+    
+  </entry>
   
   <entry>
     <title>ins获取个人信息</title>
