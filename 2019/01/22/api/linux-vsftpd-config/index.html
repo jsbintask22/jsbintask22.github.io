@@ -5,15 +5,23 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="java,javascript,spring,springboot,html,css,vue,netty,it">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://jsbintask.cn/categories/index.html">
+  <meta name="keywords" content="api">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ins获取个人信息">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/22/api/linux-vsftpd-config/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-01-09T07:25:40.068Z">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/morning_breeze___skyrim_by_watchtheskiies_dcxgxvv-fullview.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/api/client-register.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/api/token-implicit.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/api/redirect-uri.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/api/offical-api.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/api/api-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/api/api-2.png">
+<meta property="og:updated_time" content="2019-01-22T06:15:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="ins获取个人信息">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/morning_breeze___skyrim_by_watchtheskiies_dcxgxvv-fullview.jpg-blog_960_440.jpg">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -39,7 +47,7 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: false,
+          isPost: true,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -231,11 +239,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="page-" class="article article-type-page" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-api/linux-vsftpd-config" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/categories/index.html" class="article-date">
-      <time datetime="2018-12-27T08:42:43.000Z" itemprop="datePublished">2018-12-27</time>
+      <a href="/2019/01/22/api/linux-vsftpd-config/" class="article-date">
+      <time datetime="2019-01-22T02:15:00.000Z" itemprop="datePublished">2019-01-22</time>
 </a>
     </div>
   
@@ -248,7 +256,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      categories
+      ins获取个人信息
     </h1>
   
 
@@ -258,6 +266,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/api/">api</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -265,42 +277,11 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta {
-        display: none;
-    }
-    #container .article .article-title {
-        padding-right: 0;
-    }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover {
-        border-left: none;
-    }
-    .article-title {
-        font-size: 1.6em
-    }
-    .article-meta {
-        display: none;
-    }
-    .article-entry hr {
-        margin: 0;
-    }
-    #container .article-info-post.article-info {
-      display: none;
-      }
-    #container .article .article-title {
-    padding: 0;
-    }
-</style>
+        <p><img src="http://qiniu.jsbintask.cn/morning_breeze___skyrim_by_watchtheskiies_dcxgxvv-fullview.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br>最近想要把ins获取到的个人照片信息放到博客中去，没想到ins的api还有一点坑，记录一下。</p>
+<h2 id="注册client"><a href="#注册client" class="headerlink" title="注册client"></a>注册client</h2><p>为了获取个人信息，我们首先就是要获取token，获取token之前，需要先注册一个client，访问<a href="https://www.instagram.com/developer/clients/register/" target="_blank" rel="noopener">https://www.instagram.com/developer/clients/register/</a>，然后注册一个client，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/api/client-register.png" alt="client"><br>这里注册的时候，一定要把security中的Disable implicit OAuth 勾去掉，不然后面获取token会401<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/api/token-implicit.png" alt="disable"></p>
+<h2 id="获取token"><a href="#获取token" class="headerlink" title="获取token"></a>获取token</h2><p>获取有两种方式，我们介绍第二种，直接获取，访问 <a href="https://api.instagram.com/oauth/authorize/?client_id=CLIENT-ID&amp;redirect_uri=REDIRECT-URI&amp;response_type=token，其中" target="_blank" rel="noopener">https://api.instagram.com/oauth/authorize/?client_id=CLIENT-ID&amp;redirect_uri=REDIRECT-URI&amp;response_type=token，其中</a> CLIENT-ID 换成刚刚注册的client的id，REDIRECT-URI换成注册client时填写的地址，成功后，会帮我们重定向到这个地址并且后面会携带你需要的token，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/api/redirect-uri.png" alt="redirect-uri"><br>然后复制这个token就行了，现在ins文档上面说的时这个token暂时永久的，但是未来可能会改动。</p>
+<h2 id="获取信息"><a href="#获取信息" class="headerlink" title="获取信息"></a>获取信息</h2><p>然后我们有了token以后，就可以拿自己的个人信息了，官方文档api如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/api/offical-api.png" alt="offical-api"><br>依次访问如下：<br><a href="https://api.instagram.com/v1/users/self/?access_token=ACCESS-TOKEN" target="_blank" rel="noopener">https://api.instagram.com/v1/users/self/?access_token=ACCESS-TOKEN</a><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/api/api-1.png" alt="api-1"><br><a href="https://api.instagram.com/v1/users/self/media/recent/?access_token=ACCESS-TOKEN" target="_blank" rel="noopener">https://api.instagram.com/v1/users/self/media/recent/?access_token=ACCESS-TOKEN</a><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/api/api-2.png" alt="api-2"><br>其中ins发的照片包括小图都已经在里面了，拿到这些地址就可以集成到自己用的地方了。</p>
 
-
-          
-        
       
       
         <div class="page-reward">
@@ -349,10 +330,67 @@
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/01/22/api/linux-vsftpd-config/">ins获取个人信息</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年01月22日 - 10时15分</p>
+        <p><span>最后更新:</span>2019年01月22日 - 14时15分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/22/api/linux-vsftpd-config/" title="ins获取个人信息">http://jsbintask.cn/2019/01/22/api/linux-vsftpd-config/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/22/api/linux-vsftpd-config/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/21/springsecurity-restful/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#注册client"><span class="toc-number">1.</span> <span class="toc-text">注册client</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取token"><span class="toc-number">2.</span> <span class="toc-text">获取token</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取信息"><span class="toc-number">3.</span> <span class="toc-text">获取信息</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
 
 
 
@@ -372,7 +410,78 @@
 
     
 
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="api-ins-photos"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
 
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/01/21/springsecurity-restful/" title="下一篇: springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/linux-vsftpd-config/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
 
 
 
