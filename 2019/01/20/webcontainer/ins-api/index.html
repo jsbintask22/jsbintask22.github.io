@@ -5,21 +5,18 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="linux,运维">
+  <meta name="keywords" content="weblogic">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux环境中vsftp的常用配置">
-<meta property="og:url" content="http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/index.html">
+<meta property="og:title" content="weblogic拦截http basic验证问题">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/20/webcontainer/ins-api/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png">
-<meta property="og:image" content="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg">
-<meta property="og:updated_time" content="2019-01-11T06:15:00.000Z">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/dcxomq5-a63c130a-2962-407c-b6fb-fc09551eaf11.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/weblogic-basic.png">
+<meta property="og:updated_time" content="2019-01-20T06:15:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux环境中vsftp的常用配置">
-<meta name="twitter:image" content="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg">
+<meta name="twitter:title" content="weblogic拦截http basic验证问题">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/dcxomq5-a63c130a-2962-407c-b6fb-fc09551eaf11.jpg-blog_960_440.jpg">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -237,11 +234,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-linux/linux-vsftpd-config" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-webcontainer/ins-api" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/01/11/linux/linux-vsftpd-config/" class="article-date">
-      <time datetime="2019-01-11T02:15:00.000Z" itemprop="datePublished">2019-01-11</time>
+      <a href="/2019/01/20/webcontainer/ins-api/" class="article-date">
+      <time datetime="2019-01-20T02:15:00.000Z" itemprop="datePublished">2019-01-20</time>
 </a>
     </div>
   
@@ -254,7 +251,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      linux环境中vsftp的常用配置
+      weblogic拦截http basic验证问题
     </h1>
   
 
@@ -265,7 +262,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/运维/">运维</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -275,23 +272,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg" alt="vsftpd"><br><a id="more"></a></p>
-<h1 id="Linux上vsftpd的配置"><a href="#Linux上vsftpd的配置" class="headerlink" title="Linux上vsftpd的配置"></a>Linux上vsftpd的配置</h1><p>最近正好项目遇上需要配置ftp的情况，感觉对于ftp的配置都差不多，所以特意写下本篇博客，话不多说，直接动手。<br><strong><em>配置最终目的如下：<br>1.取消匿名登陆，必须账号密码登陆<br>2.只有配置文件中的用户允许登陆<br>3.所有用户登陆后访问相同的ftp环境<br>4.所有用户不能够切换到上级目录</em></strong></p>
-<h2 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h2><p>新建一个不能ssh登陆的用户，作为我们的ftp的访问用户（不用root）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd ftp_user -d /home/ftp_user -s /sbin/nologin ftp_user  --新建用户 ftp_user并且主目录为/home/ftp_user</span><br><span class="line">chmod -R 755 /home/ftp_user  --修改该目录访问权限</span><br><span class="line">passwd ftp_user  --设置该账号密码</span><br></pre></td></tr></table></figure></p>
-<h2 id="安装配置vsftpd"><a href="#安装配置vsftpd" class="headerlink" title="安装配置vsftpd"></a>安装配置vsftpd</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum -y install vsftpd  --安装</span><br><span class="line">cd /etc/vsftpd  --切换到vsftp目录下</span><br><span class="line">mv vsftpd.conf vsftpd.conf.bak  --备份原来的配置文件</span><br><span class="line">wget http://resource.jsbintask.cn/vsftpd/vsftpd.conf  --获取配置文件</span><br></pre></td></tr></table></figure>
-<p>改配置文件已经做好了大多数的配置，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png" alt="vsftpd"><br>接下来编辑改配置文件，vim vsftpd.conf，在最下方加入我们一开始配置用户设置的主文件夹：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_root=/home/ftp_user</span><br></pre></td></tr></table></figure></p>
-<p>接下来编辑ftpusers，删除所有配置，空文件就行（该文件是哪些用户不能访问）<br>编辑user_list（该文件控制哪些用户可以登录ftp），加入我们刚刚添加的用户ftp_user，删掉其他所有行数，例如：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png" alt="vsftpd"><br>只有用户jason和root可以登录。</p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service vsftpd start</span><br></pre></td></tr></table></figure>
-<p>如果启动过程中报错，重新编辑vsftp.conf，注释掉 改行（这是vsftpd2.3以后的新配置）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png" alt="vsftpd"><br>重新启动，成功。<br>接下来使用ftp工具连接即可</p>
-<h2 id="问题解决："><a href="#问题解决：" class="headerlink" title="问题解决："></a>问题解决：</h2><ol>
-<li>关闭防火墙或者开启如下端口  20， 21（ftp）， 61001-62000范围端口。</li>
-<li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://resource.jsbintask.cn/vsftpd/config.sh</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>运行 config.sh，如果运行失败，请修改脚本中的 setsebool -P tftp_home_dir 1 为 setsebool -P ftp_home_dir 1</p>
-<ol start="3">
-<li>编辑安全配置文件 vim /etc/sysconfig/selinux，SELINUX=enforcing 改为 SELINUX=disabled<br>再次访问，成功。<br>关注我！<br><img src="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg" alt="qrcode"></li>
-</ol>
+        <p><img src="http://qiniu.jsbintask.cn/dcxomq5-a63c130a-2962-407c-b6fb-fc09551eaf11.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br>最近项目中因为要集成hessian调用远程服务，因为考虑到安全问题，远程调用需要设置 hessian的用户名密码，然后服务端获取后验证用户名密码，经过调试后发现hessian的用户名密码设置后就是用的basic http验证，说白了就是把用户名密码编码后加入到头里面，并且http header名字叫 Authentication，所以我们服务端获取该头，然后解析，验证就行了，因为我们用的springboot构建的项目，本地调试后一切没问题，之后打war包到weblogic发现一直返回401，因为我们项目定义的也是401，一直以为这是项目问题，没办法，debug才发现，原来是weblogic对于这种http basic验证全部拦截了，execute me！ 查阅weblogic文档，需要加入如下配置：<br><strong>\<enforce-valid-basic-auth-credentials>false\</enforce-valid-basic-auth-credentials></strong><br>到config.xml的\<security-configuration>节点中，路径如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/weblogic-basic.png" alt="path"><br>之后再次调用，weblogic不再拦截，搞定。</security-configuration></p>
 
       
       
@@ -342,13 +323,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></p>
+        <p><span>本文标题:</span><a href="/2019/01/20/webcontainer/ins-api/">weblogic拦截http basic验证问题</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年01月11日 - 10时15分</p>
-        <p><span>最后更新:</span>2019年01月11日 - 14时15分</p>
+        <p><span>发布时间:</span>2019年01月20日 - 10时15分</p>
+        <p><span>最后更新:</span>2019年01月20日 - 14时15分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/11/linux/linux-vsftpd-config/" title="linux环境中vsftp的常用配置">http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/20/webcontainer/ins-api/" title="weblogic拦截http basic验证问题">http://jsbintask.cn/2019/01/20/webcontainer/ins-api/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/20/webcontainer/ins-api/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -361,18 +342,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/01/11/springsecurity-basicconfig/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/01/21/springsecurity-restful/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解
+          springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务
         
       </div>
     </a>
   
   
-    <a href="/2019/01/08/springsecurity-configsourcecode/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</div>
+    <a href="/2019/01/16/springsecurity-architecture/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -383,7 +364,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux上vsftpd的配置"><span class="toc-number">1.</span> <span class="toc-text">Linux上vsftpd的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#新建用户"><span class="toc-number">1.1.</span> <span class="toc-text">新建用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装配置vsftpd"><span class="toc-number">1.2.</span> <span class="toc-text">安装配置vsftpd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#启动"><span class="toc-number">1.3.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题解决："><span class="toc-number">1.4.</span> <span class="toc-text">问题解决：</span></a></li></ol></li></ol>
+    
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -431,7 +412,7 @@
     
 
         <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="linux-vsftpd-config"></div>
+<div id="SOHUCS" sid="weblogic-httpbasic"></div>
 <script type="text/javascript">
     (function () {
         var appid = 'cyu0pbbdV';
@@ -474,13 +455,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/01/11/springsecurity-basicconfig/" title="上一篇: springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解">
+            <a href="/2019/01/21/springsecurity-restful/" title="上一篇: springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务">
                 <i class="fa fa-angle-left"></i>
             </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/08/springsecurity-configsourcecode/" title="下一篇: springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析">
+            <a href="/2019/01/16/springsecurity-architecture/" title="下一篇: springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析">
                 <i class="fa fa-angle-right"></i>
             </a>
         

@@ -61,6 +61,26 @@
   </entry>
   
   <entry>
+    <title>weblogic拦截http basic验证问题</title>
+    <link href="http://jsbintask.cn/2019/01/20/webcontainer/ins-api/"/>
+    <id>http://jsbintask.cn/2019/01/20/webcontainer/ins-api/</id>
+    <published>2019-01-20T02:15:00.000Z</published>
+    <updated>2019-01-20T06:15:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/dcxomq5-a63c130a-2962-407c-b6fb-fc09551eaf11.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br>最近项目中因为要集成hessian调用远程服务，因为考虑到安全问题，远程调用需要设置 hessian的用户名密码，然后服务端获取后验证用户名密码，经过调试后发现hessian的用户名密码设置后就是用的basic http验证，说白了就是把用户名密码编码后加入到头里面，并且http header名字叫 Authentication，所以我们服务端获取该头，然后解析，验证就行了，因为我们用的springboot构建的项目，本地调试后一切没问题，之后打war包到weblogic发现一直返回401，因为我们项目定义的也是401，一直以为这是项目问题，没办法，debug才发现，原来是weblogic对于这种http basic验证全部拦截了，execute me！ 查阅weblogic文档，需要加入如下配置：<br><strong>\<enforce-valid-basic-auth-credentials>false\</enforce-valid-basic-auth-credentials></strong><br>到config.xml的\<security-configuration>节点中，路径如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/weblogic-basic.png" alt="path"><br>之后再次调用，weblogic不再拦截，搞定。</security-configuration></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/dcxomq5-a63c130a-2962-407c-b6fb-fc09551eaf11.jpg-blog_960_440.jpg&quot; alt=&quot;cover&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="weblogic" scheme="http://jsbintask.cn/tags/weblogic/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</title>
     <link href="http://jsbintask.cn/2019/01/16/springsecurity-architecture/"/>
     <id>http://jsbintask.cn/2019/01/16/springsecurity-architecture/</id>
