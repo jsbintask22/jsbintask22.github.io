@@ -5,13 +5,13 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下载安装 下载redis源码 1wget http://download.redis.io/releases/redis-5.0.3.tar.gz  解压编译 123tar -zxvf redis-5.0.3.tar.gzcd redis-5.0.3make  修改配置文件 1vim ../redis.conf   找到下图配置，并且去掉前面注释， 后面改成你的密码即可：  启动设置，连接测试1">
+  <meta name="description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
 <meta name="keywords" content="linux,redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux上安装redis5.0并且修改密码">
 <meta property="og:url" content="http://jsbintask.cn/2019/01/24/middleware/redis-install/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
-<meta property="og:description" content="下载安装 下载redis源码 1wget http://download.redis.io/releases/redis-5.0.3.tar.gz  解压编译 123tar -zxvf redis-5.0.3.tar.gzcd redis-5.0.3make  修改配置文件 1vim ../redis.conf   找到下图配置，并且去掉前面注释， 后面改成你的密码即可：  启动设置，连接测试1">
+<meta property="og:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://qiniu.jsbintask.cn/redis-white.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png">
@@ -19,7 +19,7 @@
 <meta property="og:updated_time" content="2019-01-24T03:11:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux上安装redis5.0并且修改密码">
-<meta name="twitter:description" content="下载安装 下载redis源码 1wget http://download.redis.io/releases/redis-5.0.3.tar.gz  解压编译 123tar -zxvf redis-5.0.3.tar.gzcd redis-5.0.3make  修改配置文件 1vim ../redis.conf   找到下图配置，并且去掉前面注释， 后面改成你的密码即可：  启动设置，连接测试1">
+<meta name="twitter:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
 <meta name="twitter:image" content="http://qiniu.jsbintask.cn/redis-white.png">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
@@ -278,9 +278,11 @@
           
         <p><img src="http://qiniu.jsbintask.cn/redis-white.png" alt="cover"></p>
 <h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><ol>
-<li><p>下载redis源码</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br></pre></td></tr></table></figure>
+<li>下载redis源码<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br></pre></td></tr></table></figure>
 </li>
+</ol>
+<a id="more"></a>
+<ol start="2">
 <li><p>解压编译</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-5.0.3.tar.gz</span><br><span class="line"><span class="built_in">cd</span> redis-5.0.3</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
 </li>
