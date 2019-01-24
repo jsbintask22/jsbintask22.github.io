@@ -148,7 +148,7 @@
                 
                     <section class="switch-part switch-part2">
                         <div class="widget tagcloud" id="js-tagcloud">
-                            <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/springboot/" style="font-size: 20px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 16.67px;">springsecurity</a> <a href="/tags/weblogic/" style="font-size: 13.33px;">weblogic</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a>
+                            <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/springboot/" style="font-size: 20px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 16.67px;">springsecurity</a> <a href="/tags/weblogic/" style="font-size: 13.33px;">weblogic</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a>
                         </div>
                     </section>
                 
@@ -234,6 +234,84 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-middleware/redis-install" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/24/middleware/redis-install/" class="article-date">
+      <time datetime="2019-01-24T03:11:00.000Z" itemprop="datePublished">2019-01-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/24/middleware/redis-install/">linux上安装redis5.0并且修改密码</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><img src="http://qiniu.jsbintask.cn/redis-white.png" alt="cover"></p>
+<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><ol>
+<li><p>下载redis源码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-5.0.3.tar.gz</span><br><span class="line"><span class="built_in">cd</span> redis-5.0.3</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ../redis.conf</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>找到下图配置，并且去掉前面注释， 后面改成你的密码即可：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png" alt="/pass"></p>
+<ol start="4">
+<li>启动设置，连接测试<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server &amp;</span><br><span class="line">src/redis-cli -a &#123;你的密码&#125;</span><br><span class="line"><span class="built_in">set</span> name jsbintask</span><br><span class="line">get name</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png" alt="/redis"><br>这样就安装设置密码成功了。<br>本文原创地址：<a href="https://jsbintask.cn/2019/01/24/middleware/redis-install/">https://jsbintask.cn/2019/01/24/middleware/redis-install/</a>，未经允许，禁止转载。</p>
+
+      
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+    </div>
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-webcontainer/weblogic-springboot-tx" class="article article-type-post" itemscope="" itemprop="blogPost">
   
