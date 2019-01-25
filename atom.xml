@@ -34,9 +34,9 @@
     
       <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
     
-      <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
-    
       <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
+    
+      <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
     
   </entry>
   
