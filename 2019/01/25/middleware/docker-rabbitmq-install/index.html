@@ -5,15 +5,21 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="java,javascript,spring,springboot,html,css,vue,netty,it">
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://jsbintask.cn/tags/index.html">
+  <meta name="description" content="linux下docker安装配置rabbitmq 直接运行1docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-managem">
+<meta name="keywords" content="linux,docker,rabbit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker上配置运行rabbit">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:description" content="linux下docker安装配置rabbitmq 直接运行1docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-managem">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2018-12-27T08:43:32.648Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo1.png">
+<meta property="og:updated_time" content="2019-01-25T04:11:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="docker上配置运行rabbit">
+<meta name="twitter:description" content="linux下docker安装配置rabbitmq 直接运行1docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-managem">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo2.png">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -39,7 +45,7 @@
           fancybox: true,
           animate: true,
           isHome: false,
-          isPost: false,
+          isPost: true,
           isArchive: false,
           isTag: false,
           isCategory: false,
@@ -231,11 +237,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="page-" class="article article-type-page" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-middleware/docker-rabbitmq-install" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/tags/index.html" class="article-date">
-      <time datetime="2018-12-27T08:43:32.000Z" itemprop="datePublished">2018-12-27</time>
+      <a href="/2019/01/25/middleware/docker-rabbitmq-install/" class="article-date">
+      <time datetime="2019-01-25T04:11:00.000Z" itemprop="datePublished">2019-01-25</time>
 </a>
     </div>
   
@@ -248,7 +254,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      tags
+      docker上配置运行rabbit
     </h1>
   
 
@@ -258,6 +264,10 @@
         
 
         
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbit/">rabbit</a></li></ul>
+    </div>
+
         <div class="clearfix"></div>
       </div>
       
@@ -265,110 +275,12 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              <style>
-    .article-meta {
-        display: none;
-    }
-    #container .article .article-title {
-        padding-right: 0;
-    }
-    .article-header {
-        padding: 0;
-        padding-top: 26px;
-        border-left: none;
-        text-align: center;
-    }
-    .article-header:hover {
-        border-left: none;
-    }
-    .article-title {
-        font-size: 1.6em
-    }
-    .article-meta {
-        display: none;
-    }
-    .article-entry hr {
-        margin: 0;
-    }
-    #container .article-info-post.article-info {
-      display: none;
-      }
-    #container .article .article-title {
-    padding: 0;
-    }
-</style>
+        <p>linux下docker安装配置rabbitmq</p>
+<h2 id="直接运行"><a href="#直接运行" class="headerlink" title="直接运行"></a>直接运行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-management</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>注意修改成自己的用户名密码.<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo2.png" alt="/rabbitmq"><br>如果出现错误，请重启防火墙（docker必须映射防火墙配置）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables restart</span><br><span class="line">service docker restart</span><br></pre></td></tr></table></figure></p>
+<p>再次运行上面命令，出现容器id代表成功，接着测试，访问：<a href="yourhostname:15672" target="_blank" rel="noopener">youhostname:15672</a>，如下，接着填写上面启动时配置的用户名密码即可：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo1.png" alt="/rabbitmq"><br>本文原创地址：<a href="https://jsbintask.cn/2019/01/25/middleware/redis-install/">https://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/</a>，未经允许，禁止转载。</p>
 
-
-    <!-- Tag Cloud Page -->
-    <hr>
-    <br>
-    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/recommend/">recommend</a><span class="category-list-count">1</span></li></ul>
-
-    <p class="count"></p>
-
-    <div class="tags">
-        <a href="/tags/api/" style="font-size: 16px; color: #808080">api</a> <a href="/tags/docker/" style="font-size: 16px; color: #808080">docker</a> <a href="/tags/java/" style="font-size: 30.25px; color: #202020">java</a> <a href="/tags/jms/" style="font-size: 16px; color: #808080">jms</a> <a href="/tags/linux/" style="font-size: 25.5px; color: #404040">linux</a> <a href="/tags/rabbit/" style="font-size: 16px; color: #808080">rabbit</a> <a href="/tags/redis/" style="font-size: 20.75px; color: #606060">redis</a> <a href="/tags/springboot/" style="font-size: 35px; color: #000">springboot</a> <a href="/tags/springsecurity/" style="font-size: 30.25px; color: #202020">springsecurity</a> <a href="/tags/weblogic/" style="font-size: 20.75px; color: #606060">weblogic</a> <a href="/tags/运维/" style="font-size: 16px; color: #808080">运维</a>
-    </div>
-    <style>
-        .category-list li{
-            display: inline-block;
-            margin: 0 1em .5em 0;
-            padding: 4px;
-            border: 1px solid lightgray;
-            font-size: 1.2em;
-        }
-        .category-list a {
-            color: gray;
-        }
-        .category-list-item:hover a {
-            color: gray;
-            text-decoration: none;
-        }
-        .category-list-count {
-            margin-left: 2px;
-            font-size: .9em;
-        }
-        .article-entry ul li:before{
-            display: none;
-        }
-        .article-inner  {
-            text-align: center;
-        }
-        .tags {
-            max-width: 40em;
-            margin: 2em auto;
-            margin-top: 0em;
-        }
-        .tags a {
-            margin-right: 1em;
-            line-height: 65px;
-            border-bottom: 1px solid gray;
-            white-space: nowrap;
-        }
-        .tags a:hover {
-            border-bottom: 2px solid black;
-            text-decoration: none;
-            font-style: italic;
-        }
-        #count > span {
-            margin: auto .2em;
-            font-weight: bold;
-        }
-    </style>
-
-    <!-- Count tags and categories -->
-    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
-    <p id="count">
-            已有<span><script>document.write($(".category-list-item").length)</script></span>个分类，
-            共计<span><script>document.write($(".tags > a").length)</script></span>个标签。
-    </p>
-    <script>
-        $('#count').appendTo('.count');
-    </script>
-
-
-          
-        
       
       
         <div class="page-reward">
@@ -417,10 +329,67 @@
   </div>
   
     
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbit</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年01月25日 - 12时11分</p>
+        <p><span>最后更新:</span>2019年01月25日 - 12时11分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/25/middleware/docker-rabbitmq-install/" title="docker上配置运行rabbit">http://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
 
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/25/springboot/springboot-redis-jms/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">springboot整合各种消息队列（一）：redis消息队列</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
 
   
 </article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接运行"><span class="toc-number">1.</span> <span class="toc-text">直接运行</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
 
 
 
@@ -440,7 +409,78 @@
 
     
 
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="docker-rabbitmq-install"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
 
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/01/25/springboot/springboot-redis-jms/" title="下一篇: springboot整合各种消息队列（一）：redis消息队列">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbit</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-redis-jms/">springboot整合各种消息队列（一）：redis消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
 
 
 
