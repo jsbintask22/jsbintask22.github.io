@@ -8,17 +8,19 @@
   <meta name="description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
 <meta name="keywords" content="linux,redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux上安装redis5.0并且修改密码">
+<meta property="og:title" content="linux上安装配置redis5.0">
 <meta property="og:url" content="http://jsbintask.cn/2019/01/24/middleware/redis-install/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://qiniu.jsbintask.cn/redis-white.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo4.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png">
 <meta property="og:updated_time" content="2019-01-24T03:11:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux上安装redis5.0并且修改密码">
+<meta name="twitter:title" content="linux上安装配置redis5.0">
 <meta name="twitter:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
 <meta name="twitter:image" content="http://qiniu.jsbintask.cn/redis-white.png">
   
@@ -255,7 +257,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      linux上安装redis5.0并且修改密码
+      linux上安装配置redis5.0
     </h1>
   
 
@@ -290,12 +292,12 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ../redis.conf</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>找到下图配置，并且去掉前面注释， 后面改成你的密码即可：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png" alt="/pass"></p>
+<p>找到下图配置，并且去掉前面注释， 后面改成你的密码即可：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png" alt="/pass"><br>去除protectd-mode模式，并且设置所有ip均能访问：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo3.png" alt="/pass"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo4.png" alt="/pass"></p>
 <ol start="4">
-<li>启动设置，连接测试<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server &amp;</span><br><span class="line">src/redis-cli -a &#123;你的密码&#125;</span><br><span class="line"><span class="built_in">set</span> name jsbintask</span><br><span class="line">get name</span><br></pre></td></tr></table></figure>
+<li>启动设置，连接测试<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server redis.conf &amp;</span><br><span class="line">src/redis-cli -a &#123;你的密码&#125;</span><br><span class="line"><span class="built_in">set</span> name jsbintask</span><br><span class="line">get name</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png" alt="/redis"><br>这样就安装设置密码成功了。<br>本文原创地址：<a href="https://jsbintask.cn/2019/01/24/middleware/redis-install/">https://jsbintask.cn/2019/01/24/middleware/redis-install/</a>，未经允许，禁止转载。</p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png" alt="/redis"><br>这样就安装设置就成功了。<br>本文原创地址：<a href="https://jsbintask.cn/2019/01/24/middleware/redis-install/">https://jsbintask.cn/2019/01/24/middleware/redis-install/</a>，未经允许，禁止转载。</p>
 
       
       
@@ -346,12 +348,12 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/24/middleware/redis-install/">linux上安装redis5.0并且修改密码</a></p>
+        <p><span>本文标题:</span><a href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
         <p><span>发布时间:</span>2019年01月24日 - 11时11分</p>
         <p><span>最后更新:</span>2019年01月24日 - 11时11分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/24/middleware/redis-install/" title="linux上安装redis5.0并且修改密码">http://jsbintask.cn/2019/01/24/middleware/redis-install/</a>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/24/middleware/redis-install/" title="linux上安装配置redis5.0">http://jsbintask.cn/2019/01/24/middleware/redis-install/</a>
             <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/24/middleware/redis-install/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
@@ -478,7 +480,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装redis5.0并且修改密码</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");
