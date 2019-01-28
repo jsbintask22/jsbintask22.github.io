@@ -227,9 +227,9 @@
     
       <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
     
-      <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
-    
       <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
+    
+      <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
     
   </entry>
   
