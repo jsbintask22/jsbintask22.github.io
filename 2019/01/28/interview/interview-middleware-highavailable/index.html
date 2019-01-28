@@ -154,7 +154,7 @@
                 
                     <section class="switch-part switch-part2">
                         <div class="widget tagcloud" id="js-tagcloud">
-                            <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 17.5px;">java</a> <a href="/tags/jms/" style="font-size: 12.5px;">jms</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/springboot/" style="font-size: 20px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 17.5px;">springsecurity</a> <a href="/tags/weblogic/" style="font-size: 12.5px;">weblogic</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 12.5px;">面试</a>
+                            <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 17.5px;">java</a> <a href="/tags/jms/" style="font-size: 12.5px;">jms</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/springboot/" style="font-size: 20px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 17.5px;">springsecurity</a> <a href="/tags/weblogic/" style="font-size: 12.5px;">weblogic</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 15px;">面试</a>
                         </div>
                     </section>
                 
@@ -302,7 +302,7 @@
 <p>这么搞，就有所谓的<strong>高可用性</strong>了，因为如果某个 broker 宕机了，没事儿，那个 broker上面的 partition 在其他机器上都有副本的，如果这上面有某个 partition 的 leader，那么此时会从 follower 中<strong>重新选举</strong>一个新的 leader 出来，大家继续读写那个新的 leader 即可。这就有所谓的高可用性了。</p>
 <p><strong>写数据</strong>的时候，生产者就写 leader，然后 leader 将数据落地写本地磁盘，接着其他 follower 自己主动从 leader 来 pull 数据。一旦所有 follower 同步好数据了，就会发送 ack 给 leader，leader 收到所有 follower 的 ack 之后，就会返回写成功的消息给生产者。（当然，这只是其中一种模式，还可以适当调整这个行为）</p>
 <p><strong>消费</strong>的时候，只会从 leader 去读，但是只有当一个消息已经被所有 follower 都同步成功返回 ack 的时候，这个消息才会被消费者读到。</p>
-<p>本文原创地址：<a href="https://jsbintask.cn/2019/01/28/interview/interview-middle-highavailable/">https://jsbintask.cn/2019/01/28/interview/interview-middle-highavailable/</a>，转载请注明出处。</p>
+<p>本文原创地址：<a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-highavailable/">https://jsbintask.cn/2019/01/28/interview/interview-middleware-highavailable/</a>，转载请注明出处。</p>
 
       
       
@@ -372,6 +372,15 @@
 
 <nav id="article-nav">
   
+    <a href="/2019/01/28/interview/interview-middleware-reliable/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          消息中间件面试题：消息丢失怎么办？
+        
+      </div>
+    </a>
+  
   
     <a href="/2019/01/28/interview/interview-middleware-jms/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">中间件面试题：消息队列的优缺点，区别</div>
@@ -436,7 +445,9 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2019/01/28/interview/interview-middleware-reliable/" title="上一篇: 消息中间件面试题：消息丢失怎么办？">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
@@ -445,7 +456,7 @@
             </a>
         
     </div>
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-jms/">中间件面试题：消息队列的优缺点，区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-rabbitmq-jms/">springboot整合各种消息队列（二）：rabbitmq消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbitmq</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-redis-jms/">springboot整合各种消息队列（一）：redis消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-reliable/">消息中间件面试题：消息丢失怎么办？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-jms/">中间件面试题：消息队列的优缺点，区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-rabbitmq-jms/">springboot整合各种消息队列（二）：rabbitmq消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbitmq</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-redis-jms/">springboot整合各种消息队列（一）：redis消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
     <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
     <script>
         $(".post-list").addClass("toc-article");

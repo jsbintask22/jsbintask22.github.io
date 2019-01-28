@@ -5,21 +5,21 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="linux下docker安装配置rabbitmq 直接运行1docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-managem">
-<meta name="keywords" content="linux,docker,rabbit">
+  <meta name="description" content="面试题如何保证消息的可靠性传输？或者说，如何处理消息丢失的问题？ 如果说你这个是用 MQ 来传递非常核心的消息，比如说计费、扣费的一些消息，那必须确保这个 MQ 传递过程中绝对不会把计费消息给弄丢。 面试题剖析数据的丢失问题，可能出现在生产者、MQ、消费者中，咱们从 RabbitMQ 和 Kafka 分别来分析一下吧。 RabbitMQ 生产者弄丢了数据生产者将数据发送到 RabbitMQ 的时候">
+<meta name="keywords" content="面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="docker上配置运行rabbitmq">
-<meta property="og:url" content="http://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/index.html">
+<meta property="og:title" content="消息中间件面试题：消息丢失怎么办？">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/28/interview/interview-middleware-reliable/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
-<meta property="og:description" content="linux下docker安装配置rabbitmq 直接运行1docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-managem">
+<meta property="og:description" content="面试题如何保证消息的可靠性传输？或者说，如何处理消息丢失的问题？ 如果说你这个是用 MQ 来传递非常核心的消息，比如说计费、扣费的一些消息，那必须确保这个 MQ 传递过程中绝对不会把计费消息给弄丢。 面试题剖析数据的丢失问题，可能出现在生产者、MQ、消费者中，咱们从 RabbitMQ 和 Kafka 分别来分析一下吧。 RabbitMQ 生产者弄丢了数据生产者将数据发送到 RabbitMQ 的时候">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo1.png">
-<meta property="og:updated_time" content="2019-01-25T04:11:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/rabbitmq-message-lose.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/rabbitmq-message-lose-solution.png">
+<meta property="og:updated_time" content="2019-01-28T04:30:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="docker上配置运行rabbitmq">
-<meta name="twitter:description" content="linux下docker安装配置rabbitmq 直接运行1docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-managem">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo2.png">
+<meta name="twitter:title" content="消息中间件面试题：消息丢失怎么办？">
+<meta name="twitter:description" content="面试题如何保证消息的可靠性传输？或者说，如何处理消息丢失的问题？ 如果说你这个是用 MQ 来传递非常核心的消息，比如说计费、扣费的一些消息，那必须确保这个 MQ 传递过程中绝对不会把计费消息给弄丢。 面试题剖析数据的丢失问题，可能出现在生产者、MQ、消费者中，咱们从 RabbitMQ 和 Kafka 分别来分析一下吧。 RabbitMQ 生产者弄丢了数据生产者将数据发送到 RabbitMQ 的时候">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/rabbitmq-message-lose.png">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -237,11 +237,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-middleware/docker-rabbitmq-install" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-interview/interview-middleware-reliable" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/01/25/middleware/docker-rabbitmq-install/" class="article-date">
-      <time datetime="2019-01-25T04:11:00.000Z" itemprop="datePublished">2019-01-25</time>
+      <a href="/2019/01/28/interview/interview-middleware-reliable/" class="article-date">
+      <time datetime="2019-01-28T04:30:00.000Z" itemprop="datePublished">2019-01-28</time>
 </a>
     </div>
   
@@ -254,7 +254,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      docker上配置运行rabbitmq
+      消息中间件面试题：消息丢失怎么办？
     </h1>
   
 
@@ -265,7 +265,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rabbit/">rabbit</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试/">面试</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -275,11 +275,43 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>linux下docker安装配置rabbitmq</p>
-<h2 id="直接运行"><a href="#直接运行" class="headerlink" title="直接运行"></a>直接运行</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=jsbintask -e RABBITMQ_DEFAULT_PASS=jsbintask rabbitmq:3-management</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>注意修改成自己的用户名密码.<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo2.png" alt="/rabbitmq"><br>如果出现错误，请重启防火墙（docker必须映射防火墙配置）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service iptables restart</span><br><span class="line">service docker restart</span><br></pre></td></tr></table></figure></p>
-<p>再次运行上面命令，出现容器id代表成功，接着测试，访问：<a href="yourhostname:15672" target="_blank" rel="noopener">youhostname:15672</a>，如下，接着填写上面启动时配置的用户名密码即可：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/rabbitmq-demo1.png" alt="/rabbitmq"><br>本文原创地址：<a href="https://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/">https://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/</a>，未经允许，禁止转载。</p>
+        <h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p>如何保证消息的可靠性传输？或者说，如何处理消息丢失的问题？</p>
+<p>如果说你这个是用 MQ 来传递非常核心的消息，比如说计费、扣费的一些消息，那必须确保这个 MQ 传递过程中<strong>绝对不会把计费消息给弄丢</strong>。</p>
+<h2 id="面试题剖析"><a href="#面试题剖析" class="headerlink" title="面试题剖析"></a>面试题剖析</h2><p>数据的丢失问题，可能出现在生产者、MQ、消费者中，咱们从 RabbitMQ 和 Kafka 分别来分析一下吧。</p>
+<h3 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h3><p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/rabbitmq-message-lose.png" alt="rabbitmq-message-lose"></p>
+<h4 id="生产者弄丢了数据"><a href="#生产者弄丢了数据" class="headerlink" title="生产者弄丢了数据"></a>生产者弄丢了数据</h4><p>生产者将数据发送到 RabbitMQ 的时候，可能数据就在半路给搞丢了，因为网络问题啥的，都有可能。</p>
+<p>此时可以选择用 RabbitMQ 提供的事务功能，就是生产者<strong>发送数据之前</strong>开启 RabbitMQ 事务<code>channel.txSelect</code>，然后发送消息，如果消息没有成功被 RabbitMQ 接收到，那么生产者会收到异常报错，此时就可以回滚事务<code>channel.txRollback</code>，然后重试发送消息；如果收到了消息，那么可以提交事务<code>channel.txCommit</code>。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 开启事务</span></span><br><span class="line">channel.txSelect</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// 这里发送消息</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">    channel.txRollback</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里再次重发这条消息</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交事务</span></span><br><span class="line">channel.txCommit</span><br></pre></td></tr></table></figure></p>
+<p>但是问题是，RabbitMQ 事务机制（同步）一搞，基本上<strong>吞吐量会下来，因为太耗性能</strong>。</p>
+<p>所以一般来说，如果你要确保说写 RabbitMQ 的消息别丢，可以开启 <code>confirm</code> 模式，在生产者那里设置开启 <code>confirm</code> 模式之后，你每次写的消息都会分配一个唯一的 id，然后如果写入了 RabbitMQ 中，RabbitMQ 会给你回传一个 <code>ack</code> 消息，告诉你说这个消息 ok 了。如果 RabbitMQ 没能处理这个消息，会回调你的一个 <code>nack</code> 接口，告诉你这个消息接收失败，你可以重试。而且你可以结合这个机制自己在内存里维护每个消息 id 的状态，如果超过一定时间还没接收到这个消息的回调，那么你可以重发。</p>
+<p>事务机制和 <code>cnofirm</code> 机制最大的不同在于，<strong>事务机制是同步的</strong>，你提交一个事务之后会<strong>阻塞</strong>在那儿，但是 <code>confirm</code> 机制是<strong>异步</strong>的，你发送个消息之后就可以发送下一个消息，然后那个消息 RabbitMQ 接收了之后会异步回调你的一个接口通知你这个消息接收到了。</p>
+<p>所以一般在生产者这块<strong>避免数据丢失</strong>，都是用 <code>confirm</code> 机制的。</p>
+<h4 id="RabbitMQ-弄丢了数据"><a href="#RabbitMQ-弄丢了数据" class="headerlink" title="RabbitMQ 弄丢了数据"></a>RabbitMQ 弄丢了数据</h4><p>就是 RabbitMQ 自己弄丢了数据，这个你必须<strong>开启 RabbitMQ 的持久化</strong>，就是消息写入之后会持久化到磁盘，哪怕是 RabbitMQ 自己挂了，<strong>恢复之后会自动读取之前存储的数据</strong>，一般数据不会丢。除非极其罕见的是，RabbitMQ 还没持久化，自己就挂了，<strong>可能导致少量数据丢失</strong>，但是这个概率较小。</p>
+<p>设置持久化有<strong>两个步骤</strong>：</p>
+<ul>
+<li>创建 queue 的时候将其设置为持久化<br><br>这样就可以保证 RabbitMQ 持久化 queue 的元数据，但是它是不会持久化 queue 里的数据的。</li>
+<li>第二个是发送消息的时候将消息的 <code>deliveryMode</code> 设置为 2<br><br>就是将消息设置为持久化的，此时 RabbitMQ 就会将消息持久化到磁盘上去。</li>
+</ul>
+<p>必须要同时设置这两个持久化才行，RabbitMQ 哪怕是挂了，再次重启，也会从磁盘上重启恢复 queue，恢复这个 queue 里的数据。</p>
+<p>注意，哪怕是你给 RabbitMQ 开启了持久化机制，也有一种可能，就是这个消息写到了 RabbitMQ 中，但是还没来得及持久化到磁盘上，结果不巧，此时 RabbitMQ 挂了，就会导致内存里的一点点数据丢失。</p>
+<p>所以，持久化可以跟生产者那边的 <code>confirm</code> 机制配合起来，只有消息被持久化到磁盘之后，才会通知生产者 <code>ack</code> 了，所以哪怕是在持久化到磁盘之前，RabbitMQ 挂了，数据丢了，生产者收不到 <code>ack</code>，你也是可以自己重发的。</p>
+<h4 id="消费端弄丢了数据"><a href="#消费端弄丢了数据" class="headerlink" title="消费端弄丢了数据"></a>消费端弄丢了数据</h4><p>RabbitMQ 如果丢失了数据，主要是因为你消费的时候，<strong>刚消费到，还没处理，结果进程挂了</strong>，比如重启了，那么就尴尬了，RabbitMQ 认为你都消费了，这数据就丢了。</p>
+<p>这个时候得用 RabbitMQ 提供的 <code>ack</code> 机制，简单来说，就是你必须关闭 RabbitMQ 的自动 <code>ack</code>，可以通过一个 api 来调用就行，然后每次你自己代码里确保处理完的时候，再在程序里 <code>ack</code> 一把。这样的话，如果你还没处理完，不就没有 <code>ack</code> 了？那 RabbitMQ 就认为你还没处理完，这个时候 RabbitMQ 会把这个消费分配给别的 consumer 去处理，消息是不会丢的。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/rabbitmq-message-lose-solution.png" alt="rabbitmq-message-lose-solution"></p>
+<h3 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h3><h4 id="消费端弄丢了数据-1"><a href="#消费端弄丢了数据-1" class="headerlink" title="消费端弄丢了数据"></a>消费端弄丢了数据</h4><p>唯一可能导致消费者弄丢数据的情况，就是说，你消费到了这个消息，然后消费者那边<strong>自动提交了 offset</strong>，让 Kafka 以为你已经消费好了这个消息，但其实你才刚准备处理这个消息，你还没处理，你自己就挂了，此时这条消息就丢咯。</p>
+<p>这不是跟 RabbitMQ 差不多吗，大家都知道 Kafka 会自动提交 offset，那么只要<strong>关闭自动提交</strong> offset，在处理完之后自己手动提交 offset，就可以保证数据不会丢。但是此时确实还是<strong>可能会有重复消费</strong>，比如你刚处理完，还没提交 offset，结果自己挂了，此时肯定会重复消费一次，自己保证幂等性就好了。</p>
+<p>生产环境碰到的一个问题，就是说我们的 Kafka 消费者消费到了数据之后是写到一个内存的 queue 里先缓冲一下，结果有的时候，你刚把消息写入内存 queue，然后消费者会自动提交 offset。然后此时我们重启了系统，就会导致内存 queue 里还没来得及处理的数据就丢失了。</p>
+<h4 id="Kafka-弄丢了数据"><a href="#Kafka-弄丢了数据" class="headerlink" title="Kafka 弄丢了数据"></a>Kafka 弄丢了数据</h4><p>这块比较常见的一个场景，就是 Kafka 某个 broker 宕机，然后重新选举 partition 的 leader。大家想想，要是此时其他的 follower 刚好还有些数据没有同步，结果此时 leader 挂了，然后选举某个 follower 成 leader 之后，不就少了一些数据？这就丢了一些数据啊。</p>
+<p>生产环境也遇到过，我们也是，之前 Kafka 的 leader 机器宕机了，将 follower 切换为 leader 之后，就会发现说这个数据就丢了。</p>
+<p>所以此时一般是要求起码设置如下 4 个参数：</p>
+<ul>
+<li>给 topic 设置 <code>replication.factor</code> 参数：这个值必须大于 1，要求每个 partition 必须有至少 2 个副本。</li>
+<li>在 Kafka 服务端设置 <code>min.insync.replicas</code> 参数：这个值必须大于 1，这个是要求一个 leader 至少感知到有至少一个 follower 还跟自己保持联系，没掉队，这样才能确保 leader 挂了还有一个 follower 吧。</li>
+<li>在 producer 端设置 <code>acks=all</code>：这个是要求每条数据，必须是<strong>写入所有 replica 之后，才能认为是写成功了</strong>。</li>
+<li>在 producer 端设置 <code>retries=MAX</code>（很大很大很大的一个值，无限次重试的意思）：这个是<strong>要求一旦写入失败，就无限重试</strong>，卡在这里了。</li>
+</ul>
+<p>我们生产环境就是按照上述要求配置的，这样配置之后，至少在 Kafka broker 端就可以保证在 leader 所在 broker 发生故障，进行 leader 切换时，数据不会丢失。</p>
+<h4 id="生产者会不会弄丢数据？"><a href="#生产者会不会弄丢数据？" class="headerlink" title="生产者会不会弄丢数据？"></a>生产者会不会弄丢数据？</h4><p>如果按照上述的思路设置了 <code>acks=all</code>，一定不会丢，要求是，你的 leader 接收到消息，所有的 follower 都同步到了消息之后，才认为本次写成功了。如果没满足这个条件，生产者会自动不断的重试，重试无限次。</p>
+<p>本文原创地址：<a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-reliable/">https://jsbintask.cn/2019/01/28/interview/interview-middleware-reliable/</a>，转载请注明出处。</p>
 
       
       
@@ -330,13 +362,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbitmq</a></p>
+        <p><span>本文标题:</span><a href="/2019/01/28/interview/interview-middleware-reliable/">消息中间件面试题：消息丢失怎么办？</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年01月25日 - 12时11分</p>
-        <p><span>最后更新:</span>2019年01月25日 - 12时11分</p>
+        <p><span>发布时间:</span>2019年01月28日 - 12时30分</p>
+        <p><span>最后更新:</span>2019年01月28日 - 12时30分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/25/middleware/docker-rabbitmq-install/" title="docker上配置运行rabbitmq">http://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/25/middleware/docker-rabbitmq-install/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/28/interview/interview-middleware-reliable/" title="消息中间件面试题：消息丢失怎么办？">http://jsbintask.cn/2019/01/28/interview/interview-middleware-reliable/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/28/interview/interview-middleware-reliable/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -349,18 +381,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/01/25/springboot/springboot-rabbitmq-jms/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          springboot整合各种消息队列（二）：rabbitmq消息队列
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/01/25/springboot/springboot-redis-jms/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">springboot整合各种消息队列（一）：redis消息队列</div>
+    <a href="/2019/01/28/interview/interview-middleware-highavailable/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">消息中间件面试题：消息中间件的高可用</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -371,7 +394,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接运行"><span class="toc-number">1.</span> <span class="toc-text">直接运行</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#面试题"><span class="toc-number">1.</span> <span class="toc-text">面试题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面试题剖析"><span class="toc-number">2.</span> <span class="toc-text">面试题剖析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ"><span class="toc-number">2.1.</span> <span class="toc-text">RabbitMQ</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#生产者弄丢了数据"><span class="toc-number">2.1.1.</span> <span class="toc-text">生产者弄丢了数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RabbitMQ-弄丢了数据"><span class="toc-number">2.1.2.</span> <span class="toc-text">RabbitMQ 弄丢了数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#消费端弄丢了数据"><span class="toc-number">2.1.3.</span> <span class="toc-text">消费端弄丢了数据</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka"><span class="toc-number">2.2.</span> <span class="toc-text">Kafka</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#消费端弄丢了数据-1"><span class="toc-number">2.2.1.</span> <span class="toc-text">消费端弄丢了数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Kafka-弄丢了数据"><span class="toc-number">2.2.2.</span> <span class="toc-text">Kafka 弄丢了数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生产者会不会弄丢数据？"><span class="toc-number">2.2.3.</span> <span class="toc-text">生产者会不会弄丢数据？</span></a></li></ol></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -418,57 +441,15 @@
 
     
 
-        <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="docker-rabbitmq-install"></div>
-<script type="text/javascript">
-    (function () {
-        var appid = 'cyu0pbbdV';
-        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
-        var width = window.innerWidth || document.documentElement.clientWidth;
-        if (width < 960) {
-            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
-        } else {
-            var loadJs = function (d, a) {
-                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
-                var b = document.createElement("script");
-                b.setAttribute("type", "text/javascript");
-                b.setAttribute("charset", "UTF-8");
-                b.setAttribute("src", d);
-                if (typeof a === "function") {
-                    if (window.attachEvent) {
-                        b.onreadystatechange = function () {
-                            var e = b.readyState;
-                            if (e === "loaded" || e === "complete") {
-                                b.onreadystatechange = null;
-                                a()
-                            }
-                        }
-                    } else {
-                        b.onload = a
-                    }
-                }
-                c.appendChild(b)
-            };
-            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
-                window.changyan.api.config({appid: appid, conf: conf})
-            });
-        }
-    })(); </script>
-
-
-    
-
 
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/01/25/springboot/springboot-rabbitmq-jms/" title="上一篇: springboot整合各种消息队列（二）：rabbitmq消息队列">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/25/springboot/springboot-redis-jms/" title="下一篇: springboot整合各种消息队列（一）：redis消息队列">
+            <a href="/2019/01/28/interview/interview-middleware-highavailable/" title="下一篇: 消息中间件面试题：消息中间件的高可用">
                 <i class="fa fa-angle-right"></i>
             </a>
         
