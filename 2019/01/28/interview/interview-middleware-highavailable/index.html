@@ -5,24 +5,23 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
-<meta name="keywords" content="linux,redis">
+  <meta name="description" content="接着上一篇面试题的扩展。 面试题如何保证消息队列的高可用？">
+<meta name="keywords" content="面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux上安装配置redis5.0">
-<meta property="og:url" content="http://jsbintask.cn/2019/01/24/middleware/redis-install/index.html">
+<meta property="og:title" content="消息中间件面试题：消息中间件的高可用">
+<meta property="og:url" content="http://jsbintask.cn/2019/01/28/interview/interview-middleware-highavailable/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
-<meta property="og:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
+<meta property="og:description" content="接着上一篇面试题的扩展。 面试题如何保证消息队列的高可用？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qiniu.jsbintask.cn/redis-white.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png">
-<meta property="og:updated_time" content="2019-01-24T03:11:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/mq-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/mq-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/kafka-before.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/kafka-after.png">
+<meta property="og:updated_time" content="2019-01-28T04:11:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux上安装配置redis5.0">
-<meta name="twitter:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
-<meta name="twitter:image" content="http://qiniu.jsbintask.cn/redis-white.png">
+<meta name="twitter:title" content="消息中间件面试题：消息中间件的高可用">
+<meta name="twitter:description" content="接着上一篇面试题的扩展。 面试题如何保证消息队列的高可用？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/mq-7.png">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -240,11 +239,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-middleware/redis-install" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-interview/interview-middleware-highavailable" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/01/24/middleware/redis-install/" class="article-date">
-      <time datetime="2019-01-24T03:11:00.000Z" itemprop="datePublished">2019-01-24</time>
+      <a href="/2019/01/28/interview/interview-middleware-highavailable/" class="article-date">
+      <time datetime="2019-01-28T04:11:00.000Z" itemprop="datePublished">2019-01-28</time>
 </a>
     </div>
   
@@ -257,7 +256,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      linux上安装配置redis5.0
+      消息中间件面试题：消息中间件的高可用
     </h1>
   
 
@@ -268,7 +267,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试/">面试</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -278,26 +277,32 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://qiniu.jsbintask.cn/redis-white.png" alt="cover"></p>
-<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><ol>
-<li>下载redis源码<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<a id="more"></a>
-<ol start="2">
-<li><p>解压编译</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-5.0.3.tar.gz</span><br><span class="line"><span class="built_in">cd</span> redis-5.0.3</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改配置文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ../redis.conf</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>找到下图配置，并且去掉前面注释， 后面改成你的密码即可：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png" alt="/pass"><br>去除protectd-mode模式，并且设置所有ip均能访问：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo3.png" alt="/pass"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo4.png" alt="/pass"></p>
-<ol start="4">
-<li>启动设置，连接测试<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server redis.conf &amp;</span><br><span class="line">src/redis-cli -a &#123;你的密码&#125;</span><br><span class="line"><span class="built_in">set</span> name jsbintask</span><br><span class="line">get name</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png" alt="/redis"><br>这样就安装设置就成功了。<br>本文原创地址：<a href="https://jsbintask.cn/2019/01/24/middleware/redis-install/">https://jsbintask.cn/2019/01/24/middleware/redis-install/</a>，未经允许，禁止转载。</p>
+        <p>接着<a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-jms/">上一篇</a>面试题的扩展。</p>
+<h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p>如何保证消息队列的高可用？<br><a id="more"></a></p>
+<h3 id="RabbitMQ-的高可用性"><a href="#RabbitMQ-的高可用性" class="headerlink" title="RabbitMQ 的高可用性"></a>RabbitMQ 的高可用性</h3><p>RabbitMQ 是比较有代表性的，因为是<strong>基于主从</strong>（非分布式）做高可用性的，我们就以 RabbitMQ 为例子讲解第一种 MQ 的高可用性怎么实现。</p>
+<p>RabbitMQ 有三种模式：单机模式、普通集群模式、镜像集群模式。</p>
+<h4 id="单机模式"><a href="#单机模式" class="headerlink" title="单机模式"></a>单机模式</h4><p>单机模式，就是 Demo 级别的，一般就是你本地启动了玩玩儿的😄，没人生产用单机模式。</p>
+<h4 id="普通集群模式（无高可用性）"><a href="#普通集群模式（无高可用性）" class="headerlink" title="普通集群模式（无高可用性）"></a>普通集群模式（无高可用性）</h4><p>普通集群模式，意思就是在多台机器上启动多个 RabbitMQ 实例，每个机器启动一个。你<strong>创建的 queue，只会放在一个 RabbitMQ 实例上</strong>，但是每个实例都同步 queue 的元数据（元数据可以认为是 queue 的一些配置信息，通过元数据，可以找到 queue 所在实例）。你消费的时候，实际上如果连接到了另外一个实例，那么那个实例会从 queue 所在实例上拉取数据过来。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/mq-7.png" alt="mq-7"></p>
+<p>这种方式确实很麻烦，也不怎么好，<strong>没做到所谓的分布式</strong>，就是个普通集群。因为这导致你要么消费者每次随机连接一个实例然后拉取数据，要么固定连接那个 queue 所在实例消费数据，前者有<strong>数据拉取的开销</strong>，后者导致<strong>单实例性能瓶颈</strong>。</p>
+<p>而且如果那个放 queue 的实例宕机了，会导致接下来其他实例就无法从那个实例拉取，如果你<strong>开启了消息持久化</strong>，让 RabbitMQ 落地存储消息的话，<strong>消息不一定会丢</strong>，得等这个实例恢复了，然后才可以继续从这个 queue 拉取数据。</p>
+<p>所以这个事儿就比较尴尬了，这就<strong>没有什么所谓的高可用性</strong>，<strong>这方案主要是提高吞吐量的</strong>，就是说让集群中多个节点来服务某个 queue 的读写操作。</p>
+<h4 id="镜像集群模式（高可用性）"><a href="#镜像集群模式（高可用性）" class="headerlink" title="镜像集群模式（高可用性）"></a>镜像集群模式（高可用性）</h4><p>这种模式，才是所谓的 RabbitMQ 的高可用模式。跟普通集群模式不一样的是，在镜像集群模式下，你创建的 queue，无论元数据还是 queue 里的消息都会<strong>存在于多个实例上</strong>，就是说，每个 RabbitMQ 节点都有这个 queue 的一个<strong>完整镜像</strong>，包含 queue 的全部数据的意思。然后每次你写消息到 queue 的时候，都会自动把<strong>消息同步</strong>到多个实例的 queue 上。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/mq-8.png" alt="mq-8"></p>
+<p>那么<strong>如何开启这个镜像集群模式</strong>呢？其实很简单，RabbitMQ 有很好的管理控制台，就是在后台新增一个策略，这个策略是<strong>镜像集群模式的策略</strong>，指定的时候是可以要求数据同步到所有节点的，也可以要求同步到指定数量的节点，再次创建 queue 的时候，应用这个策略，就会自动将数据同步到其他的节点上去了。</p>
+<p>这样的话，好处在于，你任何一个机器宕机了，没事儿，其它机器（节点）还包含了这个 queue 的完整数据，别的 consumer 都可以到其它节点上去消费数据。坏处在于，第一，这个性能开销也太大了吧，消息需要同步到所有机器上，导致网络带宽压力和消耗很重！第二，这么玩儿，不是分布式的，就<strong>没有扩展性可言</strong>了，如果某个 queue 负载很重，你加机器，新增的机器也包含了这个 queue 的所有数据，并<strong>没有办法线性扩展</strong>你的 queue。你想，如果这个 queue 的数据量很大，大到这个机器上的容量无法容纳了，此时该怎么办呢？</p>
+<h3 id="Kafka-的高可用性"><a href="#Kafka-的高可用性" class="headerlink" title="Kafka 的高可用性"></a>Kafka 的高可用性</h3><p>Kafka 一个最基本的架构认识：由多个 broker 组成，每个 broker 是一个节点；你创建一个 topic，这个 topic 可以划分为多个 partition，每个 partition 可以存在于不同的 broker 上，每个 partition 就放一部分数据。</p>
+<p>这就是<strong>天然的分布式消息队列</strong>，就是说一个 topic 的数据，是<strong>分散放在多个机器上的，每个机器就放一部分数据</strong>。</p>
+<p>实际上 RabbmitMQ 之类的，并不是分布式消息队列，它就是传统的消息队列，只不过提供了一些集群、HA(High Availability, 高可用性) 的机制而已，因为无论怎么玩儿，RabbitMQ 一个 queue 的数据都是放在一个节点里的，镜像集群下，也是每个节点都放这个 queue 的完整数据。</p>
+<p>Kafka 0.8 以前，是没有 HA 机制的，就是任何一个 broker 宕机了，那个 broker 上的 partition 就废了，没法写也没法读，没有什么高可用性可言。</p>
+<p>比如说，我们假设创建了一个 topic，指定其 partition 数量是 3 个，分别在三台机器上。但是，如果第二台机器宕机了，会导致这个 topic 的 1/3 的数据就丢了，因此这个是做不到高可用的。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/kafka-before.png" alt="kafka-before"></p>
+<p>Kafka 0.8 以后，提供了 HA 机制，就是 replica（复制品） 副本机制。每个 partition 的数据都会同步到其它机器上，形成自己的多个 replica 副本。所有 replica 会选举一个 leader 出来，那么生产和消费都跟这个 leader 打交道，然后其他 replica 就是 follower。写的时候，leader 会负责把数据同步到所有 follower 上去，读的时候就直接读 leader 上的数据即可。只能读写 leader？很简单，<strong>要是你可以随意读写每个 follower，那么就要 care 数据一致性的问题</strong>，系统复杂度太高，很容易出问题。Kafka 会均匀地将一个 partition 的所有 replica 分布在不同的机器上，这样才可以提高容错性。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/kafka-after.png" alt="kafka-after"></p>
+<p>这么搞，就有所谓的<strong>高可用性</strong>了，因为如果某个 broker 宕机了，没事儿，那个 broker上面的 partition 在其他机器上都有副本的，如果这上面有某个 partition 的 leader，那么此时会从 follower 中<strong>重新选举</strong>一个新的 leader 出来，大家继续读写那个新的 leader 即可。这就有所谓的高可用性了。</p>
+<p><strong>写数据</strong>的时候，生产者就写 leader，然后 leader 将数据落地写本地磁盘，接着其他 follower 自己主动从 leader 来 pull 数据。一旦所有 follower 同步好数据了，就会发送 ack 给 leader，leader 收到所有 follower 的 ack 之后，就会返回写成功的消息给生产者。（当然，这只是其中一种模式，还可以适当调整这个行为）</p>
+<p><strong>消费</strong>的时候，只会从 leader 去读，但是只有当一个消息已经被所有 follower 都同步成功返回 ack 的时候，这个消息才会被消费者读到。</p>
+<p>本文原创地址：<a href="https://jsbintask.cn/2019/01/28/interview/interview-middle-highavailable/">https://jsbintask.cn/2019/01/28/interview/interview-middle-highavailable/</a>，转载请注明出处。</p>
 
       
       
@@ -348,13 +353,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></p>
+        <p><span>本文标题:</span><a href="/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年01月24日 - 11时11分</p>
-        <p><span>最后更新:</span>2019年01月24日 - 11时11分</p>
+        <p><span>发布时间:</span>2019年01月28日 - 12时11分</p>
+        <p><span>最后更新:</span>2019年01月28日 - 12时11分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/24/middleware/redis-install/" title="linux上安装配置redis5.0">http://jsbintask.cn/2019/01/24/middleware/redis-install/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/24/middleware/redis-install/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/28/interview/interview-middleware-highavailable/" title="消息中间件面试题：消息中间件的高可用">http://jsbintask.cn/2019/01/28/interview/interview-middleware-highavailable/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/28/interview/interview-middleware-highavailable/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -367,18 +372,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/01/25/springboot/springboot-redis-jms/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          springboot整合各种消息队列（一）：redis消息队列
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/01/22/webcontainer/weblogic-springboot-tx/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">springboot在weblogic中的事务问题</div>
+    <a href="/2019/01/28/interview/interview-middleware-jms/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">中间件面试题：消息队列的优缺点，区别</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -389,7 +385,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载安装"><span class="toc-number">1.</span> <span class="toc-text">下载安装</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#面试题"><span class="toc-number">1.</span> <span class="toc-text">面试题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RabbitMQ-的高可用性"><span class="toc-number">1.1.</span> <span class="toc-text">RabbitMQ 的高可用性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单机模式"><span class="toc-number">1.1.1.</span> <span class="toc-text">单机模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#普通集群模式（无高可用性）"><span class="toc-number">1.1.2.</span> <span class="toc-text">普通集群模式（无高可用性）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#镜像集群模式（高可用性）"><span class="toc-number">1.1.3.</span> <span class="toc-text">镜像集群模式（高可用性）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Kafka-的高可用性"><span class="toc-number">1.2.</span> <span class="toc-text">Kafka 的高可用性</span></a></li></ol></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -436,57 +432,15 @@
 
     
 
-        <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="redis-install"></div>
-<script type="text/javascript">
-    (function () {
-        var appid = 'cyu0pbbdV';
-        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
-        var width = window.innerWidth || document.documentElement.clientWidth;
-        if (width < 960) {
-            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
-        } else {
-            var loadJs = function (d, a) {
-                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
-                var b = document.createElement("script");
-                b.setAttribute("type", "text/javascript");
-                b.setAttribute("charset", "UTF-8");
-                b.setAttribute("src", d);
-                if (typeof a === "function") {
-                    if (window.attachEvent) {
-                        b.onreadystatechange = function () {
-                            var e = b.readyState;
-                            if (e === "loaded" || e === "complete") {
-                                b.onreadystatechange = null;
-                                a()
-                            }
-                        }
-                    } else {
-                        b.onload = a
-                    }
-                }
-                c.appendChild(b)
-            };
-            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
-                window.changyan.api.config({appid: appid, conf: conf})
-            });
-        }
-    })(); </script>
-
-
-    
-
 
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/01/25/springboot/springboot-redis-jms/" title="上一篇: springboot整合各种消息队列（一）：redis消息队列">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/22/webcontainer/weblogic-springboot-tx/" title="下一篇: springboot在weblogic中的事务问题">
+            <a href="/2019/01/28/interview/interview-middleware-jms/" title="下一篇: 中间件面试题：消息队列的优缺点，区别">
                 <i class="fa fa-angle-right"></i>
             </a>
         
