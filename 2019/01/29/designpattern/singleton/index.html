@@ -5,18 +5,17 @@
   
   <title>jsbintask的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是单例？为什么要用单例？一个类被设计出来，就代表它表示具有某种行为（方法），属性（成员变量），而一般情况下，当我们想使用这个类时，会使用new关键字，这时候jvm会帮我们构造一个该类的实例。而我们知道，对于new这个关键字以及该实例，相对而言是比较耗费资源的。所以如果我们能够想办法在jvm启动时就new好，或者在某一次实例new好以后，以后不再需要这样的动作，就能够节省很多资源了。 哪些类可以">
-<meta name="keywords" content="设计模式,java基础">
+  <meta name="keywords" content="设计模式,java基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从未这么明白的设计模式（一）：单例模式">
 <meta property="og:url" content="http://jsbintask.cn/2019/01/29/designpattern/singleton/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
-<meta property="og:description" content="什么是单例？为什么要用单例？一个类被设计出来，就代表它表示具有某种行为（方法），属性（成员变量），而一般情况下，当我们想使用这个类时，会使用new关键字，这时候jvm会帮我们构造一个该类的实例。而我们知道，对于new这个关键字以及该实例，相对而言是比较耗费资源的。所以如果我们能够想办法在jvm启动时就new好，或者在某一次实例new好以后，以后不再需要这样的动作，就能够节省很多资源了。 哪些类可以">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/just_a_tree_and_a_breeze____by_joeyjazz-dcxuluw.jpg-blog_960_440.jpg">
 <meta property="og:updated_time" content="2019-01-29T03:11:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从未这么明白的设计模式（一）：单例模式">
-<meta name="twitter:description" content="什么是单例？为什么要用单例？一个类被设计出来，就代表它表示具有某种行为（方法），属性（成员变量），而一般情况下，当我们想使用这个类时，会使用new关键字，这时候jvm会帮我们构造一个该类的实例。而我们知道，对于new这个关键字以及该实例，相对而言是比较耗费资源的。所以如果我们能够想办法在jvm启动时就new好，或者在某一次实例new好以后，以后不再需要这样的动作，就能够节省很多资源了。 哪些类可以">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/just_a_tree_and_a_breeze____by_joeyjazz-dcxuluw.jpg-blog_960_440.jpg">
   
     <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -259,6 +258,10 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
@@ -272,7 +275,8 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="什么是单例？为什么要用单例？"><a href="#什么是单例？为什么要用单例？" class="headerlink" title="什么是单例？为什么要用单例？"></a>什么是单例？为什么要用单例？</h2><p>一个类被设计出来，就代表它表示具有某种行为（方法），属性（成员变量），而一般情况下，当我们想使用这个类时，会使用<strong>new</strong>关键字，这时候jvm会帮我们构造一个该类的实例。而我们知道，对于<strong>new</strong>这个关键字以及该实例，相对而言是比较耗费资源的。所以如果我们能够想办法在jvm启动时就<strong>new</strong>好，或者在某一次实例<strong>new</strong>好以后，以后不再需要这样的动作，就能够节省很多资源了。</p>
+        <p><img src="http://qiniu.jsbintask.cn/just_a_tree_and_a_breeze____by_joeyjazz-dcxuluw.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a></p>
+<h2 id="什么是单例？为什么要用单例？"><a href="#什么是单例？为什么要用单例？" class="headerlink" title="什么是单例？为什么要用单例？"></a>什么是单例？为什么要用单例？</h2><p>一个类被设计出来，就代表它表示具有某种行为（方法），属性（成员变量），而一般情况下，当我们想使用这个类时，会使用<strong>new</strong>关键字，这时候jvm会帮我们构造一个该类的实例。而我们知道，对于<strong>new</strong>这个关键字以及该实例，相对而言是比较耗费资源的。所以如果我们能够想办法在jvm启动时就<strong>new</strong>好，或者在某一次实例<strong>new</strong>好以后，以后不再需要这样的动作，就能够节省很多资源了。</p>
 <h2 id="哪些类可以使用单例？"><a href="#哪些类可以使用单例？" class="headerlink" title="哪些类可以使用单例？"></a>哪些类可以使用单例？</h2><p>一般而言，我们总是希望<strong>无状态</strong>的类能够设计成单例，那这个<strong>无状态</strong>代表什么呢？ 简单而言，对于同一个实例，如果多个线程同时使用，并且不使用额外的线程同步手段，不会出现线程同步的问题，我们就可以认为是<strong>无状态</strong>的，再简单点：一个类没有成员变量，或者它的成员变量也是<strong>无状态</strong>的，我们就可以考虑设计成单例。</p>
 <h2 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h2><p>好了，我们已经知道什么是单例，为什么要使用单例了，那我们接下来继续讨论下怎么实现单例。<br>一般来说，我们可以把单例分为<strong>行为上的单例</strong>和<strong>管理上的单例</strong>。<strong>行为上的单例</strong>代表不管如何操作（此处不谈cloneable，反射），至始至终jvm中都只有一个类的实例，而<strong>管理上的单例</strong>则可以理解为：不管谁去使用这个类，都要守一定的<strong>规矩</strong>，比方说，我们使用某个类，只能从指定的地方’去拿‘，这样拿到就是同一个类了。<br>而对于<strong>管理上的单例</strong>，相信大家最为熟悉的就是spring了，spring将所有的类放到一个<strong>容器</strong>中，以后使用该类都从该<strong>容器</strong>去取，这样就保证了单例。<br>所以这里我们剩下的就是接着来谈谈如何实现<strong>行为上的单例</strong>了。一般来说，这种单例实现有两种思路，<strong>私有构造器，枚举</strong>。</p>
 <h3 id="枚举实现单例"><a href="#枚举实现单例" class="headerlink" title="枚举实现单例"></a>枚举实现单例</h3><p>枚举实现单例是最为推荐的一种方法，因为就算通过序列化，反射等也没办法破坏单例性，例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> SingletonEnum &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(SingletonEnum.INSTANCE == SingletonEnum.INSTANCE);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
