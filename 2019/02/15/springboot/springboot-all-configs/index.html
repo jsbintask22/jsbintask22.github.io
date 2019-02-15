@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>
+    
+    史上最全springboot配置，踩坑，注解，使用手册（持续更新中）|
+    jsbintask的博客
+    
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="史上最全springboot配置，踩坑，注解，使用手册（持续更新中）">
+<meta property="og:url" content="http://jsbintask.cn/2019/02/15/springboot/springboot-all-configs/index.html">
+<meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/flux_config_by_skay20_d4ijq3x-fullview.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo7.png">
+<meta property="og:updated_time" content="2019-02-15T03:11:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="史上最全springboot配置，踩坑，注解，使用手册（持续更新中）">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/flux_config_by_skay20_d4ijq3x-fullview.jpg-blog_960_440.jpg">
+  
+  <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
+  
+  
+  <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+  <script src="/js/pace.js"></script>
+  <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+    var yiliaConfig = {
+      rootUrl: '/',
+      fancybox: true,
+      animate: true,
+      isHome: false,
+      isPost: true,
+        isArchive: false,
+          isTag: false,
+            isCategory: false,
+              open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+                <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+            <h1 class="header-author"><a href="/" title="Hi Mate">jsbintask</a></h1>
+        </hgroup>
+
+        
+            <p class="header-subtitle">Do it right at the first time.</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                            <div class="icon-wrap icon-link hide" data-idx="2">
+                                <div class="loopback_l"></div>
+                                <div class="loopback_r"></div>
+                            </div>
+                        
+                        
+                            <div class="icon-wrap icon-me hide" data-idx="3">
+                                <div class="user"></div>
+                                <div class="shoulder"></div>
+                            </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                            <li>友情链接</li>
+                        
+                        
+                            <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                            
+                                <li><a href="/tags">所有标签</a></li>
+                            
+                                <li><a href="/categories/recommend">推荐阅读</a></li>
+                            
+                                <li><a href="/instagram">光影之路</a></li>
+                            
+                                <li><a href="/archives">文章归档</a></li>
+                            
+                                <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                            
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                            
+                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                            
+                                <a class="fl Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                    <section class="switch-part switch-part2">
+                        <div class="widget tagcloud" id="js-tagcloud">
+                            <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/java基础/" style="font-size: 10px;">java基础</a> <a href="/tags/jms/" style="font-size: 12px;">jms</a> <a href="/tags/linux/" style="font-size: 14px;">linux</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/springboot/" style="font-size: 20px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 16px;">springsecurity</a> <a href="/tags/weblogic/" style="font-size: 12px;">weblogic</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 18px;">面试</a>
+                        </div>
+                    </section>
+                
+
+                
+                    <section class="switch-part switch-part3">
+                        <div id="js-friends">
+                            
+                                <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com">gayhub</a>
+                            
+                        </div>
+                    </section>
+                
+
+                
+                    
+                    <section class="switch-part switch-part4">
+                        
+                        <div id="js-aboutme">96年，java工程师，爱折腾！</div>
+                    </section>
+                
+            </div>
+        </div>
+
+        
+            <div class="left-wechat-public">
+                <img src="/img/wechat_public.jpg" width="150px" height="150px" alt="jsbintask">
+            </div>
+        
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">jsbintask</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">jsbintask</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Do it right at the first time.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags">所有标签</a></li>
+                
+                    <li><a href="/categories/recommend">推荐阅读</a></li>
+                
+                    <li><a href="/instagram">光影之路</a></li>
+                
+                    <li><a href="/archives">文章归档</a></li>
+                
+                    <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                    
+                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                    
+                        <a class="Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-springboot/springboot-all-configs" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/02/15/springboot/springboot-all-configs/" class="article-date">
+      <time datetime="2019-02-15T03:11:00.000Z" itemprop="datePublished">2019-02-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      史上最全springboot配置，踩坑，注解，使用手册（持续更新中）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><img src="http://qiniu.jsbintask.cn/flux_config_by_skay20_d4ijq3x-fullview.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a></p>
+<h2 id="springboot"><a href="#springboot" class="headerlink" title="springboot"></a>springboot</h2><p>春节在家长了几斤肉，今天开始减肥了（工作了）。19年的第一篇文章，本篇文章将覆盖springboot所有配置（本人实际工作中所遇到问题以及学习总结），后续将会持续更新！话不多说，直接开始。</p>
+<h2 id="详细配置"><a href="#详细配置" class="headerlink" title="详细配置"></a>详细配置</h2><p>注意：本演示全部基于<strong>springboot</strong>最新版本，现在是<strong><code>2.1.2.RELEASE</code></strong>，并且所有配置将全部使用yaml格式！</p>
+<h3 id="如何配置springboot监听端口？"><a href="#如何配置springboot监听端口？" class="headerlink" title="如何配置springboot监听端口？"></a>如何配置springboot监听端口？</h3><ol>
+<li>通过application.yml指定。（推荐）<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8080</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意：如果使用<code>server.port=0</code>，将使用一个随机端口，可以控制台查看。</p>
+<ol start="2">
+<li>指定jvm参数（启动多个项目调试时推荐使用）<br>idea中：<strong>Edit Configurations -&gt; VM options</strong><br>运行jar命令： <code>java -Dserver.port=8080 app.jar</code><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo1.png" alt="springboot"></li>
+<li>运行<code>java -jar</code>命令时指定<br>如： <code>java -jar app.jar --server.port=8080</code></li>
+<li>通过代码指定：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TomcatConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> TomcatWebServerFactoryCustomizer <span class="title">factoryCustomizerAutoConfiguration</span><span class="params">(Environment environment, ServerProperties serverProperties)</span> </span>&#123;</span><br><span class="line">            serverProperties.setPort(<span class="number">8888</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> TomcatWebServerFactoryCustomizer(environment, serverProperties);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="springboot中如何添加filter"><a href="#springboot中如何添加filter" class="headerlink" title="springboot中如何添加filter"></a>springboot中如何添加filter</h3><ol>
+<li>继承<code>Filter</code>并且将该类作为一个bean加入spring容器，使用<code>@Order</code>设置filter顺序<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Order</span>(<span class="number">1000</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FirstFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        <span class="comment">//to do something.</span></span><br><span class="line">        </span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意！使用这种方式注册的filter将拦截所有请求，无法指定拦截url。</p>
+<ol start="2">
+<li>使用<code>FilterRegistrationBean</code>类手动注册一个filter（推荐）<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecondFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        <span class="comment">//to do something.</span></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"SecondFilter.doFilter"</span>);</span><br><span class="line"></span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> FilterRegistrationBean&lt;SecondFilter&gt; <span class="title">secondFilterFilterRegistrationBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        FilterRegistrationBean&lt;SecondFilter&gt; registrationBean = <span class="keyword">new</span> FilterRegistrationBean&lt;&gt;();</span><br><span class="line">        registrationBean.setFilter(<span class="keyword">new</span> SecondFilter());</span><br><span class="line">        registrationBean.setOrder(<span class="number">10001</span>);</span><br><span class="line"></span><br><span class="line">        registrationBean.addUrlPatterns(<span class="string">"/**"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> registrationBean;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>开启<code>@WebFilter</code>扫描。<br>在启动类上加上<code>@ServletComponentScan</code>注解，定义filter如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebFilter</span>(filterName = <span class="string">"ThridFilter"</span>, urlPatterns = <span class="string">"/**"</span>)</span><br><span class="line"><span class="meta">@Order</span>(<span class="number">1002</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThridFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest req, ServletResponse resp, FilterChain chain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"ThridFilter.doFilter"</span>);</span><br><span class="line">        chain.doFilter(req, resp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>采坑记录：该方式只在内置web容器下有效（打jar包），如果使用war包，将失效，有兴趣的可以看一看<code>@ServletComponentScan</code>注解说明。</p>
+<h3 id="springboot如何添加servlet"><a href="#springboot如何添加servlet" class="headerlink" title="springboot如何添加servlet"></a>springboot如何添加servlet</h3><ol>
+<li>同上类似，使用<code>ServletRegistrationBean</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ServletRegistrationBean <span class="title">servletRegistrationBean</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ServletRegistrationBean(<span class="keyword">new</span> FooServlet(),<span class="string">"/foo/*"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="如何配置jpa，数据源？"><a href="#如何配置jpa，数据源？" class="headerlink" title="如何配置jpa，数据源？"></a>如何配置jpa，数据源？</h3><p>引入jpa依赖，application.yml中添加数据源信息<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  datasource:</span></span><br><span class="line"><span class="attr">    driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">    username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">    password:</span> <span class="string">jason</span></span><br><span class="line"><span class="attr">    url:</span>  <span class="attr">jdbc:mysql://localhost:3306/springboot-all-configs?useSSL=false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  jpa:</span></span><br><span class="line"><span class="attr">    show-sql:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    hibernate:</span></span><br><span class="line"><span class="attr">      ddl-auto:</span> <span class="string">update</span></span><br><span class="line"><span class="attr">    properties:</span></span><br><span class="line"><span class="attr">      hibernate:</span></span><br><span class="line"><span class="attr">        format_sql:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>采坑记录1：如果引入jpa但是不定义数据源将会启动失败<br>采坑记录2：最新版springboot默认mysql驱动为8.1，自定义参数较多，启动可能造成数据源初始化失败，建议降级mysql驱动版本，在pom文件中定义：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo3.png" alt="springboot"><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mysql.version</span>&gt;</span>5.1.47<span class="tag">&lt;/<span class="name">mysql.version</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="生war包运行，部署在weblogic获取其它servlet容器中"><a href="#生war包运行，部署在weblogic获取其它servlet容器中" class="headerlink" title="生war包运行，部署在weblogic获取其它servlet容器中"></a>生war包运行，部署在weblogic获取其它servlet容器中</h3><ol>
+<li>将tomcat从maven依赖中去掉，启动类继承<code>SpringBootServletInitializer</code><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@ServletComponentScan</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringbootAllConfigsApplication</span> <span class="keyword">extends</span> <span class="title">SpringBootServletInitializer</span> <span class="keyword">implements</span> <span class="title">WebApplicationInitializer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringbootAllConfigsApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> SpringApplicationBuilder <span class="title">configure</span><span class="params">(SpringApplicationBuilder builder)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> builder.sources(SpringBootApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后将pom文件打包方式修改为war：<br><code>&lt;packaging&gt;war&lt;/packaging&gt;</code><br>使用idea打包：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo2.png" alt="springboot"></p>
+<h3 id="使用springboot默认生成的项目mvnw-cmd有什么用"><a href="#使用springboot默认生成的项目mvnw-cmd有什么用" class="headerlink" title="使用springboot默认生成的项目mvnw.cmd有什么用"></a>使用springboot默认生成的项目mvnw.cmd有什么用</h3><ol>
+<li>用作生产环境（linux）上没有maven环境自动下载maven，打包依赖使用</li>
+<li><code>没卵用，直接删除</code> </li>
+</ol>
+<h3 id="如何设置项目的log-level"><a href="#如何设置项目的log-level" class="headerlink" title="如何设置项目的log level"></a>如何设置项目的log level</h3><ol>
+<li><p>在<code>application.yml</code>中指定：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">logging:</span></span><br><span class="line"><span class="attr">  level:</span></span><br><span class="line"><span class="attr">    org:</span></span><br><span class="line"><span class="attr">      springframework:</span></span><br><span class="line"><span class="attr">        web:</span> <span class="string">debug</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果使用logback，添加一个<code>append</code>:<br><code>&lt;logger name=&quot;cn.jsbintask.springbootallconfigs.mapper&quot; level=&quot;DEBUG&quot;/&gt;</code></p>
+</li>
+</ol>
+<h3 id="springboot中访问配置文件中的配置？"><a href="#springboot中访问配置文件中的配置？" class="headerlink" title="springboot中访问配置文件中的配置？"></a>springboot中访问配置文件中的配置？</h3><ol>
+<li><p>使用<code>@Value</code>注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value</span>(<span class="string">"$&#123;server.port&#125;"</span>)</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> port;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注入<code>Environment</code>实例，然后获取值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PropertiesController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> Environment environment;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/path"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> environment.getProperty(<span class="string">"server.port"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>ConfigurationProperties</code>注解，定义多个属性值<br>.yml:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cn:</span></span><br><span class="line"><span class="attr">  jsbintask:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">jason</span></span><br><span class="line"><span class="attr">    age:</span> <span class="number">22</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>.Properties class:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"cn.jsbintask"</span>)</span><br><span class="line"><span class="meta">@EnableConfigurationProperties</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JsbintaskProperties</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> JsbintaskProperties jsbintaskProperties;</span><br></pre></td></tr></table></figure></p>
+<h3 id="如何指定springboot启动类"><a href="#如何指定springboot启动类" class="headerlink" title="如何指定springboot启动类"></a>如何指定springboot启动类</h3><ol>
+<li>使用idea指定main class<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo4.png" alt="springboot"></li>
+<li><p>在pom文件中指定启动类</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- The main class to start by executing java -jar --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">start-class</span>&gt;</span>cn.jsbintask.springbootallconfigs.SpringbootAllConfigsApplication<span class="tag">&lt;/<span class="name">start-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在springboot maven插件中指定：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">mainClass</span>&gt;</span>cn.jsbintask.springbootallconfigs<span class="tag">&lt;/<span class="name">mainClass</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="application-yml和bootstrap-yml的区别？"><a href="#application-yml和bootstrap-yml的区别？" class="headerlink" title="application.yml和bootstrap.yml的区别？"></a>application.yml和bootstrap.yml的区别？</h3><ol>
+<li>bootstrap配置文件先于application.yml配置加载，bootstrap配置属性一般只在<code>spring cloud</code>获取配置服务时使用，所以一般如果不使用<code>spring cloud</code>的话，优先使用<code>application.yml</code>.</li>
+</ol>
+<h3 id="如何定义rest服务？"><a href="#如何定义rest服务？" class="headerlink" title="如何定义rest服务？"></a>如何定义rest服务？</h3><ol>
+<li>使用<code>@ResponseBody</code>注解配置<strong>@RequestMapping</strong>注解使用</li>
+<li>使用新注解<code>@RestController</code>配置<strong>@XXXMaping(GetMapping)</strong>使用。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hello"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="springboot中如何处理异常？"><a href="#springboot中如何处理异常？" class="headerlink" title="springboot中如何处理异常？"></a>springboot中如何处理异常？</h3><ol>
+<li>使用<code>RestControllerAdvice</code>新注解以及<code>@ExceptionHanlder</code>处理异常<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestControllerAdvice</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExceptionHandler</span> </span>&#123;</span><br><span class="line">    <span class="meta">@org</span>.springframework.web.bind.annotation.ExceptionHandler</span><br><span class="line">    <span class="meta">@ResponseStatus</span>(code = HttpStatus.INTERNAL_SERVER_ERROR)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hanld</span><span class="params">(Exception e)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="springboot使用restful服务如何自定错误白页？"><a href="#springboot使用restful服务如何自定错误白页？" class="headerlink" title="springboot使用restful服务如何自定错误白页？"></a>springboot使用restful服务如何自定错误白页？</h3><p>当出现错误的时候，springboot默认使用一个自定义的错误页面，当使用rest服务时，我们希望自定义返回数据类型。</p>
+<ol>
+<li>实现ErrorController接口：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomErrorController</span> <span class="keyword">implements</span> <span class="title">ErrorController</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ERROR_PATH = <span class="string">"/error"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(path = ERROR_PATH)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">error</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"custom error"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getErrorPath</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ERROR_PATH;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="如何定义静态资源访问映射（图片）"><a href="#如何定义静态资源访问映射（图片）" class="headerlink" title="如何定义静态资源访问映射（图片）"></a>如何定义静态资源访问映射（图片）</h3><ol>
+<li>开启@EnableWebMvc，继承WebMvcConfigurer类，添加映射<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebMvc</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addResourceHandler(<span class="string">"/**"</span>).addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + <span class="string">"/static/"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在static文件夹下新建images文件夹，添加一张图片，访问 <code>/images/gril.jpg</code>：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo5.png" alt="springboot"><br>采坑记录：上述映射和定位必须一一对应，如改成 <strong>registry.addResourceHandler(“/static/</strong>“).addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + “/static/“);**<br>url则需使用 /static/images/gril.jpg，其它静态资源同样使用此方法映射。</p>
+<h3 id="springboot项目启动后如何自动运行指定代码（如初始化）？"><a href="#springboot项目启动后如何自动运行指定代码（如初始化）？" class="headerlink" title="springboot项目启动后如何自动运行指定代码（如初始化）？"></a>springboot项目启动后如何自动运行指定代码（如初始化）？</h3><ol>
+<li><p>在main方法后面运行指定service：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ConfigurableApplicationContext applicationContext = SpringApplication.run(SpringbootAllConfigsApplication.class, args);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* way one to init */</span></span><br><span class="line">    HelloController bean = applicationContext.getBean(HelloController.class);</span><br><span class="line">    bean.init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>@EventListener</code>监听启动事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppReadyListener</span> </span>&#123;</span><br><span class="line">    <span class="meta">@EventListener</span>(ApplicationReadyEvent.class)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"AppReadyListener.init"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>查看控制台如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo6.png" alt="springboot"></p>
+<ol start="3">
+<li><p>使用<code>@PostConstruct</code>注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postConstruct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"AppReadyListener.postConstruct"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实现<code>ApplicationRunner</code>接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppRunner</span> <span class="keyword">implements</span> <span class="title">ApplicationRunner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(ApplicationArguments args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"AppRunner.run"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>采坑记录：方法1在<code>war</code>环境中不起作用，方法3可能过早执行（这个bean初始化后就执行），方法4，2为最佳实践</p>
+<h3 id="如何自定义模板引擎（freemarker）"><a href="#如何自定义模板引擎（freemarker）" class="headerlink" title="如何自定义模板引擎（freemarker）"></a>如何自定义模板引擎（freemarker）</h3><ol>
+<li>添加依赖，修改配置文件：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-freemarker<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  freemarker:</span></span><br><span class="line"><span class="attr">    template-loader-path:</span> <span class="attr">classpath:/templates/</span></span><br><span class="line"><span class="attr">    check-template-location:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    charset:</span> <span class="string">UTF-8</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">    suffix:</span> <span class="string">.html</span></span><br></pre></td></tr></table></figure>
+<p>接着添加hello.html在templates文件夹下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>templates<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>hello from jsbintask blog.<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>添加一个controller，映射到该模板<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/templates"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TemplateController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hello"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hello"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动项目，访问<code>/templates/hello</code>：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/springboot/demo7.png" alt="springboot"></p>
+<h3 id="springboot如何自定义首页面，如何自定义视图"><a href="#springboot如何自定义首页面，如何自定义视图" class="headerlink" title="springboot如何自定义首页面，如何自定义视图"></a>springboot如何自定义首页面，如何自定义视图</h3><ol>
+<li>同上定义模板引擎</li>
+<li>实现<strong>WebMvcConfigurer</strong>接口，添加视图映射<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebMvc</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addViewControllers</span><span class="params">(ViewControllerRegistry registry)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//前面为访问路径( '/'即为主页面)，后面为视图模板位置（如本例配置的为 templates下）。</span></span><br><span class="line">        registry.addViewController(<span class="string">"/"</span>).setViewName(<span class="string">"home"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="配置文件中如何添加数组属性"><a href="#配置文件中如何添加数组属性" class="headerlink" title="配置文件中如何添加数组属性?"></a>配置文件中如何添加数组属性?</h3><ol>
+<li><p>使用’-‘每行一个属性</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">value1</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">value2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用’,’号隔开每个值</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">key:</span> <span class="string">value1,</span> <span class="string">value2</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="使用jpa作数据查询时，发现实体类的id不能序列化？"><a href="#使用jpa作数据查询时，发现实体类的id不能序列化？" class="headerlink" title="使用jpa作数据查询时，发现实体类的id不能序列化？"></a>使用jpa作数据查询时，发现实体类的id不能序列化？</h3><p>这是springboot默认处理了，id不作序列化处理，可以添加如下配置：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RepositoryConfig</span> <span class="keyword">extends</span> <span class="title">RepositoryRestConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureRepositoryRestConfiguration</span><span class="params">(RepositoryRestConfiguration config)</span> </span>&#123;</span><br><span class="line">        config.exposeIdsFor(User.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>采坑记录：最新版springboot已经默认作了此配置。</p>
+<h3 id="springboot修改默认的favicon图标"><a href="#springboot修改默认的favicon图标" class="headerlink" title="springboot修改默认的favicon图标"></a>springboot修改默认的favicon图标</h3><ol>
+<li>同上，继承WebMvcConfigure配置类，添加如下配置：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">    registry.addResourceHandler(<span class="string">"/static/**"</span>).addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + <span class="string">"/static/"</span>);</span><br><span class="line"></span><br><span class="line">    registry.addResourceHandler(<span class="string">"/favicon.ico"</span>).addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + <span class="string">"/static/images/favicon.jpg"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="springboot的api如何编写单元测试？"><a href="#springboot的api如何编写单元测试？" class="headerlink" title="springboot的api如何编写单元测试？"></a>springboot的api如何编写单元测试？</h3><p>建立在已有的springboot项目上，例如helloController，测试 <code>/hello</code>，编写测试类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@WebMvcTest</span>(HelloController.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloControllerTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MockMvc mockMvc;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ServletContext servletContext;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        MvcResult end = mockMvc.perform(requestBuilder(<span class="string">"/hello"</span>))</span><br><span class="line">                .andExpect(mvcResult -&gt; &#123;</span><br><span class="line">                    <span class="keyword">if</span> (mvcResult.getResponse().getStatus() != <span class="number">200</span>) &#123;</span><br><span class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"failed."</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">                .andExpect(result -&gt; &#123;</span><br><span class="line">                    <span class="keyword">if</span> (!result.getResponse().getContentType().contains(<span class="string">"json"</span>)) &#123;</span><br><span class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"failed"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;).andReturn();</span><br><span class="line"></span><br><span class="line">        System.out.println(end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> RequestBuilder <span class="title">requestBuilder</span><span class="params">(String uri)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> MockMvcRequestBuilders.get(URI.create(uri)).accept(MediaType.APPLICATION_JSON_UTF8)</span><br><span class="line">                .characterEncoding(<span class="string">"UTF-8"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中api看名字便知。</p>
+<h3 id="springboot如何为api配置安全访问？"><a href="#springboot如何为api配置安全访问？" class="headerlink" title="springboot如何为api配置安全访问？"></a>springboot如何为api配置安全访问？</h3><ol>
+<li>参考系列文章：<a href="https://jsbintask.cn/tags/springsecurity/">springsecurity整合springboot从入门到源码解析</a></li>
+</ol>
+<h3 id="springboot整合各种消息队列？"><a href="#springboot整合各种消息队列？" class="headerlink" title="springboot整合各种消息队列？"></a>springboot整合各种消息队列？</h3><ol>
+<li>参考系列文章：<a href="https://jsbintask.cn/tags/jms/">springboot整合各种消息队列</a>（持续更新中）</li>
+</ol>
+<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3><p>今天暂时更新到这，此文章会一直更新！ 或者你有感兴趣的配置，欢迎留言！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>未完待续！<br>例子源码：<a href="https://github.com/jsbintask22/springboot-all-configs-learning.git" target="_blank" rel="noopener">https://github.com/jsbintask22/springboot-all-configs-learning.git</a>，欢迎fork，star学习修改。<br>本文原创地址：<a href="https://jsbintask.cn/2019/02/15/springboot/springboot-all-configs/">https://jsbintask.cn/2019/02/15/springboot/springboot-all-configs/</a>，转载请注明出处。<br>如果你觉得本文对你有用，欢迎关注，分享。这里只有干货！</p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>谢谢你支持我分享知识</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/wechatimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，心意已收</div>
+            <div class="shang_payselect">
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <!--<span class="radiobox"></span>-->
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">微信</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/02/15/springboot/springboot-all-configs/">史上最全springboot配置，踩坑，注解，使用手册（持续更新中）</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年02月15日 - 11时11分</p>
+        <p><span>最后更新:</span>2019年02月15日 - 11时11分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/02/15/springboot/springboot-all-configs/" title="史上最全springboot配置，踩坑，注解，使用手册（持续更新中）">http://jsbintask.cn/2019/02/15/springboot/springboot-all-configs/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/02/15/springboot/springboot-all-configs/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/01/30/netty/netty-chatroom/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">netty极简教程（一）：从helloworld到编写一个聊天室</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot"><span class="toc-number">1.</span> <span class="toc-text">springboot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详细配置"><span class="toc-number">2.</span> <span class="toc-text">详细配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何配置springboot监听端口？"><span class="toc-number">2.1.</span> <span class="toc-text">如何配置springboot监听端口？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot中如何添加filter"><span class="toc-number">2.2.</span> <span class="toc-text">springboot中如何添加filter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot如何添加servlet"><span class="toc-number">2.3.</span> <span class="toc-text">springboot如何添加servlet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何配置jpa，数据源？"><span class="toc-number">2.4.</span> <span class="toc-text">如何配置jpa，数据源？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生war包运行，部署在weblogic获取其它servlet容器中"><span class="toc-number">2.5.</span> <span class="toc-text">生war包运行，部署在weblogic获取其它servlet容器中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用springboot默认生成的项目mvnw-cmd有什么用"><span class="toc-number">2.6.</span> <span class="toc-text">使用springboot默认生成的项目mvnw.cmd有什么用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何设置项目的log-level"><span class="toc-number">2.7.</span> <span class="toc-text">如何设置项目的log level</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot中访问配置文件中的配置？"><span class="toc-number">2.8.</span> <span class="toc-text">springboot中访问配置文件中的配置？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何指定springboot启动类"><span class="toc-number">2.9.</span> <span class="toc-text">如何指定springboot启动类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#application-yml和bootstrap-yml的区别？"><span class="toc-number">2.10.</span> <span class="toc-text">application.yml和bootstrap.yml的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何定义rest服务？"><span class="toc-number">2.11.</span> <span class="toc-text">如何定义rest服务？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot中如何处理异常？"><span class="toc-number">2.12.</span> <span class="toc-text">springboot中如何处理异常？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot使用restful服务如何自定错误白页？"><span class="toc-number">2.13.</span> <span class="toc-text">springboot使用restful服务如何自定错误白页？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何定义静态资源访问映射（图片）"><span class="toc-number">2.14.</span> <span class="toc-text">如何定义静态资源访问映射（图片）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot项目启动后如何自动运行指定代码（如初始化）？"><span class="toc-number">2.15.</span> <span class="toc-text">springboot项目启动后如何自动运行指定代码（如初始化）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何自定义模板引擎（freemarker）"><span class="toc-number">2.16.</span> <span class="toc-text">如何自定义模板引擎（freemarker）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot如何自定义首页面，如何自定义视图"><span class="toc-number">2.17.</span> <span class="toc-text">springboot如何自定义首页面，如何自定义视图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件中如何添加数组属性"><span class="toc-number">2.18.</span> <span class="toc-text">配置文件中如何添加数组属性?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用jpa作数据查询时，发现实体类的id不能序列化？"><span class="toc-number">2.19.</span> <span class="toc-text">使用jpa作数据查询时，发现实体类的id不能序列化？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot修改默认的favicon图标"><span class="toc-number">2.20.</span> <span class="toc-text">springboot修改默认的favicon图标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot的api如何编写单元测试？"><span class="toc-number">2.21.</span> <span class="toc-text">springboot的api如何编写单元测试？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot如何为api配置安全访问？"><span class="toc-number">2.22.</span> <span class="toc-text">springboot如何为api配置安全访问？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springboot整合各种消息队列？"><span class="toc-number">2.23.</span> <span class="toc-text">springboot整合各种消息队列？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#未完待续"><span class="toc-number">2.24.</span> <span class="toc-text">未完待续</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="springboot-all-configs"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/01/30/netty/netty-chatroom/" title="下一篇: netty极简教程（一）：从helloworld到编写一个聊天室">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/springboot/springboot-all-configs/">史上最全springboot配置，踩坑，注解，使用手册（持续更新中）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/30/netty/netty-chatroom/">netty极简教程（一）：从helloworld到编写一个聊天室</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/29/designpattern/singleton/">从未这么明白的设计模式（一）：单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-custommiddleware/">消息中间件面试题：如果让你写一个消息队列，该如何进行架构设计？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-manymessage/">消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-one/">消息中间件面试题：如何保证消息不被重复消费</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-order/">消息中间件面试题：如何保证消息的顺序性</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-reliable/">消息中间件面试题：消息丢失怎么办？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-jms/">中间件面试题：消息队列的优缺点，区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-rabbitmq-jms/">springboot整合各种消息队列（二）：rabbitmq消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbitmq</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-redis-jms/">springboot整合各种消息队列（一）：redis消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 jsbintask
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">本站访问量:
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本文阅读量:
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-133456343-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?f1c1bcd43bb13500d087f18deb22025f";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+
+  </div>
+</body>
+</html>
