@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>
+    
+    redis面试必问（下）|
+    jsbintask的博客
+    
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="接上一章redis面试必问（上）  7.redis 集群模式的工作原理能说一下么？在集群模式下，redis 的 key 是如何寻址的？分布式寻址都有哪些算法？了解一致性 hash 算法吗？">
+<meta name="keywords" content="面试,redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis面试必问（下）">
+<meta property="og:url" content="http://jsbintask.cn/2019/02/18/interview/interview-redis-2/index.html">
+<meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:description" content="接上一章redis面试必问（上）  7.redis 集群模式的工作原理能说一下么？在集群模式下，redis 的 key 是如何寻址的？分布式寻址都有哪些算法？了解一致性 hash 算法吗？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/zookeeper-centralized-storage.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-gossip.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/hash.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/consistent-hashing-algorithm.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/hash-slot.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-caching-avalanche.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-caching-avalanche-solution.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-caching-penetration.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-junior-inconsistent.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/zookeeper-distributed-lock.png">
+<meta property="og:updated_time" content="2019-02-18T06:05:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis面试必问（下）">
+<meta name="twitter:description" content="接上一章redis面试必问（上）  7.redis 集群模式的工作原理能说一下么？在集群模式下，redis 的 key 是如何寻址的？分布式寻址都有哪些算法？了解一致性 hash 算法吗？">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/doocs/advanced-java/master/images/zookeeper-centralized-storage.png">
+  
+  <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
+  
+  
+  <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+  <script src="/js/pace.js"></script>
+  <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+    var yiliaConfig = {
+      rootUrl: '/',
+      fancybox: true,
+      animate: true,
+      isHome: false,
+      isPost: true,
+        isArchive: false,
+          isTag: false,
+            isCategory: false,
+              open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+                <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+            <h1 class="header-author"><a href="/" title="Hi Mate">jsbintask</a></h1>
+        </hgroup>
+
+        
+            <p class="header-subtitle">Do it right at the first time.</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                            <div class="icon-wrap icon-link hide" data-idx="2">
+                                <div class="loopback_l"></div>
+                                <div class="loopback_r"></div>
+                            </div>
+                        
+                        
+                            <div class="icon-wrap icon-me hide" data-idx="3">
+                                <div class="user"></div>
+                                <div class="shoulder"></div>
+                            </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                            <li>友情链接</li>
+                        
+                        
+                            <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                            
+                                <li><a href="/tags">所有标签</a></li>
+                            
+                                <li><a href="/categories/recommend">推荐阅读</a></li>
+                            
+                                <li><a href="/instagram">光影之路</a></li>
+                            
+                                <li><a href="/archives">文章归档</a></li>
+                            
+                                <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                            
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                            
+                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                            
+                                <a class="fl Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                    <section class="switch-part switch-part2">
+                        <div class="widget tagcloud" id="js-tagcloud">
+                            <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 16.67px;">java</a> <a href="/tags/java基础/" style="font-size: 10px;">java基础</a> <a href="/tags/jms/" style="font-size: 11.67px;">jms</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/springboot/" style="font-size: 18.33px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 16.67px;">springsecurity</a> <a href="/tags/weblogic/" style="font-size: 11.67px;">weblogic</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 20px;">面试</a>
+                        </div>
+                    </section>
+                
+
+                
+                    <section class="switch-part switch-part3">
+                        <div id="js-friends">
+                            
+                                <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com">gayhub</a>
+                            
+                        </div>
+                    </section>
+                
+
+                
+                    
+                    <section class="switch-part switch-part4">
+                        
+                        <div id="js-aboutme">96年，java工程师，爱折腾！</div>
+                    </section>
+                
+            </div>
+        </div>
+
+        
+            <div class="left-wechat-public">
+                <img src="/img/wechat_public.jpg" width="150px" height="150px" alt="jsbintask">
+            </div>
+        
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">jsbintask</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">jsbintask</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Do it right at the first time.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags">所有标签</a></li>
+                
+                    <li><a href="/categories/recommend">推荐阅读</a></li>
+                
+                    <li><a href="/instagram">光影之路</a></li>
+                
+                    <li><a href="/archives">文章归档</a></li>
+                
+                    <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                    
+                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                    
+                        <a class="Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-interview/interview-redis-2" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/02/18/interview/interview-redis-2/" class="article-date">
+      <time datetime="2019-02-18T06:05:00.000Z" itemprop="datePublished">2019-02-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      redis面试必问（下）
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试/">面试</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <blockquote>
+<p>接上一章<a href="https://jsbintask.cn/2019/02/18/interview/interview-redis-1/">redis面试必问（上）</a></p>
+</blockquote>
+<h2 id="7-redis-集群模式的工作原理能说一下么？在集群模式下，redis-的-key-是如何寻址的？分布式寻址都有哪些算法？了解一致性-hash-算法吗？"><a href="#7-redis-集群模式的工作原理能说一下么？在集群模式下，redis-的-key-是如何寻址的？分布式寻址都有哪些算法？了解一致性-hash-算法吗？" class="headerlink" title="7.redis 集群模式的工作原理能说一下么？在集群模式下，redis 的 key 是如何寻址的？分布式寻址都有哪些算法？了解一致性 hash 算法吗？"></a>7.redis 集群模式的工作原理能说一下么？在集群模式下，redis 的 key 是如何寻址的？分布式寻址都有哪些算法？了解一致性 hash 算法吗？</h2><a id="more"></a>
+<h3 id="考点分析"><a href="#考点分析" class="headerlink" title="考点分析"></a>考点分析</h3><p>在前几年，redis 如果要搞几个节点，每个节点存储一部分的数据，得<strong>借助一些中间件</strong>来实现，比如说有 <code>codis</code>，或者 <code>twemproxy</code>，都有。有一些 redis 中间件，你读写 redis 中间件，redis 中间件负责将你的数据分布式存储在多台机器上的 redis 实例中。</p>
+<p>这两年，redis 不断在发展，redis 也不断的有新的版本，现在的 redis 集群模式，可以做到在多台机器上，部署多个 redis 实例，每个实例存储一部分的数据，同时每个 redis 实例可以挂 redis 从实例，自动确保说，如果 redis 主实例挂了，会自动切换到 redis 从实例顶上来。</p>
+<p>现在 redis 的新版本，大家都是用 redis cluster 的，也就是 redis 原生支持的 redis 集群模式，那么面试官肯定会就 redis cluster 对你来个几连炮。要是你没用过 redis cluster，正常，以前很多人用 codis 之类的客户端来支持集群，但是起码你得研究一下 redis cluster 吧。</p>
+<p>如果你的数据量很少，主要是承载高并发高性能的场景，比如你的缓存一般就几个 G，单机就足够了，可以使用 replication，一个 master 多个 slaves，要几个 slave 跟你要求的读吞吐量有关，然后自己搭建一个 sentinel 集群去保证 redis 主从架构的高可用性。</p>
+<p>redis cluster，主要是针对<strong>海量数据+高并发+高可用</strong>的场景。redis cluster 支撑 N 个 redis master node，每个 master node 都可以挂载多个 slave node。这样整个 redis 就可以横向扩容了。如果你要支撑更大数据量的缓存，那就横向扩容更多的 master 节点，每个 master 节点就能存放更多的数据了。</p>
+<h3 id="面试题剖析"><a href="#面试题剖析" class="headerlink" title="面试题剖析"></a>面试题剖析</h3><h3 id="redis-cluster-介绍"><a href="#redis-cluster-介绍" class="headerlink" title="redis cluster 介绍"></a>redis cluster 介绍</h3><ul>
+<li>自动将数据进行分片，每个 master 上放一部分数据</li>
+<li>提供内置的高可用支持，部分 master 不可用时，还是可以继续工作的</li>
+</ul>
+<p>在 redis cluster 架构下，每个 redis 要放开两个端口号，比如一个是 6379，另外一个就是 加1w 的端口号，比如 16379。</p>
+<p>16379 端口号是用来进行节点间通信的，也就是 cluster bus 的东西，cluster bus 的通信，用来进行故障检测、配置更新、故障转移授权。cluster bus 用了另外一种二进制的协议，<code>gossip</code> 协议，用于节点间进行高效的数据交换，占用更少的网络带宽和处理时间。</p>
+<h3 id="节点间的内部通信机制"><a href="#节点间的内部通信机制" class="headerlink" title="节点间的内部通信机制"></a>节点间的内部通信机制</h3><h4 id="基本通信原理"><a href="#基本通信原理" class="headerlink" title="基本通信原理"></a>基本通信原理</h4><ul>
+<li>redis cluster 节点间采用 gossip 协议进行通信<br>集中式是将集群元数据（节点信息、故障等等）几种存储在某个节点上。集中式元数据集中存储的一个典型代表，就是大数据领域的 <code>storm</code>。它是分布式的大数据实时计算引擎，是集中式的元数据存储的结构，底层基于 zookeeper（分布式协调的中间件）对所有元数据进行存储维护。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/zookeeper-centralized-storage.png" alt="zookeeper-centralized-storage"></p>
+<p>redis 维护集群元数据采用另一个方式， <code>gossip</code> 协议，所有节点都持有一份元数据，不同的节点如果出现了元数据的变更，就不断将元数据发送给其它的节点，让其它节点也进行元数据的变更。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-gossip.png" alt="redis-gossip"></p>
+<p><strong>集中式</strong>的<strong>好处</strong>在于，元数据的读取和更新，时效性非常好，一旦元数据出现了变更，就立即更新到集中式的存储中，其它节点读取的时候就可以感知到；<strong>不好</strong>在于，所有的元数据的更新压力全部集中在一个地方，可能会导致元数据的存储有压力。</p>
+<p>gossip 好处在于，元数据的更新比较分散，不是集中在一个地方，更新请求会陆陆续续，打到所有节点上去更新，降低了压力；不好在于，元数据的更新有延时，可能导致集群中的一些操作会有一些滞后。</p>
+<ul>
+<li><p>10000 端口<br>每个节点都有一个专门用于节点间通信的端口，就是自己提供服务的端口号+10000，比如 7001，那么用于节点间通信的就是 17001 端口。每个节点每隔一段时间都会往另外几个节点发送 <code>ping</code> 消息，同时其它几个节点接收到 <code>ping</code> 之后返回 <code>pong</code>。</p>
+</li>
+<li><p>交换的信息<br>信息包括故障信息，节点的增加和删除，hash slot 信息 等等。</p>
+</li>
+</ul>
+<h4 id="gossip-协议"><a href="#gossip-协议" class="headerlink" title="gossip 协议"></a>gossip 协议</h4><p>gossip 协议包含多种消息，包含 <code>ping</code>,<code>pong</code>,<code>meet</code>,<code>fail</code> 等等。</p>
+<ul>
+<li>meet：某个节点发送 meet 给新加入的节点，让新节点加入集群中，然后新节点就会开始与其它节点进行通信。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-trib.rb add-node</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其实内部就是发送了一个 gossip meet 消息给新加入的节点，通知那个节点去加入我们的集群。</p>
+<ul>
+<li>ping：每个节点都会频繁给其它节点发送 ping，其中包含自己的状态还有自己维护的集群元数据，互相通过 ping 交换元数据。</li>
+<li>pong：返回 ping 和 meeet，包含自己的状态和其它信息，也用于信息广播和更新。</li>
+<li>fail：某个节点判断另一个节点 fail 之后，就发送 fail 给其它节点，通知其它节点说，某个节点宕机啦。</li>
+</ul>
+<h4 id="ping-消息深入"><a href="#ping-消息深入" class="headerlink" title="ping 消息深入"></a>ping 消息深入</h4><p>ping 时要携带一些元数据，如果很频繁，可能会加重网络负担。</p>
+<p>每个节点每秒会执行 10 次 ping，每次会选择 5 个最久没有通信的其它节点。当然如果发现某个节点通信延时达到了 <code>cluster_node_timeout / 2</code>，那么立即发送 ping，避免数据交换延时过长，落后的时间太长了。比如说，两个节点之间都 10 分钟没有交换数据了，那么整个集群处于严重的元数据不一致的情况，就会有问题。所以 <code>cluster_node_timeout</code> 可以调节，如果调得比较大，那么会降低 ping 的频率。</p>
+<p>每次 ping，会带上自己节点的信息，还有就是带上 1/10 其它节点的信息，发送出去，进行交换。至少包含 <code>3</code> 个其它节点的信息，最多包含<code>总结点-2</code> 个其它节点的信息。</p>
+<h3 id="分布式寻址算法"><a href="#分布式寻址算法" class="headerlink" title="分布式寻址算法"></a>分布式寻址算法</h3><ul>
+<li>hash 算法（大量缓存重建）</li>
+<li>一致性 hash 算法（自动缓存迁移）+ 虚拟节点（自动负载均衡）</li>
+<li>redis cluster 的 hash slot 算法</li>
+</ul>
+<h4 id="hash-算法"><a href="#hash-算法" class="headerlink" title="hash 算法"></a>hash 算法</h4><p>来了一个 key，首先计算 hash 值，然后对节点数取模。然后打在不同的 master 节点上。一旦某一个 master 节点宕机，所有请求过来，都会基于最新的剩余 master 节点数去取模，尝试去取数据。这会导致<strong>大部分的请求过来，全部无法拿到有效的缓存</strong>，导致大量的流量涌入数据库。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/hash.png" alt="hash"></p>
+<h4 id="一致性-hash-算法"><a href="#一致性-hash-算法" class="headerlink" title="一致性 hash 算法"></a>一致性 hash 算法</h4><p>一致性 hash 算法将整个 hash 值空间组织成一个虚拟的圆环，整个空间按顺时针方向组织，下一步将各个 master 节点（使用服务器的 ip 或主机名）进行 hash。这样就能确定每个节点在其哈希环上的位置。</p>
+<p>来了一个 key，首先计算 hash 值，并确定此数据在环上的位置，从此位置沿环<strong>顺时针“行走”</strong>，遇到的第一个 master 节点就是 key 所在位置。</p>
+<p>在一致性哈希算法中，如果一个节点挂了，受影响的数据仅仅是此节点到环空间前一个节点（沿着逆时针方向行走遇到的第一个节点）之间的数据，其它不受影响。增加一个节点也同理。</p>
+<p>燃鹅，一致性哈希算法在节点太少时，容易因为节点分布不均匀而造成<strong>缓存热点</strong>的问题。为了解决这种热点问题，一致性 hash 算法引入了虚拟节点机制，即对每一个节点计算多个 hash，每个计算结果位置都放置一个虚拟节点。这样就实现了数据的均匀分布，负载均衡。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/consistent-hashing-algorithm.png" alt="consistent-hashing-algorithm"></p>
+<h4 id="redis-cluster-的-hash-slot-算法"><a href="#redis-cluster-的-hash-slot-算法" class="headerlink" title="redis cluster 的 hash slot 算法"></a>redis cluster 的 hash slot 算法</h4><p>redis cluster 有固定的 <code>16384</code> 个 hash slot，对每个 <code>key</code> 计算 <code>CRC16</code> 值，然后对 <code>16384</code> 取模，可以获取 key 对应的 hash slot。</p>
+<p>redis cluster 中每个 master 都会持有部分 slot，比如有 3 个 master，那么可能每个 master 持有 5000 多个 hash slot。hash slot 让 node 的增加和移除很简单，增加一个 master，就将其他 master 的 hash slot 移动部分过去，减少一个 master，就将它的 hash slot 移动到其他 master 上去。移动 hash slot 的成本是非常低的。客户端的 api，可以对指定的数据，让他们走同一个 hash slot，通过 <code>hash tag</code> 来实现。</p>
+<p>任何一台机器宕机，另外两个节点，不影响的。因为 key 找的是 hash slot，不是机器。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/hash-slot.png" alt="hash-slot"></p>
+<h3 id="redis-cluster-的高可用与主备切换原理"><a href="#redis-cluster-的高可用与主备切换原理" class="headerlink" title="redis cluster 的高可用与主备切换原理"></a>redis cluster 的高可用与主备切换原理</h3><p>redis cluster 的高可用的原理，几乎跟哨兵是类似的</p>
+<h4 id="判断节点宕机"><a href="#判断节点宕机" class="headerlink" title="判断节点宕机"></a>判断节点宕机</h4><p>如果一个节点认为另外一个节点宕机，那么就是 <code>pfail</code>，<strong>主观宕机</strong>。如果多个节点都认为另外一个节点宕机了，那么就是 <code>fail</code>，<strong>客观宕机</strong>，跟哨兵的原理几乎一样，sdown，odown。</p>
+<p>在 <code>cluster-node-timeout</code> 内，某个节点一直没有返回 <code>pong</code>，那么就被认为 <code>pfail</code>。</p>
+<p>如果一个节点认为某个节点 <code>pfail</code> 了，那么会在 <code>gossip ping</code> 消息中，<code>ping</code> 给其他节点，如果<strong>超过半数</strong>的节点都认为 <code>pfail</code> 了，那么就会变成 <code>fail</code>。</p>
+<h4 id="从节点过滤"><a href="#从节点过滤" class="headerlink" title="从节点过滤"></a>从节点过滤</h4><p>对宕机的 master node，从其所有的 slave node 中，选择一个切换成 master node。</p>
+<p>检查每个 slave node 与 master node 断开连接的时间，如果超过了 <code>cluster-node-timeout * cluster-slave-validity-factor</code>，那么就<strong>没有资格</strong>切换成 <code>master</code>。</p>
+<h4 id="从节点选举"><a href="#从节点选举" class="headerlink" title="从节点选举"></a>从节点选举</h4><p>每个从节点，都根据自己对 master 复制数据的 offset，来设置一个选举时间，offset 越大（复制数据越多）的从节点，选举时间越靠前，优先进行选举。</p>
+<p>所有的 master node 开始 slave 选举投票，给要进行选举的 slave 进行投票，如果大部分 master node<code>（N/2 + 1）</code>都投票给了某个从节点，那么选举通过，那个从节点可以切换成 master。</p>
+<p>从节点执行主备切换，从节点切换为主节点。</p>
+<h4 id="与哨兵比较"><a href="#与哨兵比较" class="headerlink" title="与哨兵比较"></a>与哨兵比较</h4><p>整个流程跟哨兵相比，非常类似，所以说，redis cluster 功能强大，直接集成了 replication 和 sentinel 的功能。</p>
+<h2 id="8-了解什么是-redis-的雪崩和穿透？redis-崩溃之后会怎么样？系统该如何应对这种情况？如何处理-redis-的穿透？"><a href="#8-了解什么是-redis-的雪崩和穿透？redis-崩溃之后会怎么样？系统该如何应对这种情况？如何处理-redis-的穿透？" class="headerlink" title="8.了解什么是 redis 的雪崩和穿透？redis 崩溃之后会怎么样？系统该如何应对这种情况？如何处理 redis 的穿透？"></a>8.了解什么是 redis 的雪崩和穿透？redis 崩溃之后会怎么样？系统该如何应对这种情况？如何处理 redis 的穿透？</h2><h3 id="面试题剖析-1"><a href="#面试题剖析-1" class="headerlink" title="面试题剖析"></a>面试题剖析</h3><h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><p>对于系统 A，假设每天高峰期每秒 5000 个请求，本来缓存在高峰期可以扛住每秒 4000 个请求，但是缓存机器意外发生了全盘宕机。缓存挂了，此时 1 秒 5000 个请求全部落数据库，数据库必然扛不住，它会报一下警，然后就挂了。此时，如果没用什么特别的方案来处理这个故障，DBA 很着急，重启数据库，但是数据库立马又被新的流量给打死了。</p>
+<p>这就是缓存雪崩。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-caching-avalanche.png" alt="redis-caching-avalanche"></p>
+<p>大约在 3 年前，国内比较知名的一个互联网公司，曾因为缓存事故，导致雪崩，后台系统全部崩溃，事故从当天下午持续到晚上凌晨 3~4 点，公司损失了几千万。</p>
+<p>缓存雪崩的事前事中事后的解决方案如下。</p>
+<ul>
+<li>事前：redis 高可用，主从+哨兵，redis cluster，避免全盘崩溃。</li>
+<li>事中：本地 ehcache 缓存 + hystrix 限流&amp;降级，避免 MySQL 被打死。</li>
+<li>事后：redis 持久化，一旦重启，自动从磁盘上加载数据，快速恢复缓存数据。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-caching-avalanche-solution.png" alt="redis-caching-avalanche-solution"></p>
+<p>用户发送一个请求，系统 A 收到请求后，先查本地 ehcache 缓存，如果没查到再查 redis。如果 ehcache 和 redis 都没有，再查数据库，将数据库中的结果，写入 ehcache 和 redis 中。</p>
+<p>限流组件，可以设置每秒的请求，有多少能通过组件，剩余的未通过的请求，怎么办？<strong>走降级</strong>！可以返回一些默认的值，或者友情提示，或者空白的值。</p>
+<p>好处：</p>
+<ul>
+<li>数据库绝对不会死，限流组件确保了每秒只有多少个请求能通过。</li>
+<li>只要数据库不死，就是说，对用户来说，2/5 的请求都是可以被处理的。</li>
+<li>只要有 2/5 的请求可以被处理，就意味着你的系统没死，对用户来说，可能就是点击几次刷不出来页面，但是多点几次，就可以刷出来一次。</li>
+</ul>
+<h3 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h3><p>对于系统A，假设一秒 5000 个请求，结果其中 4000 个请求是黑客发出的恶意攻击。</p>
+<p>黑客发出的那 4000 个攻击，缓存中查不到，每次你去数据库里查，也查不到。</p>
+<p>举个栗子。数据库 id 是从 1 开始的，结果黑客发过来的请求 id 全部都是负数。这样的话，缓存中不会有，请求每次都“视缓存于无物”，直接查询数据库。这种恶意攻击场景的缓存穿透就会直接把数据库给打死。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-caching-penetration.png" alt="redis-caching-penetration"></p>
+<p>解决方式很简单，每次系统 A 从数据库中只要没查到，就写一个空值到缓存里去，比如 <code>set -999 UNKNOWN</code>。这样的话，下次便能走缓存了。</p>
+<h2 id="9-如何保证缓存与数据库的双写一致性？"><a href="#9-如何保证缓存与数据库的双写一致性？" class="headerlink" title="9.如何保证缓存与数据库的双写一致性？"></a>9.如何保证缓存与数据库的双写一致性？</h2><h3 id="面试题剖析-2"><a href="#面试题剖析-2" class="headerlink" title="面试题剖析"></a>面试题剖析</h3><p>一般来说，如果允许缓存可以稍微的跟数据库偶尔有不一致的情况，也就是说如果你的系统<strong>不是严格要求</strong> “缓存+数据库” 必须保持一致性的话，最好不要做这个方案，即：<strong>读请求和写请求串行化</strong>，串到一个<strong>内存队列</strong>里去。</p>
+<p>串行化可以保证一定不会出现不一致的情况，但是它也会导致系统的吞吐量大幅度降低，用比正常情况下多几倍的机器去支撑线上的一个请求。</p>
+<h3 id="Cache-Aside-Pattern"><a href="#Cache-Aside-Pattern" class="headerlink" title="Cache Aside Pattern"></a>Cache Aside Pattern</h3><p>最经典的缓存+数据库读写的模式，就是 Cache Aside Pattern。</p>
+<ul>
+<li>读的时候，先读缓存，缓存没有的话，就读数据库，然后取出数据后放入缓存，同时返回响应。</li>
+<li>更新的时候，<strong>先更新数据库，然后再删除缓存</strong>。</li>
+</ul>
+<p><strong>为什么是删除缓存，而不是更新缓存？</strong></p>
+<p>原因很简单，很多时候，在复杂点的缓存场景，缓存不单单是数据库中直接取出来的值。</p>
+<p>比如可能更新了某个表的一个字段，然后其对应的缓存，是需要查询另外两个表的数据并进行运算，才能计算出缓存最新的值的。</p>
+<p>另外更新缓存的代价有时候是很高的。是不是说，每次修改数据库的时候，都一定要将其对应的缓存更新一份？也许有的场景是这样，但是对于<strong>比较复杂的缓存数据计算的场景</strong>，就不是这样了。如果你频繁修改一个缓存涉及的多个表，缓存也频繁更新。但是问题在于，<strong>这个缓存到底会不会被频繁访问到？</strong></p>
+<p>举个栗子，一个缓存涉及的表的字段，在 1 分钟内就修改了 20 次，或者是 100 次，那么缓存更新 20 次、100 次；但是这个缓存在 1 分钟内只被读取了 1 次，有<strong>大量的冷数据</strong>。实际上，如果你只是删除缓存的话，那么在 1 分钟内，这个缓存不过就重新计算一次而已，开销大幅度降低。<strong>用到缓存才去算缓存。</strong></p>
+<p>其实删除缓存，而不是更新缓存，就是一个 lazy 计算的思想，不要每次都重新做复杂的计算，不管它会不会用到，而是让它到需要被使用的时候再重新计算。像 mybatis，hibernate，都有懒加载思想。查询一个部门，部门带了一个员工的 list，没有必要说每次查询部门，都里面的 1000 个员工的数据也同时查出来啊。80% 的情况，查这个部门，就只是要访问这个部门的信息就可以了。先查部门，同时要访问里面的员工，那么这个时候只有在你要访问里面的员工的时候，才会去数据库里面查询 1000 个员工。</p>
+<h3 id="最初级的缓存不一致问题及解决方案"><a href="#最初级的缓存不一致问题及解决方案" class="headerlink" title="最初级的缓存不一致问题及解决方案"></a>最初级的缓存不一致问题及解决方案</h3><p>问题：先修改数据库，再删除缓存。如果删除缓存失败了，那么会导致数据库中是新数据，缓存中是旧数据，数据就出现了不一致。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/redis-junior-inconsistent.png" alt="redis-junior-inconsistent"></p>
+<p>解决思路：先删除缓存，再修改数据库。如果数据库修改失败了，那么数据库中是旧数据，缓存中是空的，那么数据不会不一致。因为读的时候缓存没有，则读数据库中旧数据，然后更新到缓存中。</p>
+<h3 id="比较复杂的数据不一致问题分析"><a href="#比较复杂的数据不一致问题分析" class="headerlink" title="比较复杂的数据不一致问题分析"></a>比较复杂的数据不一致问题分析</h3><p>数据发生了变更，先删除了缓存，然后要去修改数据库，此时还没修改。一个请求过来，去读缓存，发现缓存空了，去查询数据库，<strong>查到了修改前的旧数据</strong>，放到了缓存中。随后数据变更的程序完成了数据库的修改。完了，数据库和缓存中的数据不一样了…</p>
+<p><strong>为什么上亿流量高并发场景下，缓存会出现这个问题？</strong></p>
+<p>只有在对一个数据在并发的进行读写的时候，才可能会出现这种问题。其实如果说你的并发量很低的话，特别是读并发很低，每天访问量就 1 万次，那么很少的情况下，会出现刚才描述的那种不一致的场景。但是问题是，如果每天的是上亿的流量，每秒并发读是几万，每秒只要有数据更新的请求，就<strong>可能会出现上述的数据库+缓存不一致的情况</strong>。</p>
+<p><strong>解决方案如下：</strong></p>
+<p>更新数据的时候，根据<strong>数据的唯一标识</strong>，将操作路由之后，发送到一个 jvm 内部队列中。读取数据的时候，如果发现数据不在缓存中，那么将重新读取数据+更新缓存的操作，根据唯一标识路由之后，也发送同一个 jvm 内部队列中。</p>
+<p>一个队列对应一个工作线程，每个工作线程<strong>串行</strong>拿到对应的操作，然后一条一条的执行。这样的话，一个数据变更的操作，先删除缓存，然后再去更新数据库，但是还没完成更新。此时如果一个读请求过来，读到了空的缓存，那么可以先将缓存更新的请求发送到队列中，此时会在队列中积压，然后同步等待缓存更新完成。</p>
+<p>这里有一个<strong>优化点</strong>，一个队列中，其实<strong>多个更新缓存请求串在一起是没意义的</strong>，因此可以做过滤，如果发现队列中已经有一个更新缓存的请求了，那么就不用再放个更新请求操作进去了，直接等待前面的更新操作请求完成即可。</p>
+<p>待那个队列对应的工作线程完成了上一个操作的数据库的修改之后，才会去执行下一个操作，也就是缓存更新的操作，此时会从数据库中读取最新的值，然后写入缓存中。</p>
+<p>如果请求还在等待时间范围内，不断轮询发现可以取到值了，那么就直接返回；如果请求等待的时间超过一定时长，那么这一次直接从数据库中读取当前的旧值。</p>
+<p>高并发的场景下，该解决方案要注意的问题：</p>
+<ul>
+<li>读请求长时阻塞</li>
+</ul>
+<p>由于读请求进行了非常轻度的异步化，所以一定要注意读超时的问题，每个读请求必须在超时时间范围内返回。</p>
+<p>该解决方案，最大的风险点在于说，<strong>可能数据更新很频繁</strong>，导致队列中积压了大量更新操作在里面，然后<strong>读请求会发生大量的超时</strong>，最后导致大量的请求直接走数据库。务必通过一些模拟真实的测试，看看更新数据的频率是怎样的。</p>
+<p>另外一点，因为一个队列中，可能会积压针对多个数据项的更新操作，因此需要根据自己的业务情况进行测试，可能需要<strong>部署多个服务</strong>，每个服务分摊一些数据的更新操作。如果一个内存队列里居然会挤压 100 个商品的库存修改操作，每隔库存修改操作要耗费 10ms 去完成，那么最后一个商品的读请求，可能等待 10 * 100 = 1000ms = 1s 后，才能得到数据，这个时候就导致<strong>读请求的长时阻塞</strong>。</p>
+<p>一定要做根据实际业务系统的运行情况，去进行一些压力测试，和模拟线上环境，去看看最繁忙的时候，内存队列可能会挤压多少更新操作，可能会导致最后一个更新操作对应的读请求，会 hang 多少时间，如果读请求在 200ms 返回，如果你计算过后，哪怕是最繁忙的时候，积压 10 个更新操作，最多等待 200ms，那还可以的。</p>
+<p><strong>如果一个内存队列中可能积压的更新操作特别多</strong>，那么你就要<strong>加机器</strong>，让每个机器上部署的服务实例处理更少的数据，那么每个内存队列中积压的更新操作就会越少。</p>
+<p>其实根据之前的项目经验，一般来说，数据的写频率是很低的，因此实际上正常来说，在队列中积压的更新操作应该是很少的。像这种针对读高并发、读缓存架构的项目，一般来说写请求是非常少的，每秒的 QPS 能到几百就不错了。</p>
+<p>我们来<strong>实际粗略测算一下</strong>。</p>
+<p>如果一秒有 500 的写操作，如果分成 5 个时间片，每 200ms 就 100 个写操作，放到 20 个内存队列中，每个内存队列，可能就积压 5 个写操作。每个写操作性能测试后，一般是在 20ms 左右就完成，那么针对每个内存队列的数据的读请求，也就最多 hang 一会儿，200ms 以内肯定能返回了。</p>
+<p>经过刚才简单的测算，我们知道，单机支撑的写 QPS 在几百是没问题的，如果写 QPS 扩大了 10 倍，那么就扩容机器，扩容 10 倍的机器，每个机器 20 个队列。</p>
+<ul>
+<li>读请求并发量过高</li>
+</ul>
+<p>这里还必须做好压力测试，确保恰巧碰上上述情况的时候，还有一个风险，就是突然间大量读请求会在几十毫秒的延时 hang 在服务上，看服务能不能扛的住，需要多少机器才能扛住最大的极限情况的峰值。</p>
+<p>但是因为并不是所有的数据都在同一时间更新，缓存也不会同一时间失效，所以每次可能也就是少数数据的缓存失效了，然后那些数据对应的读请求过来，并发量应该也不会特别大。</p>
+<ul>
+<li>多服务实例部署的请求路由</li>
+</ul>
+<p>可能这个服务部署了多个实例，那么必须<strong>保证</strong>说，执行数据更新操作，以及执行缓存更新操作的请求，都通过 Nginx 服务器<strong>路由到相同的服务实例上</strong>。</p>
+<p>比如说，对同一个商品的读写请求，全部路由到同一台机器上。可以自己去做服务间的按照某个请求参数的 hash 路由，也可以用 Nginx 的 hash 路由功能等等。</p>
+<ul>
+<li>热点商品的路由问题，导致请求的倾斜</li>
+</ul>
+<p>万一某个商品的读写请求特别高，全部打到相同的机器的相同的队列里面去了，可能会造成某台机器的压力过大。就是说，因为只有在商品数据更新的时候才会清空缓存，然后才会导致读写并发，所以其实要根据业务系统去看，如果更新频率不是太高的话，这个问题的影响并不是特别大，但是的确可能某些机器的负载会高一些。</p>
+<h2 id="10-redis-的并发竞争问题是什么？如何解决这个问题？了解-redis-事务的-CAS-方案吗？"><a href="#10-redis-的并发竞争问题是什么？如何解决这个问题？了解-redis-事务的-CAS-方案吗？" class="headerlink" title="10.redis 的并发竞争问题是什么？如何解决这个问题？了解 redis 事务的 CAS 方案吗？"></a>10.redis 的并发竞争问题是什么？如何解决这个问题？了解 redis 事务的 CAS 方案吗？</h2><h3 id="考点分析-1"><a href="#考点分析-1" class="headerlink" title="考点分析"></a>考点分析</h3><p>这个也是线上非常常见的一个问题，就是<strong>多客户端同时并发写</strong>一个 key，可能本来应该先到的数据后到了，导致数据版本错了；或者是多客户端同时获取一个 key，修改值之后再写回去，只要顺序错了，数据就错了。</p>
+<p>而且 redis 自己就有天然解决这个问题的 CAS 类的乐观锁方案。</p>
+<h3 id="面试题剖析-3"><a href="#面试题剖析-3" class="headerlink" title="面试题剖析"></a>面试题剖析</h3><p>某个时刻，多个系统实例都去更新某个 key。可以基于 zookeeper 实现分布式锁。每个系统通过 zookeeper 获取分布式锁，确保同一时间，只能有一个系统实例在操作某个 key，别人都不允许读和写。</p>
+<p><img src="https://raw.githubusercontent.com/doocs/advanced-java/master/images/zookeeper-distributed-lock.png" alt="zookeeper-distributed-lock"></p>
+<p>你要写入缓存的数据，都是从 mysql 里查出来的，都得写入 mysql 中，写入 mysql 中的时候必须保存一个时间戳，从 mysql 查出来的时候，时间戳也查出来。</p>
+<p>每次要<strong>写之前，先判断</strong>一下当前这个 value 的时间戳是否比缓存里的 value 的时间戳要新。如果是的话，那么可以写，否则，就不能用旧的数据覆盖新的数据。</p>
+<h2 id="11-生产环境中的-redis-是怎么部署的？"><a href="#11-生产环境中的-redis-是怎么部署的？" class="headerlink" title="11.生产环境中的 redis 是怎么部署的？"></a>11.生产环境中的 redis 是怎么部署的？</h2><h3 id="面试题剖析-4"><a href="#面试题剖析-4" class="headerlink" title="面试题剖析"></a>面试题剖析</h3><p>redis cluster，10 台机器，5 台机器部署了 redis 主实例，另外 5 台机器部署了 redis 的从实例，每个主实例挂了一个从实例，5 个节点对外提供读写服务，每个节点的读写高峰qps可能可以达到每秒 5 万，5 台机器最多是 25 万读写请求/s。</p>
+<p>机器是什么配置？32G 内存+ 8 核 CPU + 1T 磁盘，但是分配给 redis 进程的是10g内存，一般线上生产环境，redis 的内存尽量不要超过 10g，超过 10g 可能会有问题。</p>
+<p>5 台机器对外提供读写，一共有 50g 内存。</p>
+<p>因为每个主实例都挂了一个从实例，所以是高可用的，任何一个主实例宕机，都会自动故障迁移，redis 从实例会自动变成主实例继续提供读写服务。</p>
+<p>你往内存里写的是什么数据？每条数据的大小是多少？商品数据，每条数据是 10kb。100 条数据是 1mb，10 万条数据是 1g。常驻内存的是 200 万条商品数据，占用内存是 20g，仅仅不到总内存的 50%。目前高峰期每秒就是 3500 左右的请求量。</p>
+<p>其实大型的公司，会有基础架构的 team 负责缓存集群的运维。</p>
+<p><code>关注我！这里只有干货！</code><br>本文原创地址，我的博客：<a href="https://jsbintask.cn/2019/02/18/interview/interview-redis-2/">https://jsbintask.cn/2019/02/18/interview/interview-redis-2/</a>，转载请注明出处。</p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>谢谢你支持我分享知识</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/wechatimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，心意已收</div>
+            <div class="shang_payselect">
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <!--<span class="radiobox"></span>-->
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">微信</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/02/18/interview/interview-redis-2/">redis面试必问（下）</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年02月18日 - 14时05分</p>
+        <p><span>最后更新:</span>2019年02月18日 - 14时05分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/02/18/interview/interview-redis-2/" title="redis面试必问（下）">http://jsbintask.cn/2019/02/18/interview/interview-redis-2/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/02/18/interview/interview-redis-2/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/02/18/interview/interview-redis-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">redis面试必问（上）</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-redis-集群模式的工作原理能说一下么？在集群模式下，redis-的-key-是如何寻址的？分布式寻址都有哪些算法？了解一致性-hash-算法吗？"><span class="toc-number">1.</span> <span class="toc-text">7.redis 集群模式的工作原理能说一下么？在集群模式下，redis 的 key 是如何寻址的？分布式寻址都有哪些算法？了解一致性 hash 算法吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#考点分析"><span class="toc-number">1.1.</span> <span class="toc-text">考点分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#面试题剖析"><span class="toc-number">1.2.</span> <span class="toc-text">面试题剖析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redis-cluster-介绍"><span class="toc-number">1.3.</span> <span class="toc-text">redis cluster 介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#节点间的内部通信机制"><span class="toc-number">1.4.</span> <span class="toc-text">节点间的内部通信机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本通信原理"><span class="toc-number">1.4.1.</span> <span class="toc-text">基本通信原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gossip-协议"><span class="toc-number">1.4.2.</span> <span class="toc-text">gossip 协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ping-消息深入"><span class="toc-number">1.4.3.</span> <span class="toc-text">ping 消息深入</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分布式寻址算法"><span class="toc-number">1.5.</span> <span class="toc-text">分布式寻址算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hash-算法"><span class="toc-number">1.5.1.</span> <span class="toc-text">hash 算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一致性-hash-算法"><span class="toc-number">1.5.2.</span> <span class="toc-text">一致性 hash 算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis-cluster-的-hash-slot-算法"><span class="toc-number">1.5.3.</span> <span class="toc-text">redis cluster 的 hash slot 算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#redis-cluster-的高可用与主备切换原理"><span class="toc-number">1.6.</span> <span class="toc-text">redis cluster 的高可用与主备切换原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#判断节点宕机"><span class="toc-number">1.6.1.</span> <span class="toc-text">判断节点宕机</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从节点过滤"><span class="toc-number">1.6.2.</span> <span class="toc-text">从节点过滤</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#从节点选举"><span class="toc-number">1.6.3.</span> <span class="toc-text">从节点选举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#与哨兵比较"><span class="toc-number">1.6.4.</span> <span class="toc-text">与哨兵比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-了解什么是-redis-的雪崩和穿透？redis-崩溃之后会怎么样？系统该如何应对这种情况？如何处理-redis-的穿透？"><span class="toc-number">2.</span> <span class="toc-text">8.了解什么是 redis 的雪崩和穿透？redis 崩溃之后会怎么样？系统该如何应对这种情况？如何处理 redis 的穿透？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#面试题剖析-1"><span class="toc-number">2.1.</span> <span class="toc-text">面试题剖析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存雪崩"><span class="toc-number">2.2.</span> <span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#缓存穿透"><span class="toc-number">2.3.</span> <span class="toc-text">缓存穿透</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-如何保证缓存与数据库的双写一致性？"><span class="toc-number">3.</span> <span class="toc-text">9.如何保证缓存与数据库的双写一致性？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#面试题剖析-2"><span class="toc-number">3.1.</span> <span class="toc-text">面试题剖析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-Aside-Pattern"><span class="toc-number">3.2.</span> <span class="toc-text">Cache Aside Pattern</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最初级的缓存不一致问题及解决方案"><span class="toc-number">3.3.</span> <span class="toc-text">最初级的缓存不一致问题及解决方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较复杂的数据不一致问题分析"><span class="toc-number">3.4.</span> <span class="toc-text">比较复杂的数据不一致问题分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-redis-的并发竞争问题是什么？如何解决这个问题？了解-redis-事务的-CAS-方案吗？"><span class="toc-number">4.</span> <span class="toc-text">10.redis 的并发竞争问题是什么？如何解决这个问题？了解 redis 事务的 CAS 方案吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#考点分析-1"><span class="toc-number">4.1.</span> <span class="toc-text">考点分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#面试题剖析-3"><span class="toc-number">4.2.</span> <span class="toc-text">面试题剖析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-生产环境中的-redis-是怎么部署的？"><span class="toc-number">5.</span> <span class="toc-text">11.生产环境中的 redis 是怎么部署的？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#面试题剖析-4"><span class="toc-number">5.1.</span> <span class="toc-text">面试题剖析</span></a></li></ol></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/02/18/interview/interview-redis-1/" title="下一篇: redis面试必问（上）">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/interview/interview-redis-2/">redis面试必问（下）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/interview/interview-redis-1/">redis面试必问（上）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-high-concurrency-design/">mysql面试题：如何实现 MySQL 的读写分离？MySQL 主从复制原理是啥？如何解决 MySQL 主从同步的延时问题？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-db-shard/">数据库分库分表面试题整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-mysql-read-write-separation/">mysql面试题：如何实现 MySQL 的读写分离？MySQL 主从复制原理是啥？如何解决 MySQL 主从同步的延时问题？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/springboot/springboot-all-configs/">史上最全springboot配置，踩坑，注解，使用手册（持续更新中）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/30/netty/netty-chatroom/">netty极简教程（一）：从helloworld到编写一个聊天室</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/29/designpattern/singleton/">从未这么明白的设计模式（一）：单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-custommiddleware/">消息中间件面试题：如果让你写一个消息队列，该如何进行架构设计？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-manymessage/">消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-one/">消息中间件面试题：如何保证消息不被重复消费</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-order/">消息中间件面试题：如何保证消息的顺序性</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-reliable/">消息中间件面试题：消息丢失怎么办？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-jms/">中间件面试题：消息队列的优缺点，区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-rabbitmq-jms/">springboot整合各种消息队列（二）：rabbitmq消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbitmq</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-redis-jms/">springboot整合各种消息队列（一）：redis消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 jsbintask
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style="display:none">
+                        <span id="site-visit">本站访问量:
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style="display:none">
+                        <span id="page-visit">本文阅读量:
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-133456343-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?f1c1bcd43bb13500d087f18deb22025f";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+
+  </div>
+</body>
+</html>
