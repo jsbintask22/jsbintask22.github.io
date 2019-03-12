@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>
+    
+    线程池？面试？看这篇就够了！|
+    jsbintask的博客
+    
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="java,jdk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程池？面试？看这篇就够了！">
+<meta property="og:url" content="http://jsbintask.cn/2019/03/10/jdk/jdk8-threadpool/index.html">
+<meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/it_s_complicated_by_topas2012_d8i7wi5-pre.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-17.png">
+<meta property="og:updated_time" content="2019-03-10T08:05:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程池？面试？看这篇就够了！">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/it_s_complicated_by_topas2012_d8i7wi5-pre.jpg-blog_960_440.jpg">
+  
+  <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
+  
+  
+  <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+  <script src="/js/pace.js"></script>
+  <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+    var yiliaConfig = {
+      rootUrl: '/',
+      fancybox: true,
+      animate: true,
+      isHome: false,
+      isPost: true,
+        isArchive: false,
+          isTag: false,
+            isCategory: false,
+              open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+                <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+            <h1 class="header-author"><a href="/" title="Hi Mate">jsbintask</a></h1>
+        </hgroup>
+
+        
+            <p class="header-subtitle">Do it right at the first time.</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                            <div class="icon-wrap icon-link hide" data-idx="2">
+                                <div class="loopback_l"></div>
+                                <div class="loopback_r"></div>
+                            </div>
+                        
+                        
+                            <div class="icon-wrap icon-me hide" data-idx="3">
+                                <div class="user"></div>
+                                <div class="shoulder"></div>
+                            </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                            <li>友情链接</li>
+                        
+                        
+                            <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                            
+                                <li><a href="/tags">所有标签</a></li>
+                            
+                                <li><a href="/categories/recommend">推荐阅读</a></li>
+                            
+                                <li><a href="/instagram">光影之路</a></li>
+                            
+                                <li><a href="/archives">文章归档</a></li>
+                            
+                                <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                            
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                            
+                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                            
+                                <a class="fl Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                    <section class="switch-part switch-part2">
+                        <div class="widget tagcloud" id="js-tagcloud">
+                            <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/api/" style="font-size: 10px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 18.33px;">java</a> <a href="/tags/java基础/" style="font-size: 10px;">java基础</a> <a href="/tags/jdk/" style="font-size: 10px;">jdk</a> <a href="/tags/jms/" style="font-size: 11.67px;">jms</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 10px;">netty</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 15px;">redis</a> <a href="/tags/springboot/" style="font-size: 18.33px;">springboot</a> <a href="/tags/springsecurity/" style="font-size: 16.67px;">springsecurity</a> <a href="/tags/ssm/" style="font-size: 10px;">ssm</a> <a href="/tags/weblogic/" style="font-size: 11.67px;">weblogic</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 20px;">面试</a>
+                        </div>
+                    </section>
+                
+
+                
+                    <section class="switch-part switch-part3">
+                        <div id="js-friends">
+                            
+                                <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com">gayhub</a>
+                            
+                        </div>
+                    </section>
+                
+
+                
+                    
+                    <section class="switch-part switch-part4">
+                        
+                        <div id="js-aboutme">专注java，jvm，分布式，并发，框架等技术.</div>
+                    </section>
+                
+            </div>
+        </div>
+
+        
+            <div class="left-wechat-public">
+                <img src="/img/jsbintask_wechat.png" width="150px" height="150px" alt="jsbintask">
+            </div>
+        
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">jsbintask</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">jsbintask</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Do it right at the first time.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags">所有标签</a></li>
+                
+                    <li><a href="/categories/recommend">推荐阅读</a></li>
+                
+                    <li><a href="/instagram">光影之路</a></li>
+                
+                    <li><a href="/archives">文章归档</a></li>
+                
+                    <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                    
+                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                    
+                        <a class="Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-jdk/jdk8-threadpool" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/10/jdk/jdk8-threadpool/" class="article-date">
+      <time datetime="2019-03-10T08:05:00.000Z" itemprop="datePublished">2019-03-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      线程池？面试？看这篇就够了！
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/">jdk</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><img src="http://qiniu.jsbintask.cn/it_s_complicated_by_topas2012_d8i7wi5-pre.jpg-blog_960_440.jpg" alt="ThreadPool"><br><a id="more"></a></p>
+<blockquote>
+<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/10/jdk/jdk8-threadpool/">https://jsbintask.cn/2019/03/10/jdk/jdk8-threadpool/</a>(食用效果最佳)，转载请注明出处!</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在实际工作中，<code>线程</code>是一个我们经常要打交道的角色，它可以帮我们灵活利用资源，提升程序运行效率。但是我们今天不是探讨<code>线程</code>！我们今天来聊聊另一个与线程息息相关的角色：<code>线程池</code>.本篇文章的目的就是全方位的解析线程池的作用，以及jdk中的接口，实现以及原理，另外对于某些重要概念，将从<code>源码</code>的角度探讨。<br><code>tip：本文较长，建议先码后看。</code></p>
+<h2 id="线程池介绍"><a href="#线程池介绍" class="headerlink" title="线程池介绍"></a>线程池介绍</h2><p>首先我们看一段创建线程并且运行的常用代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        System.out.println(<span class="string">"run thread-&gt;"</span> + Thread.currentThread().getName());</span><br><span class="line">        <span class="comment">//to do something, send email, message, io operator, network...</span></span><br><span class="line">    &#125;).start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码很容易理解，我们为了异步，或者效率考虑，将某些耗时操作放入一个新线程去运行，但是这样的代码却存在这样的问题：</p>
+<ol>
+<li>创建销毁线程资源消耗； 我们使用线程的目的本是出于效率考虑，可以为了创建这些线程却消耗了额外的<code>时间</code>，<code>资源</code>，对于线程的销毁同样需要系统资源。</li>
+<li>cpu资源有限，上述代码创建线程过多，造成有的任务不能即时完成，响应时间过长。</li>
+<li>线程无法管理，无节制地创建线程对于有限的资源来说似乎成了“得不偿失”的一种作用。<br>手动创建执行线程存在以上问题，而线程池就是用来解决这些问题的。怎么解决呢？我们可以先粗略的定义一下线程池：<blockquote>
+<p>线程池是一组已经创建好的，一直在等待任务执行的线程的集合。</p>
+</blockquote>
+</li>
+</ol>
+<p>因为线程池中线程是已经创建好的，所以对于任务的执行不会消耗掉额外的资源，线程池中线程个数由我们自定义添加，可相对于资源，资源任务做出调整，对于某些任务，如果线程池尚未执行，可手动取消，线程任务变得能够管理！<br>所以，线程池的作用如下：</p>
+<ol>
+<li>降低资源消耗。通过重复利用已创建的线程降低线程创建和销毁造成的消耗。</li>
+<li>提高响应速度。当任务到达时，任务可以不需要等到线程创建就能立即执行。 </li>
+<li>提高线程的可管理性。</li>
+</ol>
+<h2 id="jdk线程池详解"><a href="#jdk线程池详解" class="headerlink" title="jdk线程池详解"></a>jdk线程池详解</h2><p>上面我们已经知道了线程池的作用，而对于这样一个好用，重要的工具，<code>jdk</code>当然已经为我们提供了实现，这也是本篇文章的重点。<br>在jdk中，关于线程池的接口，类都定义在<code>juc</code>（java.util.concurrent）包中，这是jdk专门为我们提供用于并发编程的包，当然，本篇文章我们只介绍与线程池有关的接口和类，首先我们看下重点要学习的接口和类：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-1.png" alt="ThreadPool"><br>如图所示，我们将一一讲解这6个类的作用并且分析。</p>
+<h3 id="Executor"><a href="#Executor" class="headerlink" title="Executor"></a>Executor</h3><p>首先我们需要了解就是<code>Executor</code>接口，它有一个方法，定义如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-2.png" alt="ThreadPool"><br>Executor自jdk1.5引入，这个接口只有一个方法<code>execute</code>声明，它的作用以及定义如下：接收一个任务（<code>Runnable</code>）并且执行。<code>注意：同步执行还是异步执行均可</code>！<br>由它的定义我们就知道，它是一个线程池最基本的作用。但是在实际使用中，我们常常使用的是另外一个功能更多的子类<code>ExecutorService</code>。</p>
+<h3 id="ExecutorService"><a href="#ExecutorService" class="headerlink" title="ExecutorService"></a>ExecutorService</h3><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-3.png" alt="ThreadPool"><br>这个接口继承自Executor，它的方法定义就丰富多了，可以关闭，提交Future任务，批量提交任务，获取执行结果等，我们一一讲解下每个方法作用声明：</p>
+<ol>
+<li><code>void shutdown()</code>: “优雅地”关闭线程池，为什么是“优雅地”呢？因为这个线程池在关闭前会先等待线程池中已经有的任务执行完成，一般会配合方法<code>awaitTermination</code>一起使用，调用该方法后，线程池中不能再加入新的任务。</li>
+<li><code>List&lt;Runnable&gt; shutdownNow();</code>: “尝试”终止正在执行的线程，返回在正在等待的任务列表，调用这个方法后，会调用正在执行线程的<code>interrupt（）</code>方法，所以如果正在执行的线程如果调用了<code>sleep，join，await</code>等方法，会抛出<code>InterruptedException</code>异常。</li>
+<li><code>boolean awaitTermination(long timeout, TimeUnit unit)</code>: 该方法是一个阻塞方法，参数分别为时间和时间单位。这个方法一般配合上面两个方法之后调用。如果先调用<code>shutdown</code>方法，所有任务执行完成返回true，超时返回false，如果先调用的是<code>shutdownNow</code>方法，正在执行的任务全部完成true，超时返回false。</li>
+<li><code>boolean isTerminated();</code>： 调用方法1或者2后，如果所有人物全部执行完毕则返回true，也就是说，就算所有任务执行完毕，但是不是先调用1或者2，也会返回false。</li>
+<li><code>&lt;T&gt; Future&lt;T&gt; submit(Callable&lt;T&gt; task);</code>: 提交一个能够返回结果的<code>Callable</code>任务，返回任务结果抽象对象是<code>Future</code>，调用<code>Future.get()</code>方法可以阻塞等待获取执行结果，例如：<br><code>result = exec.submit(aCallable).get();</code>，提交一个任务并且一直阻塞知道该任务执行完成获取到返回结果。</li>
+<li><code>&lt;T&gt; Future&lt;T&gt; submit(Runnable task, T result);</code>： 提交一个<code>Runnable</code>任务，执行成功后调用Future.get()方法返回的是result（这是什么骚操作？）。</li>
+<li><code>Future&lt;?&gt; submit(Runnable task);</code>：和6不同的是调用<code>Future.get（）</code>方法返回的是<code>null</code>（这又是什么操作？）。</li>
+<li><code>&lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</code>: 提交一组任务，并且返回每个任务执行结果的抽象对象<code>List&lt;Future&lt;T&gt;&gt;</code>，Future作用同上，值得注意的是：<br>当调用其中任一<code>Future.isDone()</code>(判断任务是否完成，正常，异常终止都算）方法时，必须等到所有任务都完成时才返回true，简单说：<code>全部任务完成才算完成</code>。</li>
+<li><code>&lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks, long timeout, TimeUnit unit)</code>: 同方法8，多了一个时间参数，不同的是：如果超时，Future.isDone()同样返回true。</li>
+<li><code>&lt;T&gt; T invokeAny(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</code>：这个看名字和上面对比就容易理解了，返回第一个正常完成的任务地执行结果，后面没有完成的任务将被取消。</li>
+<li><code>&lt;T&gt; T invokeAny(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks, long timeout, TimeUnit unit)</code>：同10相比，多了一个超时参数。不同的是：在超时时间内，一个任务都没有完成，将抛出<code>TimeoutException</code>。<br>到现在，我们已经知道了一个线程池基本的所有方法，知道了每个方法的作用，接下来我们就来看看具体实现，首先我们研究下ExecutorService的具体实现抽象类：<code>AbstractExecutorService</code>。</li>
+</ol>
+<h3 id="AbstractExecutorService"><a href="#AbstractExecutorService" class="headerlink" title="AbstractExecutorService"></a>AbstractExecutorService</h3><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-4.png" alt="ThreadPool"><br><code>AbstractExecutorService</code>是一个抽象类，继承自<code>ExecutorService</code>，它实现了ExecutorService接口的<code>submit, invokeAll, invokeAny</code>方法，主要用于将ExecutorService的公共实现封装，方便子类更加方便使用，接下来我们看看具体实现：</p>
+<h4 id="1-submit方法："><a href="#1-submit方法：" class="headerlink" title="1. submit方法："></a>1. submit方法：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Future&lt;?&gt; submit(Runnable task) &#123;</span><br><span class="line">    <span class="keyword">if</span> (task == <span class="keyword">null</span>) <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    RunnableFuture&lt;Void&gt; ftask = newTaskFor(task, <span class="keyword">null</span>);</span><br><span class="line">    execute(ftask);</span><br><span class="line">    <span class="keyword">return</span> ftask;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> &lt;T&gt; <span class="function">RunnableFuture&lt;T&gt; <span class="title">newTaskFor</span><span class="params">(Callable&lt;T&gt; callable)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> FutureTask&lt;T&gt;(callable);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>判空</li>
+<li>利用task构建一个Future的子类RunnableFuture，最后返回</li>
+<li>执行这个任务（execute方法声明在Executor接口中，所以也是交由子类实现)。<br>execute方法交由子类实现了，这里我们主要分析<code>newTaskFor</code>方法，看它是如何构建Future对象的：<br>首先，<code>RunnableFuture</code>接口定义如下：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">RunnableFuture</span>&lt;<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">Runnable</span>, <span class="title">Future</span>&lt;<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>他就是Future和Runnable的组合，它的实现是<code>FutureTask</code>：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-6.png" alt="ThreadPool"></p>
+<h4 id="2-invokeAll方法："><a href="#2-invokeAll方法：" class="headerlink" title="2. invokeAll方法："></a>2. invokeAll方法：</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; List&lt;Future&lt;T&gt;&gt; invokeAll(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</span><br><span class="line">        <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        <span class="keyword">if</span> (tasks == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        ArrayList&lt;Future&lt;T&gt;&gt; futures = <span class="keyword">new</span> ArrayList&lt;Future&lt;T&gt;&gt;(tasks.size());</span><br><span class="line">        <span class="keyword">boolean</span> done = <span class="keyword">false</span>;  <span class="comment">// ①</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (Callable&lt;T&gt; t : tasks) &#123;  <span class="comment">// ②</span></span><br><span class="line">                RunnableFuture&lt;T&gt; f = newTaskFor(t);</span><br><span class="line">                futures.add(f);</span><br><span class="line">                execute(f);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, size = futures.size(); i &lt; size; i++) &#123;</span><br><span class="line">                Future&lt;T&gt; f = futures.get(i);    <span class="comment">// ③</span></span><br><span class="line">                <span class="keyword">if</span> (!f.isDone()) &#123;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        f.get();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (CancellationException ignore) &#123;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (ExecutionException ignore) &#123;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            done = <span class="keyword">true</span>;   <span class="comment">//  ④</span></span><br><span class="line">            <span class="keyword">return</span> futures;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!done)     <span class="comment">//   ⑤</span></span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, size = futures.size(); i &lt; size; i++)</span><br><span class="line">                    futures.get(i).cancel(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>声明一个flag判断所有任务是否全部完成</li>
+<li>调用newTaskFor方法构建RunnableFuture对象，循环调用<code>execute</code>方法添加每一个任务。</li>
+<li>遍历每个任务结果，判断是否执行完成，没有完成调用 get()阻塞方法等待完成。</li>
+<li>所有任务全部完成，将flag设置成true。</li>
+<li><p>出现异常，还有任务没有完成，所有任务取消：<code>Future.cancel()</code>（实际是调用执行线程的<code>interrupt</code>方法。<br>上面代码分析和我们一开始讲解<code>ExecutorService</code>的<code>invokeAll</code>一致。</p>
+<h4 id="3-invokeAny方法"><a href="#3-invokeAny方法" class="headerlink" title="3. invokeAny方法"></a>3. invokeAny方法</h4><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-7.png" alt="ThreadPool"><br><code>invokeAny</code>实际调用<code>doInvokeAny</code>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">T <span class="title">doInvokeAny</span><span class="params">(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (tasks == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        <span class="keyword">int</span> ntasks = tasks.size();</span><br><span class="line">        <span class="keyword">if</span> (ntasks == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</span><br><span class="line">        ArrayList&lt;Future&lt;T&gt;&gt; futures = <span class="keyword">new</span> ArrayList&lt;Future&lt;T&gt;&gt;(ntasks);</span><br><span class="line">        ExecutorCompletionService&lt;T&gt; ecs =     <span class="comment">// ①</span></span><br><span class="line">            <span class="keyword">new</span> ExecutorCompletionService&lt;T&gt;(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ExecutionException ee = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> deadline = timed ? System.nanoTime() + nanos : <span class="number">0L</span>;</span><br><span class="line">            Iterator&lt;? extends Callable&lt;T&gt;&gt; it = tasks.iterator();</span><br><span class="line">            </span><br><span class="line">            futures.add(ecs.submit(it.next()));       <span class="comment">// ②</span></span><br><span class="line">            --ntasks;</span><br><span class="line">            <span class="keyword">int</span> active = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">                Future&lt;T&gt; f = ecs.poll();    <span class="comment">//  ③</span></span><br><span class="line">                <span class="keyword">if</span> (f == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (ntasks &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                        --ntasks;</span><br><span class="line">                        futures.add(ecs.submit(it.next()));</span><br><span class="line">                        ++active;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (active == <span class="number">0</span>)</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (timed) &#123;</span><br><span class="line">                        f = ecs.poll(nanos, TimeUnit.NANOSECONDS);</span><br><span class="line">                        <span class="keyword">if</span> (f == <span class="keyword">null</span>)</span><br><span class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> TimeoutException();</span><br><span class="line">                        nanos = deadline - System.nanoTime();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">else</span>                  <span class="comment">//  ④</span></span><br><span class="line">                        f = ecs.take();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (f != <span class="keyword">null</span>) &#123;           <span class="comment">// ⑤</span></span><br><span class="line">                    --active;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">return</span> f.get();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (ExecutionException eex) &#123;</span><br><span class="line">                        ee = eex;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (RuntimeException rex) &#123;</span><br><span class="line">                        ee = <span class="keyword">new</span> ExecutionException(rex);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (ee == <span class="keyword">null</span>)       </span><br><span class="line">                ee = <span class="keyword">new</span> ExecutionException();</span><br><span class="line">            <span class="keyword">throw</span> ee;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, size = futures.size(); i &lt; size; i++)      <span class="comment">//  ⑥</span></span><br><span class="line">                futures.get(i).cancel(<span class="keyword">true</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>声明一个<code>ExecutorCompletionService</code> ecs，这个对象实际是一个任务执行结果阻塞队列和线程池的结合，所以它可以加入任务，执行任务，将任务执行结果加入阻塞队列。</p>
+</li>
+<li>向ecs添加tasks中的第一个任务并且执行。</li>
+<li>从ecs的阻塞队列中取出第一个（队头），如果为null（不为null跳到注释⑤），说明一个任务都还没执行完成，继续添加任务。</li>
+<li>如果所有任务都被添加了，阻塞等待任务的执行结果，知道有任一任务执行完成。</li>
+<li>如果取到了某个任务的执行结果，直接返回。</li>
+<li>取消所有还没执行的任务。<br>上面代码分析和我们一开始讲解<code>ExecutorService</code>的<code>invokeAny</code>一致。 到现在，我们已经分析完了<code>AbstractExecutorService</code>中的公共的方法，接下来就该研究最终的具体实现了：<code>ThreadPoolExecutor</code></li>
+</ol>
+<h3 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h3><p><code>ThreadPoolExecutor</code>继承自<code>AbstractExecutorService</code>,它是线程池的具体实现：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-8.png" alt="ThreadPool"><br>我们首先分析下构造方法：<code>public ThreadPoolExecutor(int corePoolSize,
+                                           int maximumPoolSize,
+                                           long keepAliveTime,
+                                           TimeUnit unit,
+                                           BlockingQueue&lt;Runnable&gt; workQueue,
+                                           ThreadFactory threadFactory,
+                                           RejectedExecutionHandler handler)</code>。<br><code>corePoolSize</code>：核心线程数，<code>maximumPoolSize</code>：线程池最大允许线程数，<code>workQueue</code>：任务队列，<code>threadFactory</code>：线程创建工厂，<code>handler</code>: 任务拒绝策，<code>keepAliveTime, unit</code>：等待时长，它们的具体作用如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-9.png" alt="ThreadPool"><br><code>提交一个task（Runnable）后（执行execute方法），检查总线程数是否小于corePoolSize，小于等于则使用threadFactory直接创建一个线程执行任务，大于则再次检查线程数量是否等于maximumPoolSize，等于则直接执行handler拒绝策略，小于则判断workQueue是否已经满了，没满则将任务加入等待线程执行，满了则使用threadFactory创建新线程执行队头任务。</code><br>通过流程图我们知道每个参数作用，这里值得注意的是，如果我们将某些参数特殊化，则可以得到特殊的线程池：</p>
+<ol>
+<li>corePoolSize=maximuPoolSize，我们可以创建一个线程池线程数量固定的任务。</li>
+<li>maximumPoolSize设置的足够大（Integer.MAX_VALUE），可以无限制的加入任务。</li>
+<li>workQueue设置的足够大，线程池中的数量不会超过corePoolSize，此时maximumPoolSize参数无用。</li>
+<li>corePoolSize=0，线程池一旦空闲（超过时间），线程都将被回收。</li>
+<li>我们上面知道，如果多余的空闲线程空闲时间超过keepAliveTime*unit，这些线程将被回收。我们可以通过方法<code>allowCoreThreadTimeOut</code>使这个参数对线程池中所有线程都有效果。</li>
+<li>workQueue一般有三种实现：</li>
+</ol>
+<ul>
+<li>SynchronousQueue，这是一个空队列，不会保存提交的task（添加操作必须等待另外的移除操作）。</li>
+<li>ArrayBlockingQueue，数组实现的丢列，可以指定队列的长度。</li>
+<li>LinkedBlockingQueue, 链表实现的队列，所以理论上可以无限大，也可以指定链表长度。</li>
+</ul>
+<ol start="7">
+<li>而RejectedExecutionHandler一般由四种实现：</li>
+</ol>
+<ul>
+<li>AbortPolicy, 直接抛出<code>RejectedExecutionException</code>，这是线程池中的默认实现</li>
+<li>DiscardPolicy，什么都不做</li>
+<li>DiscardOldestPolicy，丢弃workQueue队头任务，加入新任务</li>
+<li>CallerRunsPolicy，直接在调用者的线程执行任务<br>最后，我们再分析下ThreadPoolExecutor核心方法<code>execute</code>：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">execute</span><span class="params">(Runnable command)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (command == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> c = ctl.get();   <span class="comment">// ①</span></span><br><span class="line">        <span class="keyword">if</span> (workerCountOf(c) &lt; corePoolSize) &#123;   <span class="comment">// ②</span></span><br><span class="line">            <span class="keyword">if</span> (addWorker(command, <span class="keyword">true</span>))</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            c = ctl.get();     <span class="comment">// ③</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (isRunning(c) &amp;&amp; workQueue.offer(command)) &#123;    <span class="comment">// ④</span></span><br><span class="line">            <span class="keyword">int</span> recheck = ctl.get();</span><br><span class="line">            <span class="keyword">if</span> (! isRunning(recheck) &amp;&amp; remove(command))   <span class="comment">// ⑤</span></span><br><span class="line">                reject(command);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (workerCountOf(recheck) == <span class="number">0</span>)    <span class="comment">// ⑥</span></span><br><span class="line">                addWorker(<span class="keyword">null</span>, <span class="keyword">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!addWorker(command, <span class="keyword">false</span>))    <span class="comment">// ⑦</span></span><br><span class="line">            reject(command);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li>获取线程池中的线程数量</li>
+<li>线程池中线程数量小于corePoolSize，直接调用addWorker添加新线程执行任务返回。</li>
+<li>因为多线程的关系，上一步可能调用addWorker失败（其它线程创建了，数以数量已经超过了），重启获取线程数量。</li>
+<li>向workQueue添加添加任务，如果添加成功，double获取线程数量，添加失败，走到步骤⑦</li>
+<li>double检查后发现线程池已经关闭或者数量超出，回滚已经添加的任务（remove（command））并且执行拒绝策略。</li>
+<li>double检查通过，添加一个新线程。</li>
+<li>再次添加线程，失败则调用拒绝策略。<br>好了，到现在jdk中的线程池核心的实现，策略，分析我们已经分析完成了。接下来我我们就来看看关于线程池的另外的一些扩展，也就是图上的剩下的接口和类：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-10.png" alt="ThreadPool"></li>
+</ol>
+<h3 id="ScheduledExecutorService"><a href="#ScheduledExecutorService" class="headerlink" title="ScheduledExecutorService"></a>ScheduledExecutorService</h3><p><code>ScheduledExecutorService</code>继承自<code>ExecutorService</code>，ExecutorService的分析上面我们已经知道了，我们来看看它扩展了哪些方法：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-11.png" alt="ThreadPool"><br>这个接口作为线程池的定义主要增加了可以<code>定时执行任务</code>（执行一次）和<code>定期执行任务</code>（重复执行），我们来一一简述下每个方法的作用。</p>
+<ol>
+<li><code>public ScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit);</code>: 这个方法用于定时执行任务command，延迟的时间为delay*unit，它返回一个<code>ScheduledFuture</code>对象用于获取执行结果或者剩余延时，调用Future.get()方法将阻塞当前线程最后返回null。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-12.png" alt="ThreadPool"></li>
+<li><code>public &lt;V&gt; ScheduledFuture&lt;V&gt; schedule(Callable&lt;V&gt; callable, long delay, TimeUnit unit);</code>：同上，不同的是，调用Future.get()方法将返回执行的结果，而不是null。</li>
+<li><code>public ScheduledFuture&lt;?&gt; scheduleAtFixedRate(Runnable command, long initialDelay, long period,TimeUnit unit);</code>: 重复执行任务command，第一次执行时间为initialDelay延迟后，以后的执行时间将在<code>initialDelay + period * n</code>，unit代表时间单位，值得注意的是，如果某次执行出现异常，后面该任务就不会再执行。或者通过返回对象Future手动取消，后面也将不再执行。</li>
+<li><code>public ScheduledFuture&lt;?&gt; scheduleWithFixedDelay(Runnable command,long initialDelay,long delay, TimeUnit unit);</code>: 效果同上，不同点：<code>如果command耗时为 y，则上面的计算公式为initialDelay + period * n + y</code>，也就是说，它的定时时间会加上任务耗时，而上面的方法则是一个固定的频率，不会算上任务执行时间！<br>这是它扩展的四个方法，其中需要注意的是scheduleAtFixedRate和scheduleWithFixedDelay的细微差别，最后，我们来看下它的实现类：<code>ScheduledThreadPoolExecutor</code></li>
+</ol>
+<h3 id="ScheduledThreadPoolExecutor"><a href="#ScheduledThreadPoolExecutor" class="headerlink" title="ScheduledThreadPoolExecutor"></a>ScheduledThreadPoolExecutor</h3><p><code>ScheduledThreadPoolExecutor</code>继承自<code>ThreadPoolExecutor</code>类，实现了<code>ScheduledExecutorService</code>接口，上面均已经分析。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-13.png" alt="ThreadPool"><br>它的构造器如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-14.png" alt="ThreadPool"><br>看起来比它的父类构造器简洁，主要因为它的任务队列workQueue是默认的（<code>DelayedWorkQueue</code>），并且最大的线程数为最大值。接着我们看下DelayedWorkQueue实现：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-15.png" alt="ThreadPool"><br>它内部使用数组维护了一个二叉树，提高了任务查找时间，而之所以ScheduledThreadPoolExecutor能够实现延时的关键也在于DelayedWorkQueue的<code>task()</code>方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> RunnableScheduledFuture&lt;?&gt; take() <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">           <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">           lock.lockInterruptibly();</span><br><span class="line">           <span class="keyword">try</span> &#123;</span><br><span class="line">               <span class="keyword">for</span> (;;) &#123;    <span class="comment">// ①</span></span><br><span class="line">                   RunnableScheduledFuture&lt;?&gt; first = queue[<span class="number">0</span>];</span><br><span class="line">                   <span class="keyword">if</span> (first == <span class="keyword">null</span>)</span><br><span class="line">                       available.await();</span><br><span class="line">                   <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="keyword">long</span> delay = first.getDelay(NANOSECONDS);</span><br><span class="line">                       <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>)</span><br><span class="line">                           <span class="keyword">return</span> finishPoll(first);</span><br><span class="line">                       first = <span class="keyword">null</span>; <span class="comment">// don't retain ref while waiting</span></span><br><span class="line">                       <span class="keyword">if</span> (leader != <span class="keyword">null</span>)</span><br><span class="line">                           available.await();</span><br><span class="line">                       <span class="keyword">else</span> &#123;</span><br><span class="line">                           Thread thisThread = Thread.currentThread();</span><br><span class="line">                           leader = thisThread;</span><br><span class="line">                           <span class="keyword">try</span> &#123;</span><br><span class="line">                               available.awaitNanos(delay);</span><br><span class="line">                           &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                               <span class="keyword">if</span> (leader == thisThread)</span><br><span class="line">                                   leader = <span class="keyword">null</span>;</span><br><span class="line">                           &#125;</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">               <span class="keyword">if</span> (leader == <span class="keyword">null</span> &amp;&amp; queue[<span class="number">0</span>] != <span class="keyword">null</span>)</span><br><span class="line">                   available.signal();</span><br><span class="line">               lock.unlock();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>工作线程调用take方法获取剩余任务。</li>
+<li>检查这个任务是否已经到了执行时间。</li>
+<li>未到执行时间，await等待。</li>
+<li>自己唤醒，进入循环再次计算时间。<br>好了，到目前为止jdk中关于线程池的6个核心类已经全部分析完毕了。接下来还有最后一个小问题，我们手动创建线程池参数也太了，不管是<code>ThreadPoolExecutor</code>还是<code>ScheduledThreadPoolExecutor</code>，这对于用户来说似乎并不太友好，当然，jdk已经想到了这个问题，所以，我们最后再介绍一个创建这些线程池的工具类：<code>Executors</code>:</li>
+</ol>
+<h3 id="Executors"><a href="#Executors" class="headerlink" title="Executors"></a>Executors</h3><p>它的主要工具方法如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-16.png" alt="ThreadPool"><br>比起手动创建，它帮我们加了很多默认值，用起来当然就方便多了，比如说<code>newFixedThreadPool</code><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadpool-17.png" alt="ThreadPool"><br>创建一个线程数固定的线程池，其实就是核心线程数等于最大线程数，和我们一开始分析的结果一样。<br>值得注意的是：<code>为了我们的程序安全可控性考虑，我们应该尽量考虑手动创建线程池，知晓每一个参数的作用，降低不稳定性！</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本次，我们首先从代码出发，分析了线程池给我们带来的好处以及直接使用线程的弊端，接着引出了jdk中的已经实现了的线程池。然后重点分析了jdk中关于线程池的六个最重要的接口和类，并且从源码角度讲解了关键点实现，最后，处于方便考虑，我们还知道jdk给我们留了一个创建线程池的工具类，简化了手动创建线程池的步骤。<br>真正做到了<code>知其然，知其所以然</code>。</p>
+<p><code>关注我，这里只有干货！</code></p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>谢谢你支持我分享知识</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/wechatimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，心意已收</div>
+            <div class="shang_payselect">
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <!--<span class="radiobox"></span>-->
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">微信</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/03/10/jdk/jdk8-threadpool/">线程池？面试？看这篇就够了！</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年03月10日 - 16时05分</p>
+        <p><span>最后更新:</span>2019年03月10日 - 16时05分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/03/10/jdk/jdk8-threadpool/" title="线程池？面试？看这篇就够了！">http://jsbintask.cn/2019/03/10/jdk/jdk8-threadpool/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/03/10/jdk/jdk8-threadpool/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/09/springboot/ssm-jsbintask-bbs/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【干货】SSM，Jqeury, Bootstrap从零打造一个论坛系统</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池介绍"><span class="toc-number">2.</span> <span class="toc-text">线程池介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jdk线程池详解"><span class="toc-number">3.</span> <span class="toc-text">jdk线程池详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Executor"><span class="toc-number">3.1.</span> <span class="toc-text">Executor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ExecutorService"><span class="toc-number">3.2.</span> <span class="toc-text">ExecutorService</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AbstractExecutorService"><span class="toc-number">3.3.</span> <span class="toc-text">AbstractExecutorService</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-submit方法："><span class="toc-number">3.3.1.</span> <span class="toc-text">1. submit方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-invokeAll方法："><span class="toc-number">3.3.2.</span> <span class="toc-text">2. invokeAll方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-invokeAny方法"><span class="toc-number">3.3.3.</span> <span class="toc-text">3. invokeAny方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ThreadPoolExecutor"><span class="toc-number">3.4.</span> <span class="toc-text">ThreadPoolExecutor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ScheduledExecutorService"><span class="toc-number">3.5.</span> <span class="toc-text">ScheduledExecutorService</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ScheduledThreadPoolExecutor"><span class="toc-number">3.6.</span> <span class="toc-text">ScheduledThreadPoolExecutor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Executors"><span class="toc-number">3.7.</span> <span class="toc-text">Executors</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="jdk8-threadpool"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/03/09/springboot/ssm-jsbintask-bbs/" title="下一篇: 【干货】SSM，Jqeury, Bootstrap从零打造一个论坛系统">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/03/10/jdk/jdk8-threadpool/">线程池？面试？看这篇就够了！</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/springboot/ssm-jsbintask-bbs/">【干货】SSM，Jqeury, Bootstrap从零打造一个论坛系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/27/jdk/jdk8-hashmap-sourcecode/">HashMap源码全解析从一道面试题说起：请一行一行代码描述下hashmap put方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/23/android/android-memo/">（干货）Android入门完整项目：一个有定时提醒功能的备忘录</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/interview/interview-redis-2/">redis面试必问（下）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/interview/interview-redis-1/">redis面试必问（上）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-high-concurrency-design/">mysql面试题：如何实现 MySQL 的读写分离？MySQL 主从复制原理是啥？如何解决 MySQL 主从同步的延时问题？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-db-shard/">数据库分库分表面试题整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-mysql-read-write-separation/">mysql面试题：如何实现 MySQL 的读写分离？MySQL 主从复制原理是啥？如何解决 MySQL 主从同步的延时问题？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/springboot/springboot-all-configs/">史上最全springboot配置，踩坑，注解，使用手册（持续更新中）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/30/netty/netty-chatroom/">netty极简教程（一）：从helloworld到编写一个聊天室</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/29/designpattern/singleton/">从未这么明白的设计模式（一）：单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-custommiddleware/">消息中间件面试题：如果让你写一个消息队列，该如何进行架构设计？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-manymessage/">消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-one/">消息中间件面试题：如何保证消息不被重复消费</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-order/">消息中间件面试题：如何保证消息的顺序性</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-reliable/">消息中间件面试题：消息丢失怎么办？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-jms/">中间件面试题：消息队列的优缺点，区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-rabbitmq-jms/">springboot整合各种消息队列（二）：rabbitmq消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbitmq</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-redis-jms/">springboot整合各种消息队列（一）：redis消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 jsbintask
+            </div>
+        </div>
+        
+        <div class="visit">
+            
+            <span id="busuanzi_container_site_pv" style="display:none">
+                <span id="site-visit" style="display: none">本站访问量:
+                    <span id="busuanzi_value_site_uv"></span>
+                </span>
+            </span>
+            
+            
+            <span>欢迎扫描左方二维码跟作者交流. </span>
+            
+            
+            <span id="busuanzi_container_page_pv" style="display:none">
+                <span id="page-visit" style="display: none">本文阅读量:
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+            </span>
+            
+        </div>
+        
+    </div>
+</footer>
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-133456343-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?f1c1bcd43bb13500d087f18deb22025f";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+
+  </div>
+</body>
+</html>
