@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jsbintask.cn/"/>
-  <updated>2019-03-20T08:05:00.000Z</updated>
+  <updated>2019-03-21T08:05:00.000Z</updated>
   <id>http://jsbintask.cn/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>你的rest服务幂等吗？</title>
+    <link href="http://jsbintask.cn/2019/03/21/api/restful-api-idempotent/"/>
+    <id>http://jsbintask.cn/2019/03/21/api/restful-api-idempotent/</id>
+    <published>2019-03-21T08:05:00.000Z</published>
+    <updated>2019-03-21T08:05:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/restful_by_xxseadragonxx_d4ahvcl-pre.jpg-blog_960_440.jpg" alt="restful api"><br><a id="more"></a></p><blockquote><p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/">https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/</a>(食用效果最佳)，转载请注明出处!</p></blockquote><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇我们介绍了<code>restful api</code>相关知识，本篇我们介绍另一个于rest息息相关的概念：<code>幂等</code>;</p><blockquote><p><a href="https://www.jianshu.com/p/a35bad7dbc54" target="_blank" rel="noopener">你真的了解rest api吗？</a></p></blockquote><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们知道，springcloud做微服务时，服务之间的调用，服务的暴露使用的就是restful api，现在可以考虑这么一种情况，加入我们有订单服务A，支付服务B，A向B服务发送了一次请求，但由于网络，超时等的原因，A认为B该次服务失败，于是A又发起了一次同样的请求，那么这次请求会不会有什么不良影响呢？如果B又调用了其它服务呢？</p><blockquote><p>这里我们可以引出一个概念：在REST API中，当发送多个相同的请求与发送单个请求具有相同的效果时，该REST API就可以称为幂等。</p></blockquote><p>所以A发送相同的请求调用B服务不会出现业务逻辑的偏差，这样B服务就是幂等的。</p><h2 id="http-method-幂等"><a href="#http-method-幂等" class="headerlink" title="http method 幂等"></a>http method 幂等</h2><p>如果你在设计API时遵循REST原则，则GET，PUT，DELETE，HEAD，OPTIONS和TRACE HTTP方法的自动幂等REST API。只有POST API不是幂等的。</p><p>POST 不是幂等的。<br>GET，PUT，DELETE，HEAD，OPTIONS和TRACE是幂等。<br>why？</p><h3 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h3><p>通常，当然不是绝对； 我们使用POST API在服务器上是为了创建新资源。所以，调用相同的POST请求N次时，您将在服务器上拥有N个新资源。因此，POST不是幂等的。</p><h3 id="GET，HEAD，OPTIONS和TRACE"><a href="#GET，HEAD，OPTIONS和TRACE" class="headerlink" title="GET，HEAD，OPTIONS和TRACE"></a>GET，HEAD，OPTIONS和TRACE</h3><p>GET，HEAD，OPTIONS和TRACE方法永远不会改变服务器上的资源状态。因为它们全部用来获取数据。因此，调用多个请求将不会在服务器上进行任何写操作，所以GET，HEAD，OPTIONS和TRACE是幂等的。</p><h3 id="PUT和PATCH"><a href="#PUT和PATCH" class="headerlink" title="PUT和PATCH"></a>PUT和PATCH</h3><p>使用PUT，PATCH API来更新资源状态。调用PUT API N次，则第一个请求将更新资源; N-1请求将一次又一次地覆盖相同的资源状态 - 实际上不会改变任何东西。因此，PUT是幂等的。</p><h3 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h3><p>调用N个相同的DELETE请求时，第一个请求将删除资源，响应将是200 (OK)或204 (No Content)。其他N-1请求将返回404 (Not Found)。显然，响应与第一个请求不同，但服务器端的任何资源都没有状态更改，因为原始资源已被删除。因此，DELETE是幂等的。<br>这里值得注意的是，delete可能有这样一种设计：<br>DELETE <code>/user/latest</code> 删除最新的用户，这样的话调用N次将删除N个用户，DELETE同样不是幂等的，所以该api可以考虑设计成 <code>POST</code></p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>通常，我们为了给所有服务都设计成幂等，有以下解决办法：</p><ol><li>异步处理，利用消息中间件，A向中间件中发送一个消息，A服务直接返回成功，B服务异步消费。</li><li>唯一ID，每次请求都可带上唯一ID，A发送请求时，B可以知道该请求是否已经发送过，有则直接忽略。</li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从幂等概念谈起，再结合http各method意义谈了每个方法是否幂等。 最后引出解决办法。</p><p><code>关注我，这里只有干货！</code></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/restful_by_xxseadragonxx_d4ahvcl-pre.jpg-blog_960_440.jpg&quot; alt=&quot;restful api&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
+    
+    
+      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
+    
+      <category term="api" scheme="http://jsbintask.cn/tags/api/"/>
+    
+  </entry>
   
   <entry>
     <title>你真的了解restful api吗？</title>
@@ -478,9 +502,9 @@
     
       <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
     
-      <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
-    
       <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
+    
+      <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
     
   </entry>
   
@@ -553,9 +577,9 @@
     </summary>
     
     
-      <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
-    
       <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
+    
+      <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
     
   </entry>
   

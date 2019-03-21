@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://jsbintask.cn/2019/03/21/api/restful-api-idempotent/</loc>
+    
+    <lastmod>2019-03-21T08:05:00.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://jsbintask.cn/2019/03/20/api/restful-api-best-practices/</loc>
     
     <lastmod>2019-03-20T08:05:00.000Z</lastmod>
@@ -212,14 +219,14 @@
   </url>
   
   <url>
-    <loc>http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</loc>
+    <loc>http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/</loc>
     
     <lastmod>2019-01-11T06:15:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/</loc>
+    <loc>http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</loc>
     
     <lastmod>2019-01-11T06:15:00.000Z</lastmod>
     
