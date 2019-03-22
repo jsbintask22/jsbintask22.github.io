@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jsbintask.cn/"/>
-  <updated>2019-03-21T08:05:00.000Z</updated>
+  <updated>2019-03-22T08:05:00.000Z</updated>
   <id>http://jsbintask.cn/</id>
   
   <author>
@@ -17,13 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>jdk8源码解析-ArrayList</title>
+    <link href="http://jsbintask.cn/2019/03/22/jdk/jdk8-arraylist/"/>
+    <id>http://jsbintask.cn/2019/03/22/jdk/jdk8-arraylist/</id>
+    <published>2019-03-22T08:05:00.000Z</published>
+    <updated>2019-03-22T08:05:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/tree_swing_by_t1na_d78qocc-pre.jpg-blog_960_440.jpg" alt="ArrayList"><br><a id="more"></a></p><blockquote><p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/22/jdk/jdk8-arraylist/">https://jsbintask.cn/2019/03/22/jdk/jdk8-arraylist/</a>(食用效果最佳)，转载请注明出处!</p></blockquote><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>ArrayList</code>是一个长度可调节的数组，使用者只需向其中添加，删除，获取元素，可以向其中添加任何对象（包括null值），无需关系它的扩容，，缩减问题。它实现了<code>list</code>接口所有方法，它基本等价于<code>Vector</code>，唯一不同的是它没有任何同步手段，多线程环境须慎重考虑。</p><h2 id="ArrayList结构"><a href="#ArrayList结构" class="headerlink" title="ArrayList结构"></a>ArrayList结构</h2><h3 id="类关系"><a href="#类关系" class="headerlink" title="类关系"></a>类关系</h3><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/arraylist-1.png" alt="ArrayList"><br>这里唯一需要注意的是，它实现了一个<code>RandomAccess</code>接口，这个接口没有任何方法声明，是一个标记接口，它是为了告诉使用者如果实现了这个接口那么你的实现在算法上应该for循环会比使用iterator更快，<code>LinkedList</code>则没有实现这个接口，它则是iterator更快。<br>我们查看Collections工具类二分搜索方法：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/arraylist-2.png" alt="ArrayList"><br>这就验证了我们上面说的那句话，实现了这个接口的子类在随机访问时会更快（for循环），而没有实现，则顺序访问会更加快（iterator迭代）。</p><h3 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h3><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/arraylist-3.png" alt="ArrayList"><br>它内部主要有两个成员变量，elementData用于存储数据，size用于标记存储了多少个元素，size总是按最大值显示的（考虑多线程环境，添加元素先增加size）。</p><h3 id="方法解析"><a href="#方法解析" class="headerlink" title="方法解析"></a>方法解析</h3><p><code>add(E e)</code> 末尾插入新元素<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">//判断是否需要扩容</span></span><br><span class="line">    elementData[size++] = e;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><ol><li>首先进行了扩容，最终调用的是grow方法：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/arraylist-4.png" alt="ArrayList"><br>从这里我们知道每次扩容后的大小为原来的容量 n + n/2，例如原来的容量是10，扩容后的容量则成了15.</li><li>将新元素放到了原来的元素的后面，因为不用移动原来的元素，所以比较快。</li></ol><p><code>add(int index, E e)</code> 指定位置插入新元素<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, E element)</span> </span>&#123;</span><br><span class="line">    rangeCheckForAdd(index);</span><br><span class="line"></span><br><span class="line">    ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">    System.arraycopy(elementData, index, elementData, index + <span class="number">1</span>,</span><br><span class="line">                     size - index);</span><br><span class="line">    elementData[index] = element;</span><br><span class="line">    size++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><ol><li>检查index位置是否合理（太小，太大）</li><li>同上，检查是否需要扩大数组容量。</li><li>将原来index后面的所有元素往后面移动一个位置，这样index位置就空出来了。</li><li>将新元素放到index位置，接着size加1<br>从这里我们知道，因为每次插入都需要移动index后面的元素，所以效率很低，尽量避免使用该方法。<code>其它的add方法同上类似，这里不再赘述。</code></li></ol><p><code>get(int index)</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">get</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    rangeCheck(index);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> elementData(index);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>获取指定位置元素，直接返回数组对应的位置，不需要额外操作，很快！（这也是为什么它能够实现了AccessRandom）</p><p><code>remove(int index)</code><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    rangeCheck(index);</span><br><span class="line"></span><br><span class="line">    modCount++;</span><br><span class="line">    E oldValue = elementData(index);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> numMoved = size - index - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)</span><br><span class="line">        System.arraycopy(elementData, index+<span class="number">1</span>, elementData, index,</span><br><span class="line">                         numMoved);</span><br><span class="line">    elementData[--size] = <span class="keyword">null</span>; <span class="comment">// clear to let GC do its work</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><ol><li>直接移动index后面的所有元素向前移动，覆盖index位置，简单粗暴。 从这里我们知道需要移动数组，效率并不高。</li></ol><p><code>index(E e)</code> 查询元素位置<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (o == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">            <span class="keyword">if</span> (elementData[i]==<span class="keyword">null</span>)</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">            <span class="keyword">if</span> (o.equals(elementData[i]))</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><ol><li>遍历查找第一个equals要找的的元素的位置，返回，简单粗暴。<br>最后我们介绍下另一个方法<code>trimToSize()</code>:<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    modCount++;</span><br><span class="line">    <span class="keyword">if</span> (size &lt; elementData.length) &#123;</span><br><span class="line">        elementData = (size == <span class="number">0</span>)</span><br><span class="line">          ? EMPTY_ELEMENTDATA</span><br><span class="line">          : Arrays.copyOf(elementData, size);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol><p>这个方法是用来缩减空间的，当你的ArrayList装的东西已经确定以后（以后不会再删除，添加），可以调用这个方法节省内存空间。 它会把数组的长度缩减得和size一样。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol><li>ArrayList内部使用一个数组存储数据，使用一个size变量标记储存了多少个元素。</li><li>它可以存储任一对象，包括null，当向其中添加元素时，会进行扩容操作，每次扩容增加的大小为原来数组长度的一半。所以最好使用之前能够估计好元素的数量。</li><li>查找元素，末尾插入元素很快，指定位置插入元素，移除元素效率很低，因为需要移动数组。 所以查找操作多推荐使用ArrayList，删除操作多时推荐使用LinkedList。</li><li>可以调用trimToSize”瘦身“。</li><li>继承了一个AccessRandom标记接口，继承者在算法实现上应该考虑for循环遍历元素要快于iterator遍历。<br><code>关注我，这里只有干货！</code></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/tree_swing_by_t1na_d78qocc-pre.jpg-blog_960_440.jpg&quot; alt=&quot;ArrayList&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
+    
+    
+      <category term="java" scheme="http://jsbintask.cn/tags/java/"/>
+    
+      <category term="jdk" scheme="http://jsbintask.cn/tags/jdk/"/>
+    
+  </entry>
+  
+  <entry>
     <title>你的rest服务幂等吗？</title>
     <link href="http://jsbintask.cn/2019/03/21/api/restful-api-idempotent/"/>
     <id>http://jsbintask.cn/2019/03/21/api/restful-api-idempotent/</id>
     <published>2019-03-21T08:05:00.000Z</published>
     <updated>2019-03-21T08:05:00.000Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/restful_by_xxseadragonxx_d4ahvcl-pre.jpg-blog_960_440.jpg" alt="restful api"><br><a id="more"></a></p><blockquote><p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/">https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/</a>(食用效果最佳)，转载请注明出处!</p></blockquote><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇我们介绍了<code>restful api</code>相关知识，本篇我们介绍另一个于rest息息相关的概念：<code>幂等</code>;</p><blockquote><p><a href="https://www.jianshu.com/p/a35bad7dbc54" target="_blank" rel="noopener">你真的了解rest api吗？</a></p></blockquote><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们知道，springcloud做微服务时，服务之间的调用，服务的暴露使用的就是restful api，现在可以考虑这么一种情况，加入我们有订单服务A，支付服务B，A向B服务发送了一次请求，但由于网络，超时等的原因，A认为B该次服务失败，于是A又发起了一次同样的请求，那么这次请求会不会有什么不良影响呢？如果B又调用了其它服务呢？</p><blockquote><p>这里我们可以引出一个概念：在REST API中，当发送多个相同的请求与发送单个请求具有相同的效果时，该REST API就可以称为幂等。</p></blockquote><p>所以A发送相同的请求调用B服务不会出现业务逻辑的偏差，这样B服务就是幂等的。</p><h2 id="http-method-幂等"><a href="#http-method-幂等" class="headerlink" title="http method 幂等"></a>http method 幂等</h2><p>如果你在设计API时遵循REST原则，则GET，PUT，DELETE，HEAD，OPTIONS和TRACE HTTP方法的自动幂等REST API。只有POST API不是幂等的。</p><p>POST 不是幂等的。<br>GET，PUT，DELETE，HEAD，OPTIONS和TRACE是幂等。<br>why？</p><h3 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h3><p>通常，当然不是绝对； 我们使用POST API在服务器上是为了创建新资源。所以，调用相同的POST请求N次时，您将在服务器上拥有N个新资源。因此，POST不是幂等的。</p><h3 id="GET，HEAD，OPTIONS和TRACE"><a href="#GET，HEAD，OPTIONS和TRACE" class="headerlink" title="GET，HEAD，OPTIONS和TRACE"></a>GET，HEAD，OPTIONS和TRACE</h3><p>GET，HEAD，OPTIONS和TRACE方法永远不会改变服务器上的资源状态。因为它们全部用来获取数据。因此，调用多个请求将不会在服务器上进行任何写操作，所以GET，HEAD，OPTIONS和TRACE是幂等的。</p><h3 id="PUT和PATCH"><a href="#PUT和PATCH" class="headerlink" title="PUT和PATCH"></a>PUT和PATCH</h3><p>使用PUT，PATCH API来更新资源状态。调用PUT API N次，则第一个请求将更新资源; N-1请求将一次又一次地覆盖相同的资源状态 - 实际上不会改变任何东西。因此，PUT是幂等的。</p><h3 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h3><p>调用N个相同的DELETE请求时，第一个请求将删除资源，响应将是200 (OK)或204 (No Content)。其他N-1请求将返回404 (Not Found)。显然，响应与第一个请求不同，但服务器端的任何资源都没有状态更改，因为原始资源已被删除。因此，DELETE是幂等的。<br>这里值得注意的是，delete可能有这样一种设计：<br>DELETE <code>/user/latest</code> 删除最新的用户，这样的话调用N次将删除N个用户，DELETE同样不是幂等的，所以该api可以考虑设计成 <code>POST</code></p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>通常，我们为了给所有服务都设计成幂等，有以下解决办法：</p><ol><li>异步处理，利用消息中间件，A向中间件中发送一个消息，A服务直接返回成功，B服务异步消费。</li><li>唯一ID，每次请求都可带上唯一ID，A发送请求时，B可以知道该请求是否已经发送过，有则直接忽略。</li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从幂等概念谈起，再结合http各method意义谈了每个方法是否幂等。 最后引出解决办法。</p><p><code>关注我，这里只有干货！</code></p>]]></content>
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/restful_by_xxseadragonxx_d4ahvcl-pre.jpg-blog_960_440.jpg" alt="restful api"><br><a id="more"></a></p><blockquote><p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/21/api/restful-api-idempotent/">https://jsbintask.cn/2019/03/21/api/restful-api-idempotent/</a>(食用效果最佳)，转载请注明出处!</p></blockquote><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一篇我们介绍了<code>restful api</code>相关知识，本篇我们介绍另一个于rest息息相关的概念：<code>幂等</code>;</p><blockquote><p><a href="https://www.jianshu.com/p/a35bad7dbc54" target="_blank" rel="noopener">你真的了解rest api吗？</a></p></blockquote><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>我们知道，springcloud做微服务时，服务之间的调用，服务的暴露使用的就是restful api，现在可以考虑这么一种情况，加入我们有订单服务A，支付服务B，A向B服务发送了一次请求，但由于网络，超时等的原因，A认为B该次服务失败，于是A又发起了一次同样的请求，那么这次请求会不会有什么不良影响呢？如果B又调用了其它服务呢？</p><blockquote><p>这里我们可以引出一个概念：在REST API中，当发送多个相同的请求与发送单个请求具有相同的效果时，该REST API就可以称为幂等。</p></blockquote><p>所以A发送相同的请求调用B服务不会出现业务逻辑的偏差，这样B服务就是幂等的。</p><h2 id="http-method-幂等"><a href="#http-method-幂等" class="headerlink" title="http method 幂等"></a>http method 幂等</h2><p>如果你在设计API时遵循REST原则，则GET，PUT，DELETE，HEAD，OPTIONS和TRACE HTTP方法的自动幂等REST API。只有POST API不是幂等的。</p><p>POST 不是幂等的。<br>GET，PUT，DELETE，HEAD，OPTIONS和TRACE是幂等。<br>why？</p><h3 id="POST"><a href="#POST" class="headerlink" title="POST"></a>POST</h3><p>通常，当然不是绝对； 我们使用POST API在服务器上是为了创建新资源。所以，调用相同的POST请求N次时，您将在服务器上拥有N个新资源。因此，POST不是幂等的。</p><h3 id="GET，HEAD，OPTIONS和TRACE"><a href="#GET，HEAD，OPTIONS和TRACE" class="headerlink" title="GET，HEAD，OPTIONS和TRACE"></a>GET，HEAD，OPTIONS和TRACE</h3><p>GET，HEAD，OPTIONS和TRACE方法永远不会改变服务器上的资源状态。因为它们全部用来获取数据。因此，调用多个请求将不会在服务器上进行任何写操作，所以GET，HEAD，OPTIONS和TRACE是幂等的。</p><h3 id="PUT和PATCH"><a href="#PUT和PATCH" class="headerlink" title="PUT和PATCH"></a>PUT和PATCH</h3><p>使用PUT，PATCH API来更新资源状态。调用PUT API N次，则第一个请求将更新资源; N-1请求将一次又一次地覆盖相同的资源状态 - 实际上不会改变任何东西。因此，PUT是幂等的。</p><h3 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h3><p>调用N个相同的DELETE请求时，第一个请求将删除资源，响应将是200 (OK)或204 (No Content)。其他N-1请求将返回404 (Not Found)。显然，响应与第一个请求不同，但服务器端的任何资源都没有状态更改，因为原始资源已被删除。因此，DELETE是幂等的。<br>这里值得注意的是，delete可能有这样一种设计：<br>DELETE <code>/user/latest</code> 删除最新的用户，这样的话调用N次将删除N个用户，DELETE同样不是幂等的，所以该api可以考虑设计成 <code>POST</code></p><h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>通常，我们为了给所有服务都设计成幂等，有以下解决办法：</p><ol><li>异步处理，利用消息中间件，A向中间件中发送一个消息，A服务直接返回成功，B服务异步消费。</li><li>唯一ID，每次请求都可带上唯一ID，A发送请求时，B可以知道该请求是否已经发送过，有则直接忽略。</li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>从幂等概念谈起，再结合http各method意义谈了每个方法是否幂等。 最后引出解决办法。</p><p><code>关注我，这里只有干货！</code></p>]]></content>
     
     <summary type="html">
     
@@ -34,9 +58,9 @@
       <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="http://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -58,9 +82,9 @@
       <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="http://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -502,9 +526,9 @@
     
       <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
     
-      <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
-    
       <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
+    
+      <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
     
   </entry>
   
@@ -577,9 +601,9 @@
     </summary>
     
     
-      <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
-    
       <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
+    
+      <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
     
   </entry>
   
