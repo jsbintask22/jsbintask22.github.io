@@ -601,9 +601,9 @@
     </summary>
     
     
-      <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
-    
       <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
+    
+      <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
     
   </entry>
   
