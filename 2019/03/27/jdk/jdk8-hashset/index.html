@@ -6,23 +6,29 @@
   
   <title>
     
-    消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？|
+    HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？|
     jsbintask的博客
     
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="面试题如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，说说怎么解决？">
-<meta name="keywords" content="面试">
+  <meta name="description" content="本文原创地址，我的博客：https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/(食用效果最佳)，转载请注明出处!  前言前段时间朋友面试遇到这个问题：谈一谈HashSet的特点，它是怎么实现的，使用时有什么需要注意的点呢？恰好最近在写这方面的文章，于是正好通过本篇文章讲解下HashSet的源码实现，需要注意的点。HashSet实现了Set接口，是一个不">
+<meta name="keywords" content="java,源码,jdk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？">
-<meta property="og:url" content="http://jsbintask.cn/2019/01/28/interview/interview-middleware-manymessage/index.html">
+<meta property="og:title" content="HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？">
+<meta property="og:url" content="http://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
-<meta property="og:description" content="面试题如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，说说怎么解决？">
+<meta property="og:description" content="本文原创地址，我的博客：https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/(食用效果最佳)，转载请注明出处!  前言前段时间朋友面试遇到这个问题：谈一谈HashSet的特点，它是怎么实现的，使用时有什么需要注意的点呢？恰好最近在写这方面的文章，于是正好通过本篇文章讲解下HashSet的源码实现，需要注意的点。HashSet实现了Set接口，是一个不">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-01-28T06:00:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-5.png">
+<meta property="og:updated_time" content="2019-03-27T08:05:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？">
-<meta name="twitter:description" content="面试题如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，说说怎么解决？">
+<meta name="twitter:title" content="HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？">
+<meta name="twitter:description" content="本文原创地址，我的博客：https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/(食用效果最佳)，转载请注明出处!  前言前段时间朋友面试遇到这个问题：谈一谈HashSet的特点，它是怎么实现的，使用时有什么需要注意的点呢？恰好最近在写这方面的文章，于是正好通过本篇文章讲解下HashSet的源码实现，需要注意的点。HashSet实现了Set接口，是一个不">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-1.png">
   
   <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -239,11 +245,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-interview/interview-middleware-manymessage" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-jdk/jdk8-hashset" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/01/28/interview/interview-middleware-manymessage/" class="article-date">
-      <time datetime="2019-01-28T06:00:00.000Z" itemprop="datePublished">2019-01-28</time>
+      <a href="/2019/03/27/jdk/jdk8-hashset/" class="article-date">
+      <time datetime="2019-03-27T08:05:00.000Z" itemprop="datePublished">2019-03-27</time>
 </a>
     </div>
   
@@ -256,7 +262,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？
+      HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？
     </h1>
   
 
@@ -264,10 +270,14 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/面试/">面试</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/">jdk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -277,25 +287,34 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p>如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，说说怎么解决？<br><a id="more"></a></p>
-<p>消息中间件各种面试题：<br><a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-reliable/">消息中间件面试题：消息丢失怎么办？</a><br><a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-jms/">消息中间件面试题：消息队列的优缺点，区别</a><br><a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a><br><a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-order/">消息中间件面试题：如何保证消息的顺序性</a><br><a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-one/">消息中间件面试题：如何保证消息不被重复消费</a><br><a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-manymessage/">消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？</a><br><a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-custommmiddleware/">消息中间件面试题：如果让你写一个消息队列，该如何进行架构设计？</a></p>
-<h2 id="面试题剖析"><a href="#面试题剖析" class="headerlink" title="面试题剖析"></a>面试题剖析</h2><p>你看这问法，其实本质针对的场景，都是说，可能你的消费端出了问题，不消费了；或者消费的速度极其慢。接着就坑爹了，可能你的消息队列集群的磁盘都快写满了，都没人消费，这个时候怎么办？或者是这整个就积压了几个小时，你这个时候怎么办？或者是你积压的时间太长了，导致比如 RabbitMQ 设置了消息过期时间后就没了怎么办？</p>
-<p>所以就这事儿，其实线上挺常见的，一般不出，一出就是大 case。一般常见于，举个例子，消费端每次消费之后要写 mysql，结果 mysql 挂了，消费端 hang 那儿了，不动了；或者是消费端出了个什么岔子，导致消费速度极其慢。<br>关于这个事儿，我们一个一个来梳理吧，先假设一个场景，我们现在消费端出故障了，然后大量消息在 mq 里积压，现在出事故了，慌了。</p>
-<h3 id="大量消息在-mq-里积压了几个小时了还没解决"><a href="#大量消息在-mq-里积压了几个小时了还没解决" class="headerlink" title="大量消息在 mq 里积压了几个小时了还没解决"></a>大量消息在 mq 里积压了几个小时了还没解决</h3><p>几千万条数据在 MQ 里积压了七八个小时，从下午 4 点多，积压到了晚上 11 点多。这个是我们真实遇到过的一个场景，确实是线上故障了，这个时候要不然就是修复 consumer 的问题，让它恢复消费速度，然后傻傻的等待几个小时消费完毕。这个肯定不能在面试的时候说吧。</p>
-<p>一个消费者一秒是 1000 条，一秒 3 个消费者是 3000 条，一分钟就是 18 万条。所以如果你积压了几百万到上千万的数据，即使消费者恢复了，也需要大概 1 小时的时间才能恢复过来。</p>
-<p>一般这个时候，只能临时紧急扩容了，具体操作步骤和思路如下：</p>
-<ul>
-<li>先修复 consumer 的问题，确保其恢复消费速度，然后将现有 consumer 都停掉。</li>
-<li>新建一个 topic，partition 是原来的 10 倍，临时建立好原先 10 倍的 queue 数量。</li>
-<li>然后写一个临时的分发数据的 consumer 程序，这个程序部署上去消费积压的数据，<strong>消费之后不做耗时的处理</strong>，直接均匀轮询写入临时建立好的 10 倍数量的 queue。</li>
-<li>接着临时征用 10 倍的机器来部署 consumer，每一批 consumer 消费一个临时 queue 的数据。这种做法相当于是临时将 queue 资源和 consumer 资源扩大 10 倍，以正常的 10 倍速度来消费数据。</li>
-<li>等快速消费完积压数据之后，<strong>得恢复原先部署的架构</strong>，<strong>重新</strong>用原先的 consumer 机器来消费消息。</li>
-</ul>
-<h3 id="mq-中的消息过期失效了"><a href="#mq-中的消息过期失效了" class="headerlink" title="mq 中的消息过期失效了"></a>mq 中的消息过期失效了</h3><p>假设你用的是 RabbitMQ，RabbtiMQ 是可以设置过期时间的，也就是 TTL。如果消息在 queue 中积压超过一定的时间就会被 RabbitMQ 给清理掉，这个数据就没了。那这就是第二个坑了。这就不是说数据会大量积压在 mq 里，而是<strong>大量的数据会直接搞丢</strong>。</p>
-<p>这个情况下，就不是说要增加 consumer 消费积压的消息，因为实际上没啥积压，而是丢了大量的消息。我们可以采取一个方案，就是<strong>批量重导</strong>，这个我们之前线上也有类似的场景干过。就是大量积压的时候，我们当时就直接丢弃数据了，然后等过了高峰期以后，比如大家一起喝咖啡熬夜到晚上12点以后，用户都睡觉了。这个时候我们就开始写程序，将丢失的那批数据，写个临时程序，一点一点的查出来，然后重新灌入 mq 里面去，把白天丢的数据给他补回来。也只能是这样了。</p>
-<p>假设 1 万个订单积压在 mq 里面，没有处理，其中 1000 个订单都丢了，你只能手动写程序把那 1000 个订单给查出来，手动发到 mq 里去再补一次。</p>
-<h3 id="mq-都快写满了"><a href="#mq-都快写满了" class="headerlink" title="mq 都快写满了"></a>mq 都快写满了</h3><p>如果消息积压在 mq 里，你很长时间都没有处理掉，此时导致 mq 都快写满了，咋办？这个还有别的办法吗？没有，谁让你第一个方案执行的太慢了，你临时写程序，接入数据来消费，<strong>消费一个丢弃一个，都不要了</strong>，快速消费掉所有的消息。然后走第二个方案，到了晚上再补数据吧。</p>
-<p>本文原创地址：<a href="https://jsbintask.cn/2019/01/28/interview/interview-middleware-manymessage/">https://jsbintask.cn/2019/01/28/interview/interview-middleware-manymessage/</a>，转载请注明出处。</p>
+        <blockquote>
+<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/">https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/</a>(食用效果最佳)，转载请注明出处!</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前段时间朋友面试遇到这个问题：谈一谈HashSet的特点，它是怎么实现的，使用时有什么需要注意的点呢？恰好最近在写这方面的文章，于是正好通过本篇文章讲解下<code>HashSet</code>的源码实现，需要注意的点。<br><code>HashSet</code>实现了<code>Set</code>接口，是一个不能够存放重复元素的容器，内部直接使用<code>HashMap</code>实现，即底层使用数组存储数据，HashSet没有任何同步手段，在多线程环境下需慎重考虑，可以使用<code>Collections.synchronizedSet(new HashSet(...));</code>给原有的Set方法同步。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-1.png" alt="HashSet"></p>
+<blockquote>
+<p>友情链接：<a href="https://www.jianshu.com/p/a090a0f0c4d6" target="_blank" rel="noopener">HashMap源码全解析从一道面试题说起：请一行一行代码描述下hashmap put方法</a></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="HashSet结构详解"><a href="#HashSet结构详解" class="headerlink" title="HashSet结构详解"></a>HashSet结构详解</h2><h3 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h3><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-2.png" alt="HashSet"><br>关系图没有需要注意的点，<code>HashSet</code>实现了<code>Set</code>接口，Set是<code>集合</code>的抽象概念，它内部不允许出现重复的元素。</p>
+<h3 id="类成员"><a href="#类成员" class="headerlink" title="类成员"></a>类成员</h3><p>前面我们已经说过，Set内部是不能够存在重复元素的，那HashSet内部是怎么做的呢？如图：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-3.png" alt="HashSet"><br>直接使用HashMap存放数据，因HashMap的Key须唯一，所以可以将我们需要存放的数据放到Key，而所有的value对应一个内部的对象PRESENT即可。</p>
+<h2 id="源码详解"><a href="#源码详解" class="headerlink" title="源码详解"></a>源码详解</h2><h3 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单明了，直接new一个HashMap。 这里需要注意的是，它还有另一个不常用的构造方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HashSet(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor, <span class="keyword">boolean</span> dummy) &#123;</span><br><span class="line">    map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用这个构造方法会内部将不再使用HashMap操作元素，而是<code>LinkedHashMap</code>，而LinkedHashMap继承自HashMap，他们之间的不同是LinkedHashMap在HashMap底层使用数组的是线上加了两个“指针”分别指向头和尾。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-4.png" alt="HashSet"></p>
+<h3 id="add-E-e-添加元素"><a href="#add-E-e-添加元素" class="headerlink" title="add(E e) 添加元素"></a>add(E e) 添加元素</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接调用HashMap的put方法，将元素e放到map的key位置来保证唯一性。我们知道HashMap的put方法如果该位置已经存在一个一样的Key（==或者equals相等），会用新的value替换原来的旧的value，并且返回旧的value，所以对于HashSet而言第一次插入返回null就代表成功，以后再次插入同样的元素，返回的是一个对象，表示已经存在这样的元素了，插入失败！<br>其它remove，contains方法类似。</p>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol>
+<li>HashSet中存储的元素都是“无序的”，因为底层使用数组实现，存储时将key进行hash得出数组位置，这是一个随机的过程，所以存储的元素时无序的。</li>
+<li>为了HashSet迭代时的性能考虑，初始容量可以尽量设置的小一点，而加载引子则可以设置的大一点（默认0.75）。因为HashSet和HashMap关注的中心不同，HashMap关注的是其中的键值对的存储以及扩容时的性能考虑。<br>HashSet的迭代方法直接调用HashMap内部KeySet的iterator方法，返回<code>KeyIterator</code>。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.keySet().iterator();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-5.png" alt="HashSet"><br>该方法在迭代时循环判断数组是否为null，不为null则认为该位置上有元素。所以确定初始容量，尽量设置的更小有利于HashSet迭代其中的key。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>HashSet是一个元素不会重复并且无序的容器。</li>
+<li>HashSet内部使用HashMap实现，即最终依然使用数组存储数据。</li>
+<li>使用时应该尽可能确定容器的大小，尽量设置初始容量小一点，并且加载引子大一点以加快迭代性能。</li>
+</ol>
+<p><code>关注我，这里只有干货！</code></p>
+<p>关联文章：<br><a href="https://www.jianshu.com/p/a090a0f0c4d61" target="_blank" rel="noopener">HashMap源码全解析从一道面试题说起：请一行一行代码描述下hashmap put方法</a><br><a href="https://www.jianshu.com/p/a01659ca07f8" target="_blank" rel="noopener">jdk1.8源码解析-ArrayList</a><br><a href="https://www.jianshu.com/p/6a9cb631b2ef" target="_blank" rel="noopener">jdk1.8 LinkedList源码全分析</a><br><a href="https://www.jianshu.com/p/0f8d9cd4adc5" target="_blank" rel="noopener">线程池？面试？看这篇就够了！</a></p>
 
       
       
@@ -346,13 +365,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/28/interview/interview-middleware-manymessage/">消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？</a></p>
+        <p><span>本文标题:</span><a href="/2019/03/27/jdk/jdk8-hashset/">HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年01月28日 - 14时00分</p>
-        <p><span>最后更新:</span>2019年01月28日 - 14时00分</p>
+        <p><span>发布时间:</span>2019年03月27日 - 16时05分</p>
+        <p><span>最后更新:</span>2019年03月27日 - 16时05分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/28/interview/interview-middleware-manymessage/" title="消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？">http://jsbintask.cn/2019/01/28/interview/interview-middleware-manymessage/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/28/interview/interview-middleware-manymessage/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/03/27/jdk/jdk8-hashset/" title="HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？">http://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -365,18 +384,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/01/28/interview/interview-middleware-custommiddleware/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          消息中间件面试题：如果让你写一个消息队列，该如何进行架构设计？
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/01/28/interview/interview-middleware-one/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">消息中间件面试题：如何保证消息不被重复消费</div>
+    <a href="/2019/03/26/jdk/jdk8-linkedlist/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">jdk1.8 LinkedList源码全分析</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -387,7 +397,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#面试题"><span class="toc-number">1.</span> <span class="toc-text">面试题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#面试题剖析"><span class="toc-number">2.</span> <span class="toc-text">面试题剖析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#大量消息在-mq-里积压了几个小时了还没解决"><span class="toc-number">2.1.</span> <span class="toc-text">大量消息在 mq 里积压了几个小时了还没解决</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mq-中的消息过期失效了"><span class="toc-number">2.2.</span> <span class="toc-text">mq 中的消息过期失效了</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mq-都快写满了"><span class="toc-number">2.3.</span> <span class="toc-text">mq 都快写满了</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HashSet结构详解"><span class="toc-number">2.</span> <span class="toc-text">HashSet结构详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类结构"><span class="toc-number">2.1.</span> <span class="toc-text">类结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类成员"><span class="toc-number">2.2.</span> <span class="toc-text">类成员</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码详解"><span class="toc-number">3.</span> <span class="toc-text">源码详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器"><span class="toc-number">3.1.</span> <span class="toc-text">构造器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#add-E-e-添加元素"><span class="toc-number">3.2.</span> <span class="toc-text">add(E e) 添加元素</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意点"><span class="toc-number">4.</span> <span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -434,17 +444,55 @@
 
     
 
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="jdk8-hashset"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
+
+
+    
+
 
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/01/28/interview/interview-middleware-custommiddleware/" title="上一篇: 消息中间件面试题：如果让你写一个消息队列，该如何进行架构设计？">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/28/interview/interview-middleware-one/" title="下一篇: 消息中间件面试题：如何保证消息不被重复消费">
+            <a href="/2019/03/26/jdk/jdk8-linkedlist/" title="下一篇: jdk1.8 LinkedList源码全分析">
                 <i class="fa fa-angle-right"></i>
             </a>
         

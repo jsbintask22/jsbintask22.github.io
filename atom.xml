@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jsbintask.cn/"/>
-  <updated>2019-03-26T08:05:00.000Z</updated>
+  <updated>2019-03-27T08:05:00.000Z</updated>
   <id>http://jsbintask.cn/</id>
   
   <author>
@@ -15,6 +15,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？</title>
+    <link href="http://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/"/>
+    <id>http://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/</id>
+    <published>2019-03-27T08:05:00.000Z</published>
+    <updated>2019-03-27T08:05:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/">https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/</a>(食用效果最佳)，转载请注明出处!</p></blockquote><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前段时间朋友面试遇到这个问题：谈一谈HashSet的特点，它是怎么实现的，使用时有什么需要注意的点呢？恰好最近在写这方面的文章，于是正好通过本篇文章讲解下<code>HashSet</code>的源码实现，需要注意的点。<br><code>HashSet</code>实现了<code>Set</code>接口，是一个不能够存放重复元素的容器，内部直接使用<code>HashMap</code>实现，即底层使用数组存储数据，HashSet没有任何同步手段，在多线程环境下需慎重考虑，可以使用<code>Collections.synchronizedSet(new HashSet(...));</code>给原有的Set方法同步。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-1.png" alt="HashSet"></p><blockquote><p>友情链接：<a href="https://www.jianshu.com/p/a090a0f0c4d6" target="_blank" rel="noopener">HashMap源码全解析从一道面试题说起：请一行一行代码描述下hashmap put方法</a></p></blockquote><a id="more"></a><h2 id="HashSet结构详解"><a href="#HashSet结构详解" class="headerlink" title="HashSet结构详解"></a>HashSet结构详解</h2><h3 id="类结构"><a href="#类结构" class="headerlink" title="类结构"></a>类结构</h3><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-2.png" alt="HashSet"><br>关系图没有需要注意的点，<code>HashSet</code>实现了<code>Set</code>接口，Set是<code>集合</code>的抽象概念，它内部不允许出现重复的元素。</p><h3 id="类成员"><a href="#类成员" class="headerlink" title="类成员"></a>类成员</h3><p>前面我们已经说过，Set内部是不能够存在重复元素的，那HashSet内部是怎么做的呢？如图：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-3.png" alt="HashSet"><br>直接使用HashMap存放数据，因HashMap的Key须唯一，所以可以将我们需要存放的数据放到Key，而所有的value对应一个内部的对象PRESENT即可。</p><h2 id="源码详解"><a href="#源码详解" class="headerlink" title="源码详解"></a>源码详解</h2><h3 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashSet</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">    map = <span class="keyword">new</span> HashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>简单明了，直接new一个HashMap。 这里需要注意的是，它还有另一个不常用的构造方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HashSet(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor, <span class="keyword">boolean</span> dummy) &#123;</span><br><span class="line">    map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p><p>使用这个构造方法会内部将不再使用HashMap操作元素，而是<code>LinkedHashMap</code>，而LinkedHashMap继承自HashMap，他们之间的不同是LinkedHashMap在HashMap底层使用数组的是线上加了两个“指针”分别指向头和尾。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-4.png" alt="HashSet"></p><h3 id="add-E-e-添加元素"><a href="#add-E-e-添加元素" class="headerlink" title="add(E e) 添加元素"></a>add(E e) 添加元素</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.put(e, PRESENT)==<span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>直接调用HashMap的put方法，将元素e放到map的key位置来保证唯一性。我们知道HashMap的put方法如果该位置已经存在一个一样的Key（==或者equals相等），会用新的value替换原来的旧的value，并且返回旧的value，所以对于HashSet而言第一次插入返回null就代表成功，以后再次插入同样的元素，返回的是一个对象，表示已经存在这样的元素了，插入失败！<br>其它remove，contains方法类似。</p><h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol><li>HashSet中存储的元素都是“无序的”，因为底层使用数组实现，存储时将key进行hash得出数组位置，这是一个随机的过程，所以存储的元素时无序的。</li><li>为了HashSet迭代时的性能考虑，初始容量可以尽量设置的小一点，而加载引子则可以设置的大一点（默认0.75）。因为HashSet和HashMap关注的中心不同，HashMap关注的是其中的键值对的存储以及扩容时的性能考虑。<br>HashSet的迭代方法直接调用HashMap内部KeySet的iterator方法，返回<code>KeyIterator</code>。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Iterator&lt;E&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> map.keySet().iterator();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol><p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-5.png" alt="HashSet"><br>该方法在迭代时循环判断数组是否为null，不为null则认为该位置上有元素。所以确定初始容量，尽量设置的更小有利于HashSet迭代其中的key。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol><li>HashSet是一个元素不会重复并且无序的容器。</li><li>HashSet内部使用HashMap实现，即最终依然使用数组存储数据。</li><li>使用时应该尽可能确定容器的大小，尽量设置初始容量小一点，并且加载引子大一点以加快迭代性能。</li></ol><p><code>关注我，这里只有干货！</code></p><p>关联文章：<br><a href="https://www.jianshu.com/p/a090a0f0c4d61" target="_blank" rel="noopener">HashMap源码全解析从一道面试题说起：请一行一行代码描述下hashmap put方法</a><br><a href="https://www.jianshu.com/p/a01659ca07f8" target="_blank" rel="noopener">jdk1.8源码解析-ArrayList</a><br><a href="https://www.jianshu.com/p/6a9cb631b2ef" target="_blank" rel="noopener">jdk1.8 LinkedList源码全分析</a><br><a href="https://www.jianshu.com/p/0f8d9cd4adc5" target="_blank" rel="noopener">线程池？面试？看这篇就够了！</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本文原创地址，&lt;code&gt;我的博客&lt;/code&gt;：&lt;a href=&quot;https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/&quot;&gt;https://jsbintask.cn/2019/03/27/jdk/jdk8-hashset/&lt;/a&gt;(食用效果最佳)，转载请注明出处!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;前段时间朋友面试遇到这个问题：谈一谈HashSet的特点，它是怎么实现的，使用时有什么需要注意的点呢？恰好最近在写这方面的文章，于是正好通过本篇文章讲解下&lt;code&gt;HashSet&lt;/code&gt;的源码实现，需要注意的点。&lt;br&gt;&lt;code&gt;HashSet&lt;/code&gt;实现了&lt;code&gt;Set&lt;/code&gt;接口，是一个不能够存放重复元素的容器，内部直接使用&lt;code&gt;HashMap&lt;/code&gt;实现，即底层使用数组存储数据，HashSet没有任何同步手段，在多线程环境下需慎重考虑，可以使用&lt;code&gt;Collections.synchronizedSet(new HashSet(...));&lt;/code&gt;给原有的Set方法同步。&lt;br&gt;&lt;img src=&quot;https://raw.githubusercontent.com/jsbintask22/static/master/jdk/hashset-1.png&quot; alt=&quot;HashSet&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;友情链接：&lt;a href=&quot;https://www.jianshu.com/p/a090a0f0c4d6&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;HashMap源码全解析从一道面试题说起：请一行一行代码描述下hashmap put方法&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
+    
+    
+      <category term="java" scheme="http://jsbintask.cn/tags/java/"/>
+    
+      <category term="源码" scheme="http://jsbintask.cn/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="jdk" scheme="http://jsbintask.cn/tags/jdk/"/>
+    
+  </entry>
   
   <entry>
     <title>jdk1.8 LinkedList源码全分析</title>
@@ -91,9 +123,9 @@
       <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="http://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -115,9 +147,9 @@
       <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="http://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -569,9 +601,9 @@
     
       <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
     
-      <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
-    
       <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
+    
+      <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
     
   </entry>
   
