@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jsbintask.cn/"/>
-  <updated>2019-03-28T08:05:00.000Z</updated>
+  <updated>2019-04-01T09:05:00.000Z</updated>
   <id>http://jsbintask.cn/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>jdk你不得不了解的实现：ThreadLocal源码全解析</title>
+    <link href="http://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/"/>
+    <id>http://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/</id>
+    <published>2019-04-01T09:05:00.000Z</published>
+    <updated>2019-04-01T09:05:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/28/jdk/jdk8-threadlocal/">https://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/</a>(食用效果最佳)，转载请注明出处!</p></blockquote><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>ThreadLocal</code>是jdk中一个非常重要的工具，它可以控制堆内存中的对象只能被指定线程访问，如果你经常阅读源码，基本在各大框架都能发现它的踪影。而它最经典的应用就是<code>事务管理</code>，同时它也是面试中的常客。<br><a id="more"></a></p><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>我们知道，堆内存是共享的，为什么ThreadLocal能够控制指定线程访问呢？ 如图：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-1.png" alt="ThreadLocal"></p><ol><li>调用ThreadLocal的<code>get</code>方法。</li><li>获取当前线程t1.</li><li>获取t1的成员变量<code>ThreadLocalMap</code>。</li><li>根据ThreadLocal的hashcode计算出ThreadLocalMap中Entry[]数组的索引。</li><li>返回索引位置的值。<br>这样我们就很容易理解了，为什么只有当前线程才能获取到某些值，因为这是这些值都直接保存在当前线程的成员变量ThreadLocalMap中，而ThreadLocal在这个过程中充当的角色则是提供它独一无二的hashcode值，这样我们就能计算出我们保存的值在ThreadLocalMap的位置。</li></ol><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>我们从构建一个ThreadLocal到调用它的set，get方法完整的分析一遍它的源码。</p><h3 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h3><p>当我们使用<code>new ThreadLocal&lt;&gt;()</code> new一个ThreadLocal对象时，它初始化了一个成员变量<code>threadLocalHashCode</code>，这个成员变量代表当前ThreadLocal的hashcode值，而它肯定是唯一的：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-2.png" alt="ThreadLocal"></p><ol><li>ThreadLocal内部有一个静态hashCode生成器<code>nextHashCode</code>。</li><li><p>每次新new一个ThreadLocal对象，调用这个生成器同步方法获取hashcode。<br>因为依赖于静态成员变量<code>nextHashCode</code>的关系，所以它的hashcode肯定唯一！</p><h3 id="set-T-t"><a href="#set-T-t" class="headerlink" title="set(T t)"></a>set(T t)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>获取当前线程t。</p></li><li>从t中获取<code>ThreadLocalMap</code> map。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-3.png" alt="ThreadLocal"></li><li>如果map不为空，将当前值value放入map。</li><li>如果map为空，新建一个ThreadLocalMap放入线程t。<br><strong>ThreadLocalMap是ThreadLocal中的内部类，它的结构如下：</strong><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalMap</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">        Object value;</span><br><span class="line"></span><br><span class="line">        Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">            <span class="keyword">super</span>(k);</span><br><span class="line">            value = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Entry[] table;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> threshold; <span class="comment">// Default to 0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ol><p>类似于ArrayList内部的构造，它内部有一个<code>Entry</code>数组table，并且Entry继承自弱引用，所以每一个Entry中保存着两个值，<code>ThreadLocal</code>,<code>value</code>，value既是我们要保存的值。<br>接着，我们回过头详细分析第三步，ThreadLocalMap的set方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(ThreadLocal&lt;?&gt; key, Object value)</span> </span>&#123;</span><br><span class="line">            Entry[] tab = table;</span><br><span class="line">            <span class="keyword">int</span> len = tab.length;</span><br><span class="line">            <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (len-<span class="number">1</span>);  <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Entry e = tab[i];</span><br><span class="line">                 e != <span class="keyword">null</span>;         <span class="comment">// 2</span></span><br><span class="line">                 e = tab[i = nextIndex(i, len)]) &#123;</span><br><span class="line">                ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (k == key) &#123;   <span class="comment">// 3</span></span><br><span class="line">                    e.value = value;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123;   <span class="comment">// 4</span></span><br><span class="line">                    replaceStaleEntry(key, value, i);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            tab[i] = <span class="keyword">new</span> Entry(key, value);  <span class="comment">// 5</span></span><br><span class="line">            <span class="keyword">int</span> sz = ++size;</span><br><span class="line">            <span class="keyword">if</span> (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold)   <span class="comment">// 6</span></span><br><span class="line">                rehash();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p><ol><li>根据ThreadLocal的hashCode计算出在entry中的索引i。</li><li>取出i对应的Entry值e。</li><li>如果e的key等于当前ThreadLocal，代表已经有一个一样的ThreadLocal在这个entry设值，直接替换这个entry上的value。</li><li>e上面的ThreadLocal为null，代表垃圾收集器准备回收这个Entry了，重新计算数组大小，重新hash。</li><li>i位置还没有初始化（第一次set这个ThreadLocal），直接将value放到i的位置。</li><li>扩容Entry数组。</li></ol><h3 id="get"><a href="#get" class="headerlink" title="get()"></a>get()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol><li>获取当前线程。</li><li>从当前线程中获取ThreadLocalMap</li><li>从ThreadLocalMap中找出ThreadLocal对应的Entry.</li><li>如果Entry不为null，直接返回Entry中的value</li><li>返回初始值。<br>其中，ThreadLocalMap的get(ThreadLocal tl)如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-4.png" alt="ThreadLocal"><br>它和我们一开始的分析一样，根据ThreadLocal的hashcode成员变量计算出索引位置i，得到Entry。这里同样有特殊情况，如果得到的Entry的key和当前ThreadLocal不相等，代表这个Entry将被垃圾收集处理，调用<code>getEntryAfterMiss</code> rehash，计算数组大小。</li></ol><h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>从上面的代码分析中，我们知道，ThreadLocalMap的生命周期和当前线程同步，如果当前线程被销毁，则map中的所有引用均被销毁。但如果当前线程不被销毁呢（线程池，tomcat处理请求等）？Entry中保存了ThreadLocal的弱引用以及value，gc时可能清理掉ThreadLocal，而这个value确再没有访问之地，这个时候就会造成内存泄漏！<br>所以我们需要手动调用remove方法清理掉当前线程ThreadLocalMap的引用！</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol><li>ThreadLocal中真正保存的值还是在线程的ThreadLocalMap中，ThreadLocal只是使用它的hashcode值充当中间计算变量。</li><li>ThreadLocalMap内部使用一个Entry数组保存数据。</li><li>ThreadLocal可能出现内存泄漏的情况，最好手动调用remove方法。</li></ol><p><strong><code>关注我，这里只有干货！</code></strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;本文原创地址，&lt;code&gt;我的博客&lt;/code&gt;：&lt;a href=&quot;https://jsbintask.cn/2019/03/28/jdk/jdk8-threadlocal/&quot;&gt;https://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/&lt;/a&gt;(食用效果最佳)，转载请注明出处!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;&lt;code&gt;ThreadLocal&lt;/code&gt;是jdk中一个非常重要的工具，它可以控制堆内存中的对象只能被指定线程访问，如果你经常阅读源码，基本在各大框架都能发现它的踪影。而它最经典的应用就是&lt;code&gt;事务管理&lt;/code&gt;，同时它也是面试中的常客。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
+    
+    
+      <category term="java" scheme="http://jsbintask.cn/tags/java/"/>
+    
+      <category term="源码" scheme="http://jsbintask.cn/tags/%E6%BA%90%E7%A0%81/"/>
+    
+      <category term="jdk" scheme="http://jsbintask.cn/tags/jdk/"/>
+    
+  </entry>
   
   <entry>
     <title>SpringCloud-Zuul（一）：技术选型及请求流程源码走读</title>
@@ -162,9 +191,9 @@
       <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="http://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -186,9 +215,9 @@
       <category term="recommend" scheme="http://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="http://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="http://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -640,9 +669,9 @@
     
       <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
     
-      <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
-    
       <category term="jms" scheme="http://jsbintask.cn/tags/jms/"/>
+    
+      <category term="rabbitmq" scheme="http://jsbintask.cn/tags/rabbitmq/"/>
     
   </entry>
   
@@ -715,9 +744,9 @@
     </summary>
     
     
-      <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
-    
       <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
+    
+      <category term="redis" scheme="http://jsbintask.cn/tags/redis/"/>
     
   </entry>
   
@@ -838,28 +867,6 @@
   </entry>
   
   <entry>
-    <title>linux环境中vsftp的常用配置</title>
-    <link href="http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/"/>
-    <id>http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</id>
-    <published>2019-01-11T02:15:00.000Z</published>
-    <updated>2019-01-11T06:15:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg" alt="vsftpd"><br><a id="more"></a></p><h1 id="Linux上vsftpd的配置"><a href="#Linux上vsftpd的配置" class="headerlink" title="Linux上vsftpd的配置"></a>Linux上vsftpd的配置</h1><p>最近正好项目遇上需要配置ftp的情况，感觉对于ftp的配置都差不多，所以特意写下本篇博客，话不多说，直接动手。<br><strong><em>配置最终目的如下：<br>1.取消匿名登陆，必须账号密码登陆<br>2.只有配置文件中的用户允许登陆<br>3.所有用户登陆后访问相同的ftp环境<br>4.所有用户不能够切换到上级目录</em></strong></p><h2 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h2><p>新建一个不能ssh登陆的用户，作为我们的ftp的访问用户（不用root）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd ftp_user -d /home/ftp_user -s /sbin/nologin ftp_user  --新建用户 ftp_user并且主目录为/home/ftp_user</span><br><span class="line">chmod -R 755 /home/ftp_user  --修改该目录访问权限</span><br><span class="line">passwd ftp_user  --设置该账号密码</span><br></pre></td></tr></table></figure></p><h2 id="安装配置vsftpd"><a href="#安装配置vsftpd" class="headerlink" title="安装配置vsftpd"></a>安装配置vsftpd</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum -y install vsftpd  --安装</span><br><span class="line">cd /etc/vsftpd  --切换到vsftp目录下</span><br><span class="line">mv vsftpd.conf vsftpd.conf.bak  --备份原来的配置文件</span><br><span class="line">wget http://resource.jsbintask.cn/vsftpd/vsftpd.conf  --获取配置文件</span><br></pre></td></tr></table></figure><p>改配置文件已经做好了大多数的配置，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png" alt="vsftpd"><br>接下来编辑改配置文件，vim vsftpd.conf，在最下方加入我们一开始配置用户设置的主文件夹：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_root=/home/ftp_user</span><br></pre></td></tr></table></figure></p><p>接下来编辑ftpusers，删除所有配置，空文件就行（该文件是哪些用户不能访问）<br>编辑user_list（该文件控制哪些用户可以登录ftp），加入我们刚刚添加的用户ftp_user，删掉其他所有行数，例如：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png" alt="vsftpd"><br>只有用户jason和root可以登录。</p><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service vsftpd start</span><br></pre></td></tr></table></figure><p>如果启动过程中报错，重新编辑vsftp.conf，注释掉 改行（这是vsftpd2.3以后的新配置）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png" alt="vsftpd"><br>重新启动，成功。<br>接下来使用ftp工具连接即可</p><h2 id="问题解决："><a href="#问题解决：" class="headerlink" title="问题解决："></a>问题解决：</h2><ol><li>关闭防火墙或者开启如下端口  20， 21（ftp）， 61001-62000范围端口。</li><li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://resource.jsbintask.cn/vsftpd/config.sh</span><br></pre></td></tr></table></figure></li></ol><p>运行 config.sh，如果运行失败，请修改脚本中的 setsebool -P tftp_home_dir 1 为 setsebool -P ftp_home_dir 1</p><ol start="3"><li>编辑安全配置文件 vim /etc/sysconfig/selinux，SELINUX=enforcing 改为 SELINUX=disabled<br>再次访问，成功。<br>关注我！<br><img src="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg" alt="qrcode"></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg&quot; alt=&quot;vsftpd&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
-    
-      <category term="运维" scheme="http://jsbintask.cn/tags/%E8%BF%90%E7%BB%B4/"/>
-    
-  </entry>
-  
-  <entry>
     <title>springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</title>
     <link href="http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/"/>
     <id>http://jsbintask.cn/2019/01/11/springsecurity-basicconfig/</id>
@@ -884,6 +891,28 @@
       <category term="springboot" scheme="http://jsbintask.cn/tags/springboot/"/>
     
       <category term="源码" scheme="http://jsbintask.cn/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux环境中vsftp的常用配置</title>
+    <link href="http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/"/>
+    <id>http://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</id>
+    <published>2019-01-11T02:15:00.000Z</published>
+    <updated>2019-01-11T06:15:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg" alt="vsftpd"><br><a id="more"></a></p><h1 id="Linux上vsftpd的配置"><a href="#Linux上vsftpd的配置" class="headerlink" title="Linux上vsftpd的配置"></a>Linux上vsftpd的配置</h1><p>最近正好项目遇上需要配置ftp的情况，感觉对于ftp的配置都差不多，所以特意写下本篇博客，话不多说，直接动手。<br><strong><em>配置最终目的如下：<br>1.取消匿名登陆，必须账号密码登陆<br>2.只有配置文件中的用户允许登陆<br>3.所有用户登陆后访问相同的ftp环境<br>4.所有用户不能够切换到上级目录</em></strong></p><h2 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h2><p>新建一个不能ssh登陆的用户，作为我们的ftp的访问用户（不用root）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd ftp_user -d /home/ftp_user -s /sbin/nologin ftp_user  --新建用户 ftp_user并且主目录为/home/ftp_user</span><br><span class="line">chmod -R 755 /home/ftp_user  --修改该目录访问权限</span><br><span class="line">passwd ftp_user  --设置该账号密码</span><br></pre></td></tr></table></figure></p><h2 id="安装配置vsftpd"><a href="#安装配置vsftpd" class="headerlink" title="安装配置vsftpd"></a>安装配置vsftpd</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum -y install vsftpd  --安装</span><br><span class="line">cd /etc/vsftpd  --切换到vsftp目录下</span><br><span class="line">mv vsftpd.conf vsftpd.conf.bak  --备份原来的配置文件</span><br><span class="line">wget http://resource.jsbintask.cn/vsftpd/vsftpd.conf  --获取配置文件</span><br></pre></td></tr></table></figure><p>改配置文件已经做好了大多数的配置，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png" alt="vsftpd"><br>接下来编辑改配置文件，vim vsftpd.conf，在最下方加入我们一开始配置用户设置的主文件夹：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_root=/home/ftp_user</span><br></pre></td></tr></table></figure></p><p>接下来编辑ftpusers，删除所有配置，空文件就行（该文件是哪些用户不能访问）<br>编辑user_list（该文件控制哪些用户可以登录ftp），加入我们刚刚添加的用户ftp_user，删掉其他所有行数，例如：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png" alt="vsftpd"><br>只有用户jason和root可以登录。</p><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service vsftpd start</span><br></pre></td></tr></table></figure><p>如果启动过程中报错，重新编辑vsftp.conf，注释掉 改行（这是vsftpd2.3以后的新配置）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png" alt="vsftpd"><br>重新启动，成功。<br>接下来使用ftp工具连接即可</p><h2 id="问题解决："><a href="#问题解决：" class="headerlink" title="问题解决："></a>问题解决：</h2><ol><li>关闭防火墙或者开启如下端口  20， 21（ftp）， 61001-62000范围端口。</li><li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://resource.jsbintask.cn/vsftpd/config.sh</span><br></pre></td></tr></table></figure></li></ol><p>运行 config.sh，如果运行失败，请修改脚本中的 setsebool -P tftp_home_dir 1 为 setsebool -P ftp_home_dir 1</p><ol start="3"><li>编辑安全配置文件 vim /etc/sysconfig/selinux，SELINUX=enforcing 改为 SELINUX=disabled<br>再次访问，成功。<br>关注我！<br><img src="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg" alt="qrcode"></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg&quot; alt=&quot;vsftpd&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="http://jsbintask.cn/tags/linux/"/>
+    
+      <category term="运维" scheme="http://jsbintask.cn/tags/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   

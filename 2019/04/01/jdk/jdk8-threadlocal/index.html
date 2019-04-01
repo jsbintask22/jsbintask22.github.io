@@ -6,32 +6,28 @@
   
   <title>
     
-    springboot在weblogic中的事务问题|
+    jdk你不得不了解的实现：ThreadLocal源码全解析|
     jsbintask的博客
     
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="springboot,weblogic">
+  <meta name="description" content="本文原创地址，我的博客：https://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/(食用效果最佳)，转载请注明出处!  前言ThreadLocal是jdk中一个非常重要的工具，它可以控制堆内存中的对象只能被指定线程访问，如果你经常阅读源码，基本在各大框架都能发现它的踪影。而它最经典的应用就是事务管理，同时它也是面试中的常客。">
+<meta name="keywords" content="java,源码,jdk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="springboot在weblogic中的事务问题">
-<meta property="og:url" content="http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/index.html">
+<meta property="og:title" content="jdk你不得不了解的实现：ThreadLocal源码全解析">
+<meta property="og:url" content="http://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:description" content="本文原创地址，我的博客：https://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/(食用效果最佳)，转载请注明出处!  前言ThreadLocal是jdk中一个非常重要的工具，它可以控制堆内存中的对象只能被指定线程访问，如果你经常阅读源码，基本在各大框架都能发现它的踪影。而它最经典的应用就是事务管理，同时它也是面试中的常客。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo9.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo10.png">
-<meta property="og:updated_time" content="2019-01-22T06:55:00.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-4.png">
+<meta property="og:updated_time" content="2019-04-01T09:05:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="springboot在weblogic中的事务问题">
-<meta name="twitter:image" content="http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg">
+<meta name="twitter:title" content="jdk你不得不了解的实现：ThreadLocal源码全解析">
+<meta name="twitter:description" content="本文原创地址，我的博客：https://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/(食用效果最佳)，转载请注明出处!  前言ThreadLocal是jdk中一个非常重要的工具，它可以控制堆内存中的对象只能被指定线程访问，如果你经常阅读源码，基本在各大框架都能发现它的踪影。而它最经典的应用就是事务管理，同时它也是面试中的常客。">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-1.png">
   
   <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -248,11 +244,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-webcontainer/weblogic-springboot-tx" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-jdk/jdk8-threadlocal" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/01/22/webcontainer/weblogic-springboot-tx/" class="article-date">
-      <time datetime="2019-01-22T06:15:00.000Z" itemprop="datePublished">2019-01-22</time>
+      <a href="/2019/04/01/jdk/jdk8-threadlocal/" class="article-date">
+      <time datetime="2019-04-01T09:05:00.000Z" itemprop="datePublished">2019-04-01</time>
 </a>
     </div>
   
@@ -265,7 +261,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      springboot在weblogic中的事务问题
+      jdk你不得不了解的实现：ThreadLocal源码全解析
     </h1>
   
 
@@ -273,10 +269,14 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/springboot/">springboot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/">jdk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -286,19 +286,56 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://qiniu.jsbintask.cn/it_almost_feels_like_home____by_porkuspine_dcxn2rk-fullview.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br>记录下最近项目中遇到的坑，关于事务的问题，我们的项目使用springboot构建，并且我们的连接池使用的是druid，在本地直接使用springboot打好jar包，<br>一切正常行，然后将项目打包成war包，上到weblogic中，运行也正常，但是一次导入excel表的case中，导入失败了，但是数据没有回滚！经过测试才发现在weblogic中springboot管理的事务失效了，马上查询资料，经过几小时的谷歌后找到了解决办法，在weblogic中放弃自己的连接池，转而使用weblogic中的jndi数据源。<br>配置步骤如下：</p>
+        <blockquote>
+<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/28/jdk/jdk8-threadlocal/">https://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/</a>(食用效果最佳)，转载请注明出处!</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>ThreadLocal</code>是jdk中一个非常重要的工具，它可以控制堆内存中的对象只能被指定线程访问，如果你经常阅读源码，基本在各大框架都能发现它的踪影。而它最经典的应用就是<code>事务管理</code>，同时它也是面试中的常客。<br><a id="more"></a></p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>我们知道，堆内存是共享的，为什么ThreadLocal能够控制指定线程访问呢？ 如图：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-1.png" alt="ThreadLocal"></p>
 <ol>
-<li>启动weblogic，进入到管理界面，选择服务下边的数据源，点击新建按钮<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo1.png" alt="mark"></li>
-<li>选择一般数据源，选择你的数据库，输入名字，jndi名称（重要），建议 数据源名称和jndi名字一样，点击下一步<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo2.png" alt="mark"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo3.png" alt="mark"></li>
-<li>接着驱动程序选择 “for instance connections”。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo4.png" alt="mark"></li>
-<li>事务类型默认<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo5.png" alt="mark"></li>
-<li>填写数据源信息，最下方的oracle.jdbc.DRCPConnectionClass: 可不填写<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo6.png" alt="mark"></li>
-<li>继续后下一步确认你的信息<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo7.png" alt="mark"></li>
-<li>接着下一步，勾上AdminServer，点击完成<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo8.png" alt="mark"></li>
-<li>建立完毕<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo9.png" alt="mark"></li>
-<li>修改你的springboot项目配置文件，添加配置：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/web-container/jndi-demo10.png" alt="mark"><br>这里的jndi的name就是刚刚你新建的名字。</li>
-<li>去掉原来的数据源配置（同时存在的话，还是原来的数据源生效），重新打war包，运行，此时事务生效！</li>
+<li>调用ThreadLocal的<code>get</code>方法。</li>
+<li>获取当前线程t1.</li>
+<li>获取t1的成员变量<code>ThreadLocalMap</code>。</li>
+<li>根据ThreadLocal的hashcode计算出ThreadLocalMap中Entry[]数组的索引。</li>
+<li>返回索引位置的值。<br>这样我们就很容易理解了，为什么只有当前线程才能获取到某些值，因为这是这些值都直接保存在当前线程的成员变量ThreadLocalMap中，而ThreadLocal在这个过程中充当的角色则是提供它独一无二的hashcode值，这样我们就能计算出我们保存的值在ThreadLocalMap的位置。</li>
 </ol>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>我们从构建一个ThreadLocal到调用它的set，get方法完整的分析一遍它的源码。</p>
+<h3 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h3><p>当我们使用<code>new ThreadLocal&lt;&gt;()</code> new一个ThreadLocal对象时，它初始化了一个成员变量<code>threadLocalHashCode</code>，这个成员变量代表当前ThreadLocal的hashcode值，而它肯定是唯一的：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-2.png" alt="ThreadLocal"></p>
+<ol>
+<li>ThreadLocal内部有一个静态hashCode生成器<code>nextHashCode</code>。</li>
+<li><p>每次新new一个ThreadLocal对象，调用这个生成器同步方法获取hashcode。<br>因为依赖于静态成员变量<code>nextHashCode</code>的关系，所以它的hashcode肯定唯一！</p>
+<h3 id="set-T-t"><a href="#set-T-t" class="headerlink" title="set(T t)"></a>set(T t)</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>获取当前线程t。</p>
+</li>
+<li>从t中获取<code>ThreadLocalMap</code> map。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-3.png" alt="ThreadLocal"></li>
+<li>如果map不为空，将当前值value放入map。</li>
+<li>如果map为空，新建一个ThreadLocalMap放入线程t。<br><strong>ThreadLocalMap是ThreadLocal中的内部类，它的结构如下：</strong><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalMap</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">        Object value;</span><br><span class="line"></span><br><span class="line">        Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">            <span class="keyword">super</span>(k);</span><br><span class="line">            value = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Entry[] table;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INITIAL_CAPACITY = <span class="number">16</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> threshold; <span class="comment">// Default to 0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>类似于ArrayList内部的构造，它内部有一个<code>Entry</code>数组table，并且Entry继承自弱引用，所以每一个Entry中保存着两个值，<code>ThreadLocal</code>,<code>value</code>，value既是我们要保存的值。<br>接着，我们回过头详细分析第三步，ThreadLocalMap的set方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(ThreadLocal&lt;?&gt; key, Object value)</span> </span>&#123;</span><br><span class="line">            Entry[] tab = table;</span><br><span class="line">            <span class="keyword">int</span> len = tab.length;</span><br><span class="line">            <span class="keyword">int</span> i = key.threadLocalHashCode &amp; (len-<span class="number">1</span>);  <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Entry e = tab[i];</span><br><span class="line">                 e != <span class="keyword">null</span>;         <span class="comment">// 2</span></span><br><span class="line">                 e = tab[i = nextIndex(i, len)]) &#123;</span><br><span class="line">                ThreadLocal&lt;?&gt; k = e.get();</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (k == key) &#123;   <span class="comment">// 3</span></span><br><span class="line">                    e.value = value;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (k == <span class="keyword">null</span>) &#123;   <span class="comment">// 4</span></span><br><span class="line">                    replaceStaleEntry(key, value, i);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            tab[i] = <span class="keyword">new</span> Entry(key, value);  <span class="comment">// 5</span></span><br><span class="line">            <span class="keyword">int</span> sz = ++size;</span><br><span class="line">            <span class="keyword">if</span> (!cleanSomeSlots(i, sz) &amp;&amp; sz &gt;= threshold)   <span class="comment">// 6</span></span><br><span class="line">                rehash();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>根据ThreadLocal的hashCode计算出在entry中的索引i。</li>
+<li>取出i对应的Entry值e。</li>
+<li>如果e的key等于当前ThreadLocal，代表已经有一个一样的ThreadLocal在这个entry设值，直接替换这个entry上的value。</li>
+<li>e上面的ThreadLocal为null，代表垃圾收集器准备回收这个Entry了，重新计算数组大小，重新hash。</li>
+<li>i位置还没有初始化（第一次set这个ThreadLocal），直接将value放到i的位置。</li>
+<li>扩容Entry数组。</li>
+</ol>
+<h3 id="get"><a href="#get" class="headerlink" title="get()"></a>get()</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>获取当前线程。</li>
+<li>从当前线程中获取ThreadLocalMap</li>
+<li>从ThreadLocalMap中找出ThreadLocal对应的Entry.</li>
+<li>如果Entry不为null，直接返回Entry中的value</li>
+<li>返回初始值。<br>其中，ThreadLocalMap的get(ThreadLocal tl)如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/threadlocal-4.png" alt="ThreadLocal"><br>它和我们一开始的分析一样，根据ThreadLocal的hashcode成员变量计算出索引位置i，得到Entry。这里同样有特殊情况，如果得到的Entry的key和当前ThreadLocal不相等，代表这个Entry将被垃圾收集处理，调用<code>getEntryAfterMiss</code> rehash，计算数组大小。</li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>从上面的代码分析中，我们知道，ThreadLocalMap的生命周期和当前线程同步，如果当前线程被销毁，则map中的所有引用均被销毁。但如果当前线程不被销毁呢（线程池，tomcat处理请求等）？Entry中保存了ThreadLocal的弱引用以及value，gc时可能清理掉ThreadLocal，而这个value确再没有访问之地，这个时候就会造成内存泄漏！<br>所以我们需要手动调用remove方法清理掉当前线程ThreadLocalMap的引用！</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>ThreadLocal中真正保存的值还是在线程的ThreadLocalMap中，ThreadLocal只是使用它的hashcode值充当中间计算变量。</li>
+<li>ThreadLocalMap内部使用一个Entry数组保存数据。</li>
+<li>ThreadLocal可能出现内存泄漏的情况，最好手动调用remove方法。</li>
+</ol>
+<p><strong><code>关注我，这里只有干货！</code></strong></p>
 
       
       
@@ -349,13 +386,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/01/jdk/jdk8-threadlocal/">jdk你不得不了解的实现：ThreadLocal源码全解析</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年01月22日 - 14时15分</p>
-        <p><span>最后更新:</span>2019年01月22日 - 14时55分</p>
+        <p><span>发布时间:</span>2019年04月01日 - 17时05分</p>
+        <p><span>最后更新:</span>2019年04月01日 - 17时05分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/22/webcontainer/weblogic-springboot-tx/" title="springboot在weblogic中的事务问题">http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/01/22/webcontainer/weblogic-springboot-tx/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/01/jdk/jdk8-threadlocal/" title="jdk你不得不了解的实现：ThreadLocal源码全解析">http://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://jsbintask.cn/2019/04/01/jdk/jdk8-threadlocal/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -368,18 +405,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/01/24/middleware/redis-install/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          linux上安装配置redis5.0
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/01/22/api/ins-api/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">ins获取个人信息</div>
+    <a href="/2019/03/28/springcloud/springcloud-zuul-process/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringCloud-Zuul（一）：技术选型及请求流程源码走读</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -390,7 +418,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">3.</span> <span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#构造器"><span class="toc-number">3.1.</span> <span class="toc-text">构造器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#set-T-t"><span class="toc-number">3.2.</span> <span class="toc-text">set(T t)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get"><span class="toc-number">3.3.</span> <span class="toc-text">get()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-number">4.</span> <span class="toc-text">注意事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -438,7 +466,7 @@
     
 
         <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="weblogic-springboot-tx"></div>
+<div id="SOHUCS" sid="threadlocal-mock"></div>
 <script type="text/javascript">
     (function () {
         var appid = 'cyu0pbbdV';
@@ -481,13 +509,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/01/24/middleware/redis-install/" title="上一篇: linux上安装配置redis5.0">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/22/api/ins-api/" title="下一篇: ins获取个人信息">
+            <a href="/2019/03/28/springcloud/springcloud-zuul-process/" title="下一篇: SpringCloud-Zuul（一）：技术选型及请求流程源码走读">
                 <i class="fa fa-angle-right"></i>
             </a>
         
