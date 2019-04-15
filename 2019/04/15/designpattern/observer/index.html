@@ -6,22 +6,37 @@
   
   <title>
     
-    你真的了解restful api吗？|
+    从未这么明白的设计模式（二）：观察者模式|
     jsbintask的博客
     
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="api,restful">
+  <meta name="keywords" content="java,设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="你真的了解restful api吗？">
-<meta property="og:url" content="https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/index.html">
+<meta property="og:title" content="从未这么明白的设计模式（二）：观察者模式">
+<meta property="og:url" content="https://jsbintask.cn/2019/04/15/designpattern/observer/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qiniu.jsbintask.cn/restful_by_miguel_santos_dbvfrth-pre.jpg-blog_960_440.jpg">
-<meta property="og:updated_time" content="2019-03-20T08:05:00.000Z">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/young-girl-with-snapback-looking-over-the-old-city_free_stock_photos_picjumbo_HNCK6022-2210x1474.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-15.png">
+<meta property="og:updated_time" content="2019-04-15T03:11:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="你真的了解restful api吗？">
-<meta name="twitter:image" content="http://qiniu.jsbintask.cn/restful_by_miguel_santos_dbvfrth-pre.jpg-blog_960_440.jpg">
+<meta name="twitter:title" content="从未这么明白的设计模式（二）：观察者模式">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/young-girl-with-snapback-looking-over-the-old-city_free_stock_photos_picjumbo_HNCK6022-2210x1474.jpg-blog_960_440.jpg">
   
   <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -238,11 +253,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-api/restful-api-best-practices" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-designpattern/observer" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/20/api/restful-api-best-practices/" class="article-date">
-      <time datetime="2019-03-20T08:05:00.000Z" itemprop="datePublished">2019-03-20</time>
+      <a href="/2019/04/15/designpattern/observer/" class="article-date">
+      <time datetime="2019-04-15T03:11:00.000Z" itemprop="datePublished">2019-04-15</time>
 </a>
     </div>
   
@@ -255,7 +270,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      你真的了解restful api吗？
+      从未这么明白的设计模式（二）：观察者模式
     </h1>
   
 
@@ -270,7 +285,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/api/">api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/restful/">restful</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -280,59 +295,36 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://qiniu.jsbintask.cn/restful_by_miguel_santos_dbvfrth-pre.jpg-blog_960_440.jpg" alt="restful api"><br><a id="more"></a></p>
+        <p><img src="http://qiniu.jsbintask.cn/young-girl-with-snapback-looking-over-the-old-city_free_stock_photos_picjumbo_HNCK6022-2210x1474.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a></p>
 <blockquote>
-<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/">https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/</a>(食用效果最佳)，转载请注明出处!</p>
+<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/04/15/designpattern/observer/">https://jsbintask.cn/2019/04/15/designpattern/observer/</a>(食用效果最佳)，转载请注明出处!</p>
 </blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在以前，一个网站的完成总是“all in one”，页面，数据，渲染全部在服务端完成，这样做的最大的弊端是后期维护，扩展极其痛苦，开发人员必须同时具备前后端知识。于是慢慢的后来兴起了<code>前后端分离</code>的思想：<br>后端负责<code>数据编造</code>,而前端则负责<code>数据渲染</code>，前端静态页面调用指定api获取到有固定格式的数据，再将数据展示出来，这样呈现给用户的就是一个”动态“的过程，而关于api这部分的设计则成了一个问题。如何设计出一个便于理解，容易使用的api则成了一个问题。<br>而所谓的<code>restful</code>就是用来规范我们的api的一种约束。</p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><code>rest</code>是<code>REpresentational State Transfer</code>三个单词的缩写，由Roy Fielding于2000年论文中提出，它代表着分布式服务的架构风格。而如果想你的api被称为restful api，只要遵循其规定的约束即可。</p>
-<h2 id="rest设计原则"><a href="#rest设计原则" class="headerlink" title="rest设计原则"></a>rest设计原则</h2><ol>
-<li>客户端-服务器：通过将用户UI与数据存储分开，我们可以简化服务器组件来提高跨多个平台的用户界面的可移植性并提高可伸缩性。 它可以比表现成前后端分离的思想。</li>
-<li>无状态：从客户端到服务器的每个请求都必须包含理解请求所需的所有信息，并且不能利用服务器上任何存储的上下文。 这表示你应该尽可能的避免使用session，由客户端自己标识会话状态。（token）</li>
-<li>规范接口：REST接口约束定义：资源识别; 请求动作; 响应信息; 它表示通过uri标出你要操作的<code>资源</code>，通过请求动作（http method）标识要执行的操作，通过返回的状态码来表示这次请求的执行结果。</li>
-<li>可缓存： 缓存约束要求将对请求的响应中的数据隐式或显式标记为可缓存或不可缓存。如果响应是可缓存的，则客户端缓存有权重用该响应数据以用于以后的等效请求。 它表示get请求响应头中应该表示有是否可缓存的头（Cache-Control)<br>其中1，2，3约束最为重要，其中1容易理解。接下来我们就谈谈无状态和规范接口的原则。</li>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>观察者模式定义了对象间的一种一对多依赖关系，当一个对象状态发生改变时，观察者们都可以做出相应的更新，使得系统更易于扩展！</p>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><ol>
+<li>小丽长得很漂亮，”天生丽质难自弃”, 是一个不折不扣的”女神”。</li>
+<li>小丽身边有很多”备胎“，他们通过各种方式添加了小丽的微信，“小豪，小吴”都是其中之一。</li>
+<li>小丽总是会在朋友圈发布自己的各种生活状态。</li>
+<li>”备胎们“总是及时并且积极地和女神互动！</li>
+<li>小丽发现”备胎“小豪不爱互动了，于是删除了“备胎”小豪的微信。</li>
+<li>小豪发现自己看不了女神动态了。最终死心！</li>
+<li>小丽认识了新“备胎”小李，于是小李也添加了女神微信。</li>
+<li>小丽发布自己的朋友圈动态，小李也开始了互动！<br>上面这个过程我们可以抽象出来两个主题，<code>女神小丽</code>,<code>备胎小豪，小吴，小李</code>，我们用代码模拟这个<strong>追女神</strong>的过程。</li>
 </ol>
-<h3 id="uri规范"><a href="#uri规范" class="headerlink" title="uri规范"></a>uri规范</h3><p>资源的描述构成了uri，它一般有以下约束：</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="V1-0"><a href="#V1-0" class="headerlink" title="V1.0"></a>V1.0</h3><p><code>Beauty</code>代表女神，<code>LittleBoy</code>表示备胎，他们时刻在关注着女神的朋友圈，希望获得互动，代码实现如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-1.png" alt="Observer"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-2.png" alt="Observer"><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Beauty beauty = <span class="keyword">new</span> Beauty();</span><br><span class="line">        <span class="comment">// 成功添加了女神微信</span></span><br><span class="line">        LittleBoy littleBoy = <span class="keyword">new</span> LittleBoy(beauty);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开始查看女神朋友圈</span></span><br><span class="line">        littleBoy.start();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5s后，女神发布了朋友圈。</span></span><br><span class="line">        Thread.sleep(<span class="number">5000L</span>);</span><br><span class="line">        beauty.publishWechat();</span><br><span class="line"></span><br><span class="line">        System.in.read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-3.png" alt="Observer"><br>嗯！似乎很完美！ 美中不足的是好像<code>LittleBoy</code>的run方法一直在轮询查看女神朋友圈，它没办法做自己的事情了：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-4.png" alt="Observer"><br>这样下去很快他就会失去和女神互动的耐心！ 所以我们稍微修改下，让这段代码看起来更加”智能”。</p>
+<h3 id="V2-0"><a href="#V2-0" class="headerlink" title="V2.0"></a>V2.0</h3><p>为了不让<code>LittleBoy</code>一直轮询查看女神状态，我们可以修改为女神主动推送她的状态给“备胎们”，这样他们就可以去做其他事情了！<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-5.png" alt="Observer"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-6.png" alt="Observer"><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Beauty beauty = <span class="keyword">new</span> Beauty();</span><br><span class="line">        LittleBoy littleBoy = <span class="keyword">new</span> LittleBoy();</span><br><span class="line">        <span class="comment">// 添加女神微信</span></span><br><span class="line">        beauty.littleBoy = littleBoy;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发布动态</span></span><br><span class="line">        beauty.publishWechat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-7.png" alt="Observer"><br>嗯！这样一来就智能多了！ 女神更新朋友圈后主动推送消息给备胎！备胎不用死守着女神的朋友圈，而是收到消息后自动去查看。所以他们的关系是这样了：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-8.png" alt="Observer"><br>但是，现在又有一个新问题！这段代码好像显得不够<code>面向对象</code>，不够专业。</p>
 <ol>
-<li><p>使用名词。如 user, student, class<br><a href="http://api.example.com/class-management/students" target="_blank" rel="noopener">http://api.example.com/class-management/students</a><br><a href="http://api.example.com/device-management/managed-devices/{device-id}" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices/{device-id}</a><br><a href="http://api.example.com/user-management/users/" target="_blank" rel="noopener">http://api.example.com/user-management/users/</a><br><a href="http://api.example.com/user-management/users/{id}" target="_blank" rel="noopener">http://api.example.com/user-management/users/{id}</a></p>
-</li>
-<li><p>http method对应不同的请求动作（数据库或者业务逻辑）<br><code>GET</code>：查询操作：<br>HTTP GET /devices?startIndex=0&amp;size=20<br>HTTP GET /configurations?startIndex=0&amp;size=20<br>HTTP GET /devices/{id}/configurations<br>HTTP GET /devices/{id}<br><code>POST</code>：新增操作：<br>HTTP POST /device<br><code>PUT</code> 更新操作（代表更新一个实体的所有属性）<br>HTTP PUT /devices/{id}<br><code>PATCH</code> 部分更新（代表更新一个尸体的部分属性）由于有的浏览器兼容性问题，一般推荐使用put<br>HTTP PATCH /devices/{id}<br><code>DELETE</code> 删除操作<br>HTTP DELETE /devices/{id}</p>
-</li>
-<li><p>使用连字符（ - ）而不是（_）来提高URI的可读性<br><a href="http://api.example.com/inventory-management/managed-entities/{id}/install-script-location" target="_blank" rel="noopener">http://api.example.com/inventory-management/managed-entities/{id}/install-script-location</a> //更易读<br><a href="http://api.example.com/inventory_management/managed_entities/{id}/install_script_location" target="_blank" rel="noopener">http://api.example.com/inventory_management/managed_entities/{id}/install_script_location</a> //更容易出错</p>
-</li>
-<li><p>在URI中使用小写字母<br><a href="http://api.example.org/my-folder/my-doc" target="_blank" rel="noopener">http://api.example.org/my-folder/my-doc</a></p>
-</li>
-<li><p>不要使用文件扩展名 文件扩展名看起来很糟糕，不会增加任何优势。删除它们也会减少URI的长度。没理由保留它们。<br><a href="http://api.example.com/device-management/managed-devices.xml" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices.xml</a> / <em>不要使用它</em> /<br><a href="http://api.example.com/device-management/managed-devices" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices</a> / <em>这是正确的URI </em> /</p>
-</li>
-<li><p>使用查询组件过滤URI集合<br>很多时候，我们会遇到需要根据某些特定资源属性对需要排序，过滤或限制的资源集合的要求。为此，请不要创建新的API - 而是在资源集合API中启用排序，过滤和分页功能，并将输入参数作为查询参数传递。例如<br><a href="http://api.example.com/device-management/managed-devices" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices</a><br><a href="http://api.example.com/device-management/managed-devices?region=USA" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices?region=USA</a><br><a href="http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ</a><br><a href="http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ&amp;sort=installation-date" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ&amp;sort=installation-date</a></p>
-</li>
-<li><p>不要在末尾使用<code>/</code><br>作为URI路径中的最后一个字符，正斜杠（/）不会添加语义值，并可能导致混淆。最好完全放弃它们。</p>
-</li>
-<li><p>使用http状态码定义api执行结果<br><strong>1xx：信息</strong><br>通信传输协议级信息。</p>
-</li>
+<li>女神如果想要新加一个舔狗，就要动女神的逻辑代码。</li>
+<li>新加了一个备胎之后，不知道如何把自己的动态分享给他（例如上面的active方法，可能“新备胎”没有）。</li>
+<li>备胎突然舔不动了怎么办了，他不想再收到女神动态了！<br>既然这样，我们把这段代码修改下，让它变得“灵活”，更加“面向对象”些！</li>
 </ol>
-<p><strong>2xx：成功</strong><br>表示客户端的请求已成功接受。</p>
-<p><strong>3xx：重定向</strong><br>表示客户端必须执行一些其他操作才能完成其请求。</p>
-<p><strong>4xx：客户端错误</strong><br>此类错误状态代码指向客户端。</p>
-<p><strong>5xx：服务器错误</strong><br>服务器负责这些错误状态代码。<br>另外完整的更为详细的状态码此处不做赘述。一般简化版本的api会使用200，400，500，其中400代表客户端调用有误，将错误信息放入response：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"error"</span>: <span class="string">"username.or.password.error"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ol start="9">
-<li>api版本定义<br>当我们需要对现有的api接口升级的时候，因为该api接口已经投入使用，所以新添加的业务可能无法保证兼容原来的逻辑，这个时候就需要新的接口，而这个接口一般表示对原来的接口的升级（不同版本），那版本怎么定义呢？</li>
-</ol>
-<ul>
-<li>URI版本控制（推荐）<br><a href="http://api.example.com/v1" target="_blank" rel="noopener">http://api.example.com/v1</a><br><a href="http://apiv1.example.com" target="_blank" rel="noopener">http://apiv1.example.com</a></li>
-<li>使用自定义请求标头进行版本控制<br>Accept-version：v1<br>Accept-version：v2</li>
-<li>使用Accept header 进行版本控制<br>Accept:application / vnd.example.v1 + json<br>Accept:application / vnd.example + json; version = 1.0</li>
-</ul>
-<h3 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h3><p>使REST API无状态有一些非常显着的优点：</p>
-<ol>
-<li>无状态通过将API部署到多个服务器，有助于将API扩展到数百万并发用户。任何服务器都可以处理任何请求，因为没有与会话相关的依赖。（集群）</li>
-<li>无状态使得REST API不那么复杂 - 可以删除所有服务器端状态同步逻辑。（删除session，清理多余空间）</li>
-<li>无状态API也很容易缓存。特定软件可以通过查看该一个请求来决定是否缓存HTTP请求的结果。从先前的请求中获得的状态可能会影响这个请求的可缓存性，这并不存在任何不确定性。它提高了应用程序的性能。</li>
-<li>服务器永远不会忘记每个客户端身份”，因为客户端会在每个请求中发送所有必要的信息。（携带token）</li>
-</ol>
-<p>那么无状态又要怎么实现呢？前面我们已经说了，服务端不应该再保存session会话，这个工作全部交由http请求去标识，而最常见的做法则是使用token。生成token可以考虑使用jwt，oauth。其中jwt可以参考我的另一篇文章：<a href="https://www.jianshu.com/p/6ff0e30fc9e9" target="_blank" rel="noopener">https://www.jianshu.com/p/6ff0e30fc9e9</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们首先介绍rest服务背景，引出rest架构的介绍，最后重点介绍了rest api的约束设计。</p>
+<h3 id="V3-0"><a href="#V3-0" class="headerlink" title="V3.0"></a>V3.0</h3><p>既然要灵活，面向对象。我们这么处理：将女神抽象为一个接口，并且她要能够删除备胎，添加备胎，通知备胎。同时我们将备胎抽象为一个接口，他能够在收到女神通知后及时做出反应！<br>Beauty:<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-9.png" alt="Observer"><br>LittleBoy:<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-10.png" alt="Observer"><br>它们分别有一个实现：<code>BeautyImpl</code>和<code>LittleBoyImpl</code>:<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-11.png" alt="Observer"><br>测试代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Beauty beauty = <span class="keyword">new</span> BeautyImpl();</span><br><span class="line">        LittleBoy boy1 = <span class="keyword">new</span> LittleBoyImpl(<span class="string">"小豪"</span>);</span><br><span class="line">        LittleBoy boy2 = <span class="keyword">new</span> LittleBoyImpl(<span class="string">"小吴"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加两个备胎</span></span><br><span class="line">        beauty.addLittleBoy(boy1);</span><br><span class="line">        beauty.addLittleBoy(boy2);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 发布朋友圈</span></span><br><span class="line">        beauty.publishWechat(<span class="string">"最美的不是下雨天，是曾和你一起躲过雨的屋檐！"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 删除备胎1，并且新添加了备胎3</span></span><br><span class="line">        beauty.removeLittleBoy(boy1);</span><br><span class="line">        beauty.addLittleBoy(msg -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">" 小李：哎哟，不错哦！"</span>);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 再次发布朋友圈</span></span><br><span class="line">        beauty.publishWechat(<span class="string">"哪里有彩虹告诉我。。。"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-12.png" alt="Observer"><br>嗯！通过面向接口编程完美的解决了上面的问题，现在<strong>女神</strong>这个类已经变得非常灵活了，仔细观察，我们已经把我们上面的说的案例完全实现！现在它们的关系是这样的：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-13.png" alt="Observer"></p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>观察者模式这种<code>发布与订阅的思想</code>使用的非常广泛，基本各个框架，思想都能看到它的身影，而jdk中也已经抽象了观察与被观察者：<br><code>java.util.Observer</code>表示观察者:<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-14.png" alt="Observer"><br><code>java.util.Obserable</code>表示被观察者（例如上面的女神）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/observer-15.png" alt="Observer"><br>然后美中不足的是，jdk把Observable设计成了一个类，这并不利于扩展！ 当然我们仍然可以自己实现接口，就像上面所做的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们从观察者模式特点入手，通过一个案例，一步一步完善了观察着的写法，特点！组后介绍了jdk总已有的实现！</p>
 <p><code>关注我，这里只有干货！</code></p>
+<p>同系列文章：<br><a href="https://www.jianshu.com/p/79bceb850ca8" target="_blank" rel="noopener">从未这么明白的设计模式（一）：单例模式</a></p>
 
       
       
@@ -383,13 +375,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/03/20/api/restful-api-best-practices/">你真的了解restful api吗？</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/15/designpattern/observer/">从未这么明白的设计模式（二）：观察者模式</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年03月20日 - 16时05分</p>
-        <p><span>最后更新:</span>2019年03月20日 - 16时05分</p>
+        <p><span>发布时间:</span>2019年04月15日 - 11时11分</p>
+        <p><span>最后更新:</span>2019年04月15日 - 11时11分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/03/20/api/restful-api-best-practices/" title="你真的了解restful api吗？">https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/15/designpattern/observer/" title="从未这么明白的设计模式（二）：观察者模式">https://jsbintask.cn/2019/04/15/designpattern/observer/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://jsbintask.cn/2019/04/15/designpattern/observer/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -402,18 +394,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/03/21/api/restful-api-idempotent/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          你的rest服务幂等吗？
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/03/10/jdk/jdk8-threadpool/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">线程池？面试？看这篇就够了！</div>
+    <a href="/2019/04/11/springcloud/springcloud-zuul-config/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">SpringCloud-Zuul（三）：常用配置详解</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -424,7 +407,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rest设计原则"><span class="toc-number">3.</span> <span class="toc-text">rest设计原则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#uri规范"><span class="toc-number">3.1.</span> <span class="toc-text">uri规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无状态"><span class="toc-number">3.2.</span> <span class="toc-text">无状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#案例"><span class="toc-number">2.</span> <span class="toc-text">案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现"><span class="toc-number">3.</span> <span class="toc-text">代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#V1-0"><span class="toc-number">3.1.</span> <span class="toc-text">V1.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V2-0"><span class="toc-number">3.2.</span> <span class="toc-text">V2.0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V3-0"><span class="toc-number">3.3.</span> <span class="toc-text">V3.0</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展"><span class="toc-number">4.</span> <span class="toc-text">扩展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -472,7 +455,7 @@
     
 
         <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="restful-api-best-practices"></div>
+<div id="SOHUCS" sid="designpattern-observer"></div>
 <script type="text/javascript">
     (function () {
         var appid = 'cyu0pbbdV';
@@ -515,13 +498,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/03/21/api/restful-api-idempotent/" title="上一篇: 你的rest服务幂等吗？">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/03/10/jdk/jdk8-threadpool/" title="下一篇: 线程池？面试？看这篇就够了！">
+            <a href="/2019/04/11/springcloud/springcloud-zuul-config/" title="下一篇: SpringCloud-Zuul（三）：常用配置详解">
                 <i class="fa fa-angle-right"></i>
             </a>
         
