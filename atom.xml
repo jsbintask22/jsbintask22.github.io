@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jsbintask.cn/"/>
-  <updated>2019-04-15T03:11:00.000Z</updated>
+  <updated>2019-04-16T03:11:00.000Z</updated>
   <id>https://jsbintask.cn/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>BIO，NIO，AIO，同步，异步介绍</title>
+    <link href="https://jsbintask.cn/2019/04/16/essay/nio/"/>
+    <id>https://jsbintask.cn/2019/04/16/essay/nio/</id>
+    <published>2019-04-16T03:11:00.000Z</published>
+    <updated>2019-04-16T03:11:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/man-throwing-a-stone-into-a-calm-lake-during-beautiful-sunrise-2210x1243.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a></p><blockquote><p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/04/16/essay/nio/">https://jsbintask.cn/2019/04/16/essay/nio/</a>(食用效果最佳)，转载请注明出处!</p></blockquote><p>在理解什么是BIO，NIO，AIO之前，我们首先需要了解什么是同步，异步，阻塞，非阻塞。假如我们现在要去银行取钱：<br><code>同步</code> ： 自己亲自出马持银行卡到银行取钱（使用同步IO时，Java自己处理IO读写）；<br><code>异步</code> ： 委托一小弟拿银行卡到银行取钱，然后给你（使用异步IO时，Java将IO读写委托给OS处理，需要将数据缓冲区地址和大小传给OS(银行卡和密码)，OS需要支持异步IO操作API）；<br><code>阻塞</code> ： ATM排队取款，你只能等待（使用阻塞IO时，Java调用会一直阻塞到读写完成才返回）；<br><code>非阻塞</code> ： 柜台取款，取个号，然后坐在椅子上做其它事，等号广播会通知你办理，没到号你就不能去，你可以不断问大堂经理排到了没有，大堂经理如果说还没到你就不能去（使用非阻塞IO时，如果不能读写Java调用会马上返回，当IO事件分发器会通知可读写时再继续进行读写，不断循环直到读写完成）</p><h2 id="BIO"><a href="#BIO" class="headerlink" title="BIO"></a>BIO</h2><p><code>Blocking IO</code>，同步阻塞式IO，jdk1.4以前，一直采用BIO编程模型，在<code>Socket</code>网络编程中，我们通常会使用<code>ServerSocket.accept()</code>方法获取一个新连接，该方法会阻塞当前主线程，所以通常一个连接来了后，会将其放入线程池去执行后续操作。而客户端发送请求后，先咨询服务端是否有线程相应，如果没有则会一直等待或者遭到拒绝请求，如果有的话，客户端Socket的connect方法同样会阻塞当前线程等待请求结束后才继续执行。</p><h2 id="NIO"><a href="#NIO" class="headerlink" title="NIO"></a>NIO</h2><p><code>New IO</code>，同步非阻塞式IO，jdk1.4后引入，主要用于解决BIO大并发的问题，由于BIO会为任何连接都分配一个线程，而操作系统资源有限，如果客户端的请求过多，服务端程序可能会因为不堪重负而拒绝客户端的请求，甚至服务器可能会因此而瘫痪。</p><p> NIO基于Reactor，当socket有流可读或可写入socket时，操作系统会相应的通知引用程序进行处理，应用再将流读取到缓冲区或写入操作系统。  也就是说，这个时候，已经不是一个连接就要对应一个处理线程了，而是有效的请求，对应一个线程，当连接没有数据时，是没有工作线程来处理的。<br> <img src="http://images2015.cnblogs.com/blog/37237/201512/37237-20151222220329015-207666376.png" alt=""><br>NIO最大的不同在于当一个新连接进入时，不会直接为其分配线程，始终只有一个<code>Selector</code>在不断轮询注册这些新连接，当连接准备好后，再将其加入线程池。</p><p>HTTP/1.1出现后，有了Http长连接，这样除了超时和指明特定关闭的http header外，这个链接是一直打开的状态的，这样在NIO处理中可以进一步的进化，在后端资源中可以实现资源池或者队列，当请求来的话，开启的线程把请求和请求数据传送给后端资源池或者队列里面就返回，并且在全局的地方保持住这个现场(哪个连接的哪个请求等)，这样前面的线程还是可以去接受其他的请求，而后端的应用的处理只需要执行队列里面的就可以了，这样请求处理和后端应用是异步的.当后端处理完，到全局地方得到现场，产生响应，这个就实现了异步处理。</p><p>对应BIO中的<code>ServerSocket</code>，<code>Socket</code>，再NIO中的编程类为：<br><code>ServerSocketChannel</code>, <code>SocketChannel</code>，值得注意的是，它们的<code>accept()</code>，<code>connect</code>方法均不是阻塞的，当没有连接或者连接没有立即建立时，它们都会直接返回，不会阻塞当前线程！</p><p>值得注意的是，虽然jdk已经为我们提供了NIO编程模型，但是使用难度较大，并且存在空轮询的bug。所以一般我们会考虑使用在 jdk NIO的基础上继续封装的<code>Netty</code>！</p><h2 id="AIO"><a href="#AIO" class="headerlink" title="AIO"></a>AIO</h2><p><code>NIO.2</code>，异步非阻塞IO。jdk1.7引入。与NIO不同，当进行读写操作时，只须直接调用API的read或write方法即可。这两种方法均为异步的，对于读操作而言，当有流可读取时，操作系统会将可读的流传入read方法的缓冲区，并通知应用程序；对于写操作而言，当操作系统将write方法传递的流写入完毕时，操作系统主动通知应用程序。  即可以理解为，read/write方法都是异步的，完成后会主动调用回调函数。 主要在java.nio.channels包下增加了下面四个异步通道：<br><code>AsynchronousSocketChannel</code>, <code>AsynchronousServerSocketChannel</code>, <code>AsynchronousFileChannel</code>, <code>AsynchronousDatagramChannel</code><br>其中的read/write方法，会返回一个带回调函数的对象，当执行完读取/写入操作后，直接调用回调函数。</p><p><code>关注我，这里只有干货！</code></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/man-throwing-a-stone-into-a-calm-lake-during-beautiful-sunrise-2210x1243.jpg-blog_960_440.jpg&quot; alt=&quot;cover&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="recommend" scheme="https://jsbintask.cn/categories/recommend/"/>
+    
+    
+      <category term="java" scheme="https://jsbintask.cn/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>从未这么明白的设计模式（二）：观察者模式</title>
@@ -771,9 +793,9 @@
     
       <category term="springboot" scheme="https://jsbintask.cn/tags/springboot/"/>
     
-      <category term="rabbitmq" scheme="https://jsbintask.cn/tags/rabbitmq/"/>
-    
       <category term="jms" scheme="https://jsbintask.cn/tags/jms/"/>
+    
+      <category term="rabbitmq" scheme="https://jsbintask.cn/tags/rabbitmq/"/>
     
   </entry>
   
