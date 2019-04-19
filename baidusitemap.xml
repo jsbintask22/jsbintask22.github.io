@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://jsbintask.cn/2019/04/19/jdk/java-lock/</loc>
+    <lastmod>2019-04-19T03:11:00.000Z</lastmod>
+  </url>  <url>
+    <loc>https://jsbintask.cn/2019/04/18/netty/netty-startup-process/</loc>
+    <lastmod>2019-04-18T03:11:00.000Z</lastmod>
+  </url>  <url>
     <loc>https://jsbintask.cn/2019/04/16/essay/nio/</loc>
     <lastmod>2019-04-16T03:11:00.000Z</lastmod>
   </url>  <url>

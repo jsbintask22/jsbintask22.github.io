@@ -6,22 +6,22 @@
   
   <title>
     
-    你真的了解restful api吗？|
+    JAVA中各种锁介绍|
     jsbintask的博客
     
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="keywords" content="api,restful">
+  <meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="你真的了解restful api吗？">
-<meta property="og:url" content="https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/index.html">
+<meta property="og:title" content="JAVA中各种锁介绍">
+<meta property="og:url" content="https://jsbintask.cn/2019/04/19/jdk/java-lock/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qiniu.jsbintask.cn/restful_by_miguel_santos_dbvfrth-pre.jpg-blog_960_440.jpg">
-<meta property="og:updated_time" content="2019-03-20T08:05:00.000Z">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/no-way-blocked-road-stop_free_stock_photos_picjumbo_P1020637-2210x1475.jpg-blog_960_440.jpg">
+<meta property="og:updated_time" content="2019-04-19T03:11:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="你真的了解restful api吗？">
-<meta name="twitter:image" content="http://qiniu.jsbintask.cn/restful_by_miguel_santos_dbvfrth-pre.jpg-blog_960_440.jpg">
+<meta name="twitter:title" content="JAVA中各种锁介绍">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/no-way-blocked-road-stop_free_stock_photos_picjumbo_P1020637-2210x1475.jpg-blog_960_440.jpg">
   
   <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -238,11 +238,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-api/restful-api-best-practices" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-jdk/java-lock" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/03/20/api/restful-api-best-practices/" class="article-date">
-      <time datetime="2019-03-20T08:05:00.000Z" itemprop="datePublished">2019-03-20</time>
+      <a href="/2019/04/19/jdk/java-lock/" class="article-date">
+      <time datetime="2019-04-19T03:11:00.000Z" itemprop="datePublished">2019-04-19</time>
 </a>
     </div>
   
@@ -255,7 +255,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      你真的了解restful api吗？
+      JAVA中各种锁介绍
     </h1>
   
 
@@ -270,7 +270,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/api/">api</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/restful/">restful</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -280,59 +280,22 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://qiniu.jsbintask.cn/restful_by_miguel_santos_dbvfrth-pre.jpg-blog_960_440.jpg" alt="restful api"><br><a id="more"></a></p>
-<blockquote>
-<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/">https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/</a>(食用效果最佳)，转载请注明出处!</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在以前，一个网站的完成总是“all in one”，页面，数据，渲染全部在服务端完成，这样做的最大的弊端是后期维护，扩展极其痛苦，开发人员必须同时具备前后端知识。于是慢慢的后来兴起了<code>前后端分离</code>的思想：<br>后端负责<code>数据编造</code>,而前端则负责<code>数据渲染</code>，前端静态页面调用指定api获取到有固定格式的数据，再将数据展示出来，这样呈现给用户的就是一个”动态“的过程，而关于api这部分的设计则成了一个问题。如何设计出一个便于理解，容易使用的api则成了一个问题。<br>而所谓的<code>restful</code>就是用来规范我们的api的一种约束。</p>
-<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p><code>rest</code>是<code>REpresentational State Transfer</code>三个单词的缩写，由Roy Fielding于2000年论文中提出，它代表着分布式服务的架构风格。而如果想你的api被称为restful api，只要遵循其规定的约束即可。</p>
-<h2 id="rest设计原则"><a href="#rest设计原则" class="headerlink" title="rest设计原则"></a>rest设计原则</h2><ol>
-<li>客户端-服务器：通过将用户UI与数据存储分开，我们可以简化服务器组件来提高跨多个平台的用户界面的可移植性并提高可伸缩性。 它可以比表现成前后端分离的思想。</li>
-<li>无状态：从客户端到服务器的每个请求都必须包含理解请求所需的所有信息，并且不能利用服务器上任何存储的上下文。 这表示你应该尽可能的避免使用session，由客户端自己标识会话状态。（token）</li>
-<li>规范接口：REST接口约束定义：资源识别; 请求动作; 响应信息; 它表示通过uri标出你要操作的<code>资源</code>，通过请求动作（http method）标识要执行的操作，通过返回的状态码来表示这次请求的执行结果。</li>
-<li>可缓存： 缓存约束要求将对请求的响应中的数据隐式或显式标记为可缓存或不可缓存。如果响应是可缓存的，则客户端缓存有权重用该响应数据以用于以后的等效请求。 它表示get请求响应头中应该表示有是否可缓存的头（Cache-Control)<br>其中1，2，3约束最为重要，其中1容易理解。接下来我们就谈谈无状态和规范接口的原则。</li>
-</ol>
-<h3 id="uri规范"><a href="#uri规范" class="headerlink" title="uri规范"></a>uri规范</h3><p>资源的描述构成了uri，它一般有以下约束：</p>
+        <p><img src="http://qiniu.jsbintask.cn/no-way-blocked-road-stop_free_stock_photos_picjumbo_P1020637-2210x1475.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a><br>java中的锁按状态，特性，功能，实现可以划分为多种锁; <code>公平锁/非公平锁</code>,<code>可重入锁</code>,<code>独享锁/共享锁</code>,<code>互斥锁/读写锁</code>,<code>乐观锁/悲观锁</code>,<code>分段锁</code>,<code>偏向锁/轻量级锁/重量级锁</code>,<code>自旋锁</code> 。</p>
+<h2 id="乐观锁，悲观锁"><a href="#乐观锁，悲观锁" class="headerlink" title="乐观锁，悲观锁"></a>乐观锁，悲观锁</h2><p>从并发同步的角度。悲观锁认为对于同一个数据的并发操作，一定是会发生修改的，哪怕没有修改，也会认为修改。因此对于同一个数据的并发操作，悲观锁采取加锁的形式。悲观的认为，不加锁的并发操作一定会出问题。乐观锁则认为对于同一个数据的并发操作，是不会发生修改的。在更新数据的时候，会采用尝试更新，不断重新的方式更新数据。乐观的认为，不加锁的并发操作是没有事情的。从上面的描述我们可以看出，悲观锁适合写操作非常多的场景，乐观锁适合读操作非常多的场景，不加锁会带来大量的性能提升。悲观锁在Java中的使用，就是利用各种锁。乐观锁在Java中的使用，是无锁编程，常常采用的是CAS算法，典型的例子就是原子类，通过CAS自旋实现原子操作的更新。</p>
+<h2 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h2><p>在Java中，自旋锁是指尝试获取锁的线程不会立即阻塞，而是采用循环的方式去尝试获取锁，这样的好处是减少线程上下文切换的消耗，缺点如果有大量线程竞争同一个资源，循环会耗费更多的CPU资源。<code>JDK</code>中的<code>Atom</code>开头的类工具类就是基于此实现（底层通过<code>Unsafe</code>实现）。</p>
+<h2 id="公平锁，非公平锁"><a href="#公平锁，非公平锁" class="headerlink" title="公平锁，非公平锁"></a>公平锁，非公平锁</h2><p>公平锁是指多个线程按照申请锁的顺序来获取锁。非公平锁是指多个线程获取锁的顺序并不是按照申请锁的顺序，有可能后申请的线程比先申请的线程优先获取锁。有可能，会造成优先级反转或者饥饿现象。对于Java ReentrantLock而言，通过构造函数指定该锁是否是公平锁，默认是非公平锁。非公平锁的优点在于吞吐量比公平锁大。对于Synchronized而言，也是一种非公平锁。由于其并不像ReentrantLock是通过AQS(<code>AbstractQueuedSynchronizer</code>)的来实现线程调度，所以并没有任何办法使其变成公平锁。</p>
+<h2 id="可重入锁"><a href="#可重入锁" class="headerlink" title="可重入锁"></a>可重入锁</h2><p>可重入锁又名递归锁，是指在同一个线程在外层方法获取锁的时候，在进入内层方法会自动获取锁。说的有点抽象，下面会有一个代码的示例。对于Java ReentrantLock而言, 他的名字就可以看出是一个可重入锁，其名字是Re entrant Lock重新进入锁。对于Synchronized而言,也是一个可重入锁。可重入锁的一个好处是可一定程度避免死锁。<br>synchronized void methodA () {<br>    Thread.sleep(10000L);<br>    methodB();<br>}<br>synchronized void methodB () throws Exception{<br>    Thread.sleep(10000L);<br>}上面的代码就是一个可重入锁的一个特点，如果不是可重入锁的话，setB可能不会被当前线程执行，可能造成死锁。</p>
+<h2 id="独享锁，共享锁"><a href="#独享锁，共享锁" class="headerlink" title="独享锁，共享锁"></a>独享锁，共享锁</h2><p><code>独享锁是指该锁一次只能被一个线程所持有</code>。<br><code>共享锁是指该锁可被多个线程所持有</code>。</p>
+<p>对于Java ReentrantLock而言，其是独享锁。但是对于Lock的另一个实现类ReadWriteLock，其读锁是共享锁，其写锁是独享锁。读锁的共享锁可保证并发读是非常高效的，读写，写读 ，写写的过程是互斥的。独享锁与共享锁也是通过AQS来实现的，通过实现不同的方法，来实现独享或者共享。对于Synchronized而言，当然是独享锁。</p>
+<h2 id="互斥锁，读写锁"><a href="#互斥锁，读写锁" class="headerlink" title="互斥锁，读写锁"></a>互斥锁，读写锁</h2><p>上面讲的独享锁/共享锁就是一种广义的说法，互斥锁/读写锁就是具体的实现。</p>
+<p>互斥锁在Java中的具体实现就是<code>ReentrantLock</code><br>读写锁在Java中的具体实现就是<code>ReadWriteLock</code></p>
+<h2 id="分段锁"><a href="#分段锁" class="headerlink" title="分段锁"></a>分段锁</h2><p>分段锁其实是一种锁的设计，并不是具体的一种锁，比如对于<code>ConcurrentHashMap(JDK1.7)</code>而言，其并发的实现就是通过分段锁的形式来实现高效的并发操作。我们以ConcurrentHashMap来说一下分段锁的含义以及设计思想，内部拥有一个Entry数组，数组中的每个元素又是一个链表；同时又是一个ReentrantLock（<code>Segment</code>继承了ReentrantLock)。当需要put元素的时候，并不是对整个hashmap进行加锁，而是先通过hashcode来知道他要放在那一个分段中，然后对这个分段进行加锁，所以当多线程put的时候，只要不是放在一个分段中，就实现了真正的并行的插入。但是，在统计size的时候，可就是获取所有Segment全局信息的时候，就需要获取所有的分段锁才能统计。分段锁的设计目的是细化锁的粒度，当操作不需要更新整个数组的时候，就仅仅针对数组中的一项进行加锁操作。</p>
+<h2 id="偏向锁，轻量级锁，重量级锁"><a href="#偏向锁，轻量级锁，重量级锁" class="headerlink" title="偏向锁，轻量级锁，重量级锁"></a>偏向锁，轻量级锁，重量级锁</h2><p>针对Synchronized的状态。在Java 5通过引入锁升级的机制来实现高效Synchronized。这三种锁的状态是通过对象监视器在对象头中的字段来表明的。</p>
 <ol>
-<li><p>使用名词。如 user, student, class<br><a href="http://api.example.com/class-management/students" target="_blank" rel="noopener">http://api.example.com/class-management/students</a><br><a href="http://api.example.com/device-management/managed-devices/{device-id}" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices/{device-id}</a><br><a href="http://api.example.com/user-management/users/" target="_blank" rel="noopener">http://api.example.com/user-management/users/</a><br><a href="http://api.example.com/user-management/users/{id}" target="_blank" rel="noopener">http://api.example.com/user-management/users/{id}</a></p>
-</li>
-<li><p>http method对应不同的请求动作（数据库或者业务逻辑）<br><code>GET</code>：查询操作：<br>HTTP GET /devices?startIndex=0&amp;size=20<br>HTTP GET /configurations?startIndex=0&amp;size=20<br>HTTP GET /devices/{id}/configurations<br>HTTP GET /devices/{id}<br><code>POST</code>：新增操作：<br>HTTP POST /device<br><code>PUT</code> 更新操作（代表更新一个实体的所有属性）<br>HTTP PUT /devices/{id}<br><code>PATCH</code> 部分更新（代表更新一个尸体的部分属性）由于有的浏览器兼容性问题，一般推荐使用put<br>HTTP PATCH /devices/{id}<br><code>DELETE</code> 删除操作<br>HTTP DELETE /devices/{id}</p>
-</li>
-<li><p>使用连字符（ - ）而不是（_）来提高URI的可读性<br><a href="http://api.example.com/inventory-management/managed-entities/{id}/install-script-location" target="_blank" rel="noopener">http://api.example.com/inventory-management/managed-entities/{id}/install-script-location</a> //更易读<br><a href="http://api.example.com/inventory_management/managed_entities/{id}/install_script_location" target="_blank" rel="noopener">http://api.example.com/inventory_management/managed_entities/{id}/install_script_location</a> //更容易出错</p>
-</li>
-<li><p>在URI中使用小写字母<br><a href="http://api.example.org/my-folder/my-doc" target="_blank" rel="noopener">http://api.example.org/my-folder/my-doc</a></p>
-</li>
-<li><p>不要使用文件扩展名 文件扩展名看起来很糟糕，不会增加任何优势。删除它们也会减少URI的长度。没理由保留它们。<br><a href="http://api.example.com/device-management/managed-devices.xml" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices.xml</a> / <em>不要使用它</em> /<br><a href="http://api.example.com/device-management/managed-devices" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices</a> / <em>这是正确的URI </em> /</p>
-</li>
-<li><p>使用查询组件过滤URI集合<br>很多时候，我们会遇到需要根据某些特定资源属性对需要排序，过滤或限制的资源集合的要求。为此，请不要创建新的API - 而是在资源集合API中启用排序，过滤和分页功能，并将输入参数作为查询参数传递。例如<br><a href="http://api.example.com/device-management/managed-devices" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices</a><br><a href="http://api.example.com/device-management/managed-devices?region=USA" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices?region=USA</a><br><a href="http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ</a><br><a href="http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ&amp;sort=installation-date" target="_blank" rel="noopener">http://api.example.com/device-management/managed-devices?region=USA&amp;brand=XYZ&amp;sort=installation-date</a></p>
-</li>
-<li><p>不要在末尾使用<code>/</code><br>作为URI路径中的最后一个字符，正斜杠（/）不会添加语义值，并可能导致混淆。最好完全放弃它们。</p>
-</li>
-<li><p>使用http状态码定义api执行结果<br><strong>1xx：信息</strong><br>通信传输协议级信息。</p>
-</li>
+<li>偏向锁是指一段同步代码一直被一个线程所访问，那么该线程会自动获取锁。降低获取锁的代价。</li>
+<li>轻量级锁是指当锁是偏向锁的时候，被另一个线程所访问，偏向锁就会升级为轻量级锁，其他线程会通过自旋的形式尝试获取锁，不会阻塞，提高性能。</li>
+<li>重量级锁是指当锁为轻量级锁的时候，另一个线程虽然是自旋，但自旋不会一直持续下去，当自旋一定次数的时候，还没有获取到锁，就会进入阻塞，该锁膨胀为重量级锁。重量级锁会让其他申请的线程进入阻塞，性能降低。</li>
 </ol>
-<p><strong>2xx：成功</strong><br>表示客户端的请求已成功接受。</p>
-<p><strong>3xx：重定向</strong><br>表示客户端必须执行一些其他操作才能完成其请求。</p>
-<p><strong>4xx：客户端错误</strong><br>此类错误状态代码指向客户端。</p>
-<p><strong>5xx：服务器错误</strong><br>服务器负责这些错误状态代码。<br>另外完整的更为详细的状态码此处不做赘述。一般简化版本的api会使用200，400，500，其中400代表客户端调用有误，将错误信息放入response：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"error"</span>: <span class="string">"username.or.password.error"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<ol start="9">
-<li>api版本定义<br>当我们需要对现有的api接口升级的时候，因为该api接口已经投入使用，所以新添加的业务可能无法保证兼容原来的逻辑，这个时候就需要新的接口，而这个接口一般表示对原来的接口的升级（不同版本），那版本怎么定义呢？</li>
-</ol>
-<ul>
-<li>URI版本控制（推荐）<br><a href="http://api.example.com/v1" target="_blank" rel="noopener">http://api.example.com/v1</a><br><a href="http://apiv1.example.com" target="_blank" rel="noopener">http://apiv1.example.com</a></li>
-<li>使用自定义请求标头进行版本控制<br>Accept-version：v1<br>Accept-version：v2</li>
-<li>使用Accept header 进行版本控制<br>Accept:application / vnd.example.v1 + json<br>Accept:application / vnd.example + json; version = 1.0</li>
-</ul>
-<h3 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h3><p>使REST API无状态有一些非常显着的优点：</p>
-<ol>
-<li>无状态通过将API部署到多个服务器，有助于将API扩展到数百万并发用户。任何服务器都可以处理任何请求，因为没有与会话相关的依赖。（集群）</li>
-<li>无状态使得REST API不那么复杂 - 可以删除所有服务器端状态同步逻辑。（删除session，清理多余空间）</li>
-<li>无状态API也很容易缓存。特定软件可以通过查看该一个请求来决定是否缓存HTTP请求的结果。从先前的请求中获得的状态可能会影响这个请求的可缓存性，这并不存在任何不确定性。它提高了应用程序的性能。</li>
-<li>服务器永远不会忘记每个客户端身份”，因为客户端会在每个请求中发送所有必要的信息。（携带token）</li>
-</ol>
-<p>那么无状态又要怎么实现呢？前面我们已经说了，服务端不应该再保存session会话，这个工作全部交由http请求去标识，而最常见的做法则是使用token。生成token可以考虑使用jwt，oauth。其中jwt可以参考我的另一篇文章：<a href="https://www.jianshu.com/p/6ff0e30fc9e9" target="_blank" rel="noopener">https://www.jianshu.com/p/6ff0e30fc9e9</a></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们首先介绍rest服务背景，引出rest架构的介绍，最后重点介绍了rest api的约束设计。</p>
-<p><code>关注我，这里只有干货！</code></p>
 
       
       
@@ -383,13 +346,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/03/20/api/restful-api-best-practices/">你真的了解restful api吗？</a></p>
+        <p><span>本文标题:</span><a href="/2019/04/19/jdk/java-lock/">JAVA中各种锁介绍</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年03月20日 - 16时05分</p>
-        <p><span>最后更新:</span>2019年03月20日 - 16时05分</p>
+        <p><span>发布时间:</span>2019年04月19日 - 11时11分</p>
+        <p><span>最后更新:</span>2019年04月19日 - 11时11分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/03/20/api/restful-api-best-practices/" title="你真的了解restful api吗？">https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://jsbintask.cn/2019/03/20/api/restful-api-best-practices/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/19/jdk/java-lock/" title="JAVA中各种锁介绍">https://jsbintask.cn/2019/04/19/jdk/java-lock/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://jsbintask.cn/2019/04/19/jdk/java-lock/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -402,18 +365,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/03/21/api/restful-api-idempotent/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          你的rest服务幂等吗？
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/03/10/jdk/jdk8-threadpool/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">线程池？面试？看这篇就够了！</div>
+    <a href="/2019/04/18/netty/netty-startup-process/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">netty极简教程（一）：从helloworld到编写一个聊天室</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -424,7 +378,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rest设计原则"><span class="toc-number">3.</span> <span class="toc-text">rest设计原则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#uri规范"><span class="toc-number">3.1.</span> <span class="toc-text">uri规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无状态"><span class="toc-number">3.2.</span> <span class="toc-text">无状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#乐观锁，悲观锁"><span class="toc-number">1.</span> <span class="toc-text">乐观锁，悲观锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自旋锁"><span class="toc-number">2.</span> <span class="toc-text">自旋锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#公平锁，非公平锁"><span class="toc-number">3.</span> <span class="toc-text">公平锁，非公平锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#可重入锁"><span class="toc-number">4.</span> <span class="toc-text">可重入锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#独享锁，共享锁"><span class="toc-number">5.</span> <span class="toc-text">独享锁，共享锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#互斥锁，读写锁"><span class="toc-number">6.</span> <span class="toc-text">互斥锁，读写锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分段锁"><span class="toc-number">7.</span> <span class="toc-text">分段锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#偏向锁，轻量级锁，重量级锁"><span class="toc-number">8.</span> <span class="toc-text">偏向锁，轻量级锁，重量级锁</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -472,7 +426,7 @@
     
 
         <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="restful-api-best-practices"></div>
+<div id="SOHUCS" sid="java-lock"></div>
 <script type="text/javascript">
     (function () {
         var appid = 'cyu0pbbdV';
@@ -515,13 +469,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/03/21/api/restful-api-idempotent/" title="上一篇: 你的rest服务幂等吗？">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/03/10/jdk/jdk8-threadpool/" title="下一篇: 线程池？面试？看这篇就够了！">
+            <a href="/2019/04/18/netty/netty-startup-process/" title="下一篇: netty极简教程（一）：从helloworld到编写一个聊天室">
                 <i class="fa fa-angle-right"></i>
             </a>
         
