@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <title>
+    
+    神奇的Unsafe，你get了吗|
+    jsbintask的博客
+    
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="keywords" content="java,jdk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神奇的Unsafe，你get了吗">
+<meta property="og:url" content="https://jsbintask.cn/2019/05/05/jdk/jdk8-unsafe/index.html">
+<meta property="og:site_name" content="jsbintask的博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/grain-field-detail_free_stock_photos_picjumbo_IMG_9857-2210x1473.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-17.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-19.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-20.png">
+<meta property="og:updated_time" content="2019-05-05T08:05:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="神奇的Unsafe，你get了吗">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/grain-field-detail_free_stock_photos_picjumbo_IMG_9857-2210x1473.jpg-blog_960_440.jpg">
+  
+  <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
+  
+  
+  <link rel="icon" href="/img/favicon.png">
+  
+  
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  
+  <!-- 加载特效 -->
+  <script src="/js/pace.js"></script>
+  <link href="/css/pace/pace-theme-flash.css" rel="stylesheet">
+  <script>
+    var yiliaConfig = {
+      rootUrl: '/',
+      fancybox: true,
+      animate: true,
+      isHome: false,
+      isPost: true,
+        isArchive: false,
+          isTag: false,
+            isCategory: false,
+              open_in_new: false
+      }
+  </script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            
+                <img lazy-src="/img/head.jpg" class="js-avatar">
+            
+        </a>
+
+        <hgroup>
+            <h1 class="header-author"><a href="/" title="Hi Mate">jsbintask</a></h1>
+        </hgroup>
+
+        
+            <p class="header-subtitle">Get more, get old.</p>
+        
+        
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                            <div class="icon-wrap icon-link hide" data-idx="2">
+                                <div class="loopback_l"></div>
+                                <div class="loopback_r"></div>
+                            </div>
+                        
+                        
+                            <div class="icon-wrap icon-me hide" data-idx="3">
+                                <div class="user"></div>
+                                <div class="shoulder"></div>
+                            </div>
+                        
+                    </div>
+
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                            <li>友情链接</li>
+                        
+                        
+                            <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                            
+                                <li><a href="/tags">所有标签</a></li>
+                            
+                                <li><a href="/categories/recommend">推荐阅读</a></li>
+                            
+                                <li><a href="/instagram">光影之路</a></li>
+                            
+                                <li><a href="/archives">文章归档</a></li>
+                            
+                                <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                            
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fl mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                            
+                                <a class="fl github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                            
+                                <a class="fl stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                            
+                                <a class="fl Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+
+                
+                    <section class="switch-part switch-part2">
+                        <div class="widget tagcloud" id="js-tagcloud">
+                            <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/api/" style="font-size: 12.22px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/jdk/" style="font-size: 15.56px;">jdk</a> <a href="/tags/jms/" style="font-size: 11.11px;">jms</a> <a href="/tags/linux/" style="font-size: 12.22px;">linux</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 11.11px;">netty</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 13.33px;">redis</a> <a href="/tags/restful/" style="font-size: 11.11px;">restful</a> <a href="/tags/springboot/" style="font-size: 16.67px;">springboot</a> <a href="/tags/springcloud/" style="font-size: 12.22px;">springcloud</a> <a href="/tags/springsecurity/" style="font-size: 14.44px;">springsecurity</a> <a href="/tags/ssm/" style="font-size: 10px;">ssm</a> <a href="/tags/weblogic/" style="font-size: 11.11px;">weblogic</a> <a href="/tags/zuul/" style="font-size: 12.22px;">zuul</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/源码/" style="font-size: 18.89px;">源码</a> <a href="/tags/设计模式/" style="font-size: 11.11px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 17.78px;">面试</a>
+                        </div>
+                    </section>
+                
+
+                
+                    <section class="switch-part switch-part3">
+                        <div id="js-friends">
+                            
+                                <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com">gayhub</a>
+                            
+                        </div>
+                    </section>
+                
+
+                
+                    
+                    <section class="switch-part switch-part4">
+                        
+                        <div id="js-aboutme">专注java，jvm，分布式，并发，框架等技术.</div>
+                    </section>
+                
+            </div>
+        </div>
+
+        
+            <div class="left-wechat-public">
+                <img src="/img/jsbintask_wechat.png" width="150px" height="150px" alt="jsbintask">
+            </div>
+        
+    </header>
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="Me">jsbintask</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                
+                    <img lazy-src="/img/head.jpg" class="js-avatar">
+                
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="Me">jsbintask</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">Get more, get old.</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/tags">所有标签</a></li>
+                
+                    <li><a href="/categories/recommend">推荐阅读</a></li>
+                
+                    <li><a href="/instagram">光影之路</a></li>
+                
+                    <li><a href="/archives">文章归档</a></li>
+                
+                    <li><a href="/resource-guide/FrontEndGuide/#/Index">资源导航</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a class="mail" target="_blank" href="mailto://jsbintask@gmail.com" title="mail">mail</a>
+                    
+                        <a class="github" target="_blank" href="https://github.com/jsbintask22" title="github">github</a>
+                    
+                        <a class="stackoverflow" target="_blank" href="https://stackoverflow.com/users/10720862/jasonzou" title="stackoverflow">stackoverflow</a>
+                    
+                        <a class="Instagram" target="_blank" href="https://www.instagram.com/jsbintask/" title="Instagram">Instagram</a>
+                    
+                </div>
+            </nav>
+        </header>                
+    </div>
+</nav>
+      <div class="body-wrap"><article id="post-jdk/jdk8-unsafe" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/05/jdk/jdk8-unsafe/" class="article-date">
+      <time datetime="2019-05-05T08:05:00.000Z" itemprop="datePublished">2019-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      神奇的Unsafe，你get了吗
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/">jdk</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p><img src="http://qiniu.jsbintask.cn/grain-field-detail_free_stock_photos_picjumbo_IMG_9857-2210x1473.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a></p>
+<blockquote>
+<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/05/05/jdk/jdk8-unsafe/">https://jsbintask.cn/2019/05/05/jdk/jdk8-unsafe/</a>(食用效果最佳)，转载请注明出处!</p>
+</blockquote>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>Unsafe</code>是jdk提供的一个直接访问操作系统资源的工具类（底层c++实现），它可以直接分配内存，内存复制，copy，提供cpu级别的<code>CAS</code>乐观锁等操作。它的目的是为了增强java语言直接操作底层资源的能力，无疑带来很多方便。但是，使用的同时就得额外小心！它的总体作用如下（图片来源网络）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-1.png" alt="Unsafe"></p>
+<p><code>Unsafe</code>位于sun.misc包下，jdk中的并发编程包juc(java.util.concurrent)基本全部靠<code>Unsafe</code>实现，由此可见其重要性。</p>
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p>Unsafe被设计为单例，并且只允许被引导类加载器（BootstrapClassLoader)加载的类使用：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-2.png" alt="Unsafe"><br>所以我们自己写的类是无法直接通过<code>Unsafe.getUnsafe()</code>获取的。当然，既然是java代码，我们就可以使用一点<code>歪道</code>，比如通过反射直接new一个或者将其内部静态成员变量<code>theUnsafe</code>获取出来：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    <span class="comment">// method 1</span></span><br><span class="line">    Class&lt;Unsafe&gt; unsafeClass = Unsafe.class;</span><br><span class="line">    Constructor&lt;Unsafe&gt; constructor = unsafeClass.getDeclaredConstructor();</span><br><span class="line">    constructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    Unsafe unsafe1 = constructor.newInstance();</span><br><span class="line">    System.out.println(unsafe1);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// method2</span></span><br><span class="line">    Field theUnsafe = unsafeClass.getDeclaredField(<span class="string">"theUnsafe"</span>);</span><br><span class="line">    theUnsafe.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    Unsafe unsafe2 = (Unsafe) theUnsafe.get(<span class="keyword">null</span>);</span><br><span class="line">    System.out.println(unsafe2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-3.png" alt="Unsafe"><br>现在我们能够在自己代码里面使用Unsafe了，接下来看下它的使用以及jdk使用操作的。</p>
+<h2 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h2><p><code>CAS</code>译为Compare And Swap，它是乐观锁的一种实现。假设内存值为v，预期值为e，想要更新成得值为u，当且仅当内存值v等于预期值e时，才将v更新为u。 这样可以有效避免多线程环境下的同步问题。</p>
+<p>在unsafe中，实现CAS算法通过cpu的原子指令<code>cmpxchg</code>实现，它对应的方法如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-4.png" alt="Unsafe"><br>简单介绍下它使用的参数，<code>var1</code>为内存中要操作的对象，<code>var2</code>为要操作的值的内存地址偏移量，<code>var4</code>为预期值，<code>var5</code>为想要更新成的值。</p>
+<p>为了方便理解，举个栗子。类User有一个成员变量name。我们new了一个对象User后，就知道了它在内存中的<code>起始值</code>,而成员变量name在对象中的位置偏移是固定的。这样通过这个起始值和这个偏移量就能够定位到name在内存中的具体位置。</p>
+<p>所以我们现在的问题就是如何得出name在对象User中的偏移量，Unsafe自然也提供了相应的方法：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-5.png" alt="Unsafe"><br>他们分别为获取静态成员变量，成员变量的方法，所以我们可以使用unsafe直接更新内存中的值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnsafeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Field theUnsafe = Unsafe.class.getDeclaredField(<span class="string">"theUnsafe"</span>);</span><br><span class="line">        theUnsafe.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Unsafe unsafe = (Unsafe) theUnsafe.get(<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        User user = <span class="keyword">new</span> User(<span class="string">"jsbintask"</span>);</span><br><span class="line">        <span class="keyword">long</span> nameOffset = unsafe.objectFieldOffset(User.class.getDeclaredField(<span class="string">"name"</span>));</span><br><span class="line">        unsafe.compareAndSwapObject(user, nameOffset, <span class="string">"jsbintask1"</span>, <span class="string">"jsbintask2"</span>);</span><br><span class="line">        System.out.println(<span class="string">"第一次更新后的值："</span> + user.getName());</span><br><span class="line">        unsafe.compareAndSwapObject(user, nameOffset, <span class="string">"jsbintask"</span>, <span class="string">"jsbintask2"</span>);</span><br><span class="line">        System.out.println(<span class="string">"第二次更新后的值："</span> + user.getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-6.png" alt="Unsafe"><br>因为内存中name的值为”jsbintask”,而第一次使用<code>compareAndSwapObject</code>方法预期值为”jsbintask1”，这显然是不相等的，所以第一次更新失败，第二次我们传入了正确的预期值，更新成功！</p>
+<p>如果我们分析juc包下的<code>Atomic</code>开头的原子类就会发现，它内部的原子操作全部来源于unsafe的CAS方法，比如AtomicInteger的getAndIncrement方法，内部直接调用unsafe的<code>getAndAddInt</code>方法，它的实现原理为：cas失败，就循环，直到成功为止，这就是我们所说的<code>自旋锁</code>！<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-7.png" alt="Unsafe"></p>
+<h2 id="内存分配"><a href="#内存分配" class="headerlink" title="内存分配"></a>内存分配</h2><p>Unsafe还给我们提供了直接分配内存，释放内存，拷贝内存，内存设置等方法，值得注意的是，这里的内存指的是<code>堆外内存</code>！它是不受jvm内存模型掌控的，所以使用需要及其小心：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//分配内存, 相当于C++的malloc函数</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">long</span> <span class="title">allocateMemory</span><span class="params">(<span class="keyword">long</span> bytes)</span></span>;</span><br><span class="line"><span class="comment">//释放内存</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">freeMemory</span><span class="params">(<span class="keyword">long</span> address)</span></span>;</span><br><span class="line"><span class="comment">//在给定的内存块中设置值</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">setMemory</span><span class="params">(Object o, <span class="keyword">long</span> offset, <span class="keyword">long</span> bytes, <span class="keyword">byte</span> value)</span></span>;</span><br><span class="line"><span class="comment">//内存拷贝</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">copyMemory</span><span class="params">(Object srcBase, <span class="keyword">long</span> srcOffset, Object destBase, <span class="keyword">long</span> destOffset, <span class="keyword">long</span> bytes)</span></span>;</span><br><span class="line"><span class="comment">//为给定地址设置值，忽略修饰限定符的访问限制，与此类似操作还有: putInt,putDouble，putLong，putChar等</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">putObject</span><span class="params">(Object o, <span class="keyword">long</span> offset, Object x)</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>我们可以写一段代码验证一下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Field theUnsafe = Unsafe.class.getDeclaredField(<span class="string">"theUnsafe"</span>);</span><br><span class="line">    theUnsafe.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    Unsafe unsafe = (Unsafe) theUnsafe.get(<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分配 10M的堆外内存</span></span><br><span class="line">    <span class="keyword">long</span> _10M_Address = unsafe.allocateMemory(<span class="number">1</span> * <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">10</span>);</span><br><span class="line">    <span class="comment">// 将10M内存的 前面1M内存值设置为10</span></span><br><span class="line">    unsafe.setMemory(_10M_Address, <span class="number">1</span> * <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">1</span>, (<span class="keyword">byte</span>) <span class="number">10</span>);</span><br><span class="line">    <span class="comment">// 获取第1M内存的值： 10</span></span><br><span class="line">    System.out.println(unsafe.getByte(_10M_Address + <span class="number">1000</span>));</span><br><span class="line">    <span class="comment">// 获取第1M内存后的值： 0（没有设置）</span></span><br><span class="line">    System.out.println(unsafe.getByte(_10M_Address + <span class="number">1</span> * <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">5</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-8.png" alt="Unsafe"><br>我们分配了10M内存，并且将前1M内存的值设置为了10，取出了内存中的值进行比较，验证了unsafe的方法。</p>
+<p>堆外内存不受jvm内存模型掌控，在nio（netty，mina）中大量使用对外内存进行管道传输，copy等，使用它们的好处如下：</p>
+<ul>
+<li>对垃圾回收停顿的改善。由于堆外内存是直接受操作系统管理而不是JVM，所以当我们使用堆外内存时，即可保持较小的堆内内存规模。从而在GC时减少回收停顿对于应用的影响。</li>
+<li>提升程序I/O操作的性能。通常在I/O通信过程中，会存在堆内内存到堆外内存的数据拷贝操作，对于需要频繁进行内存间数据拷贝且生命周期较短的暂存数据，都建议存储到堆外内存。<br>而在jdk中，堆外内存对应的类为<code>DirectByteBuffer</code>，它内部也是通过unsafe分配的内存:<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-9.png" alt="Unsafe"><br>这里值得注意的是，对外内存的回收借助了<code>Cleaner</code>这个类。</li>
+</ul>
+<h2 id="线程调度"><a href="#线程调度" class="headerlink" title="线程调度"></a>线程调度</h2><p>通过Unsafe还可以直接将某个线程挂起，这和调用<code>Object.wait()</code>方法作用是一样的，但是效率确更高！<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-10.png" alt="Unsafe"><br>我们熟知的AQS(<code>AbstractQueuedSynchronizer</code>)内部挂起线程使用了<code>LockSupport</code>方法，而LockSupport内部依旧使用的是Unsafe：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-11.png" alt="Unsafe"><br>我们同样可以写一段代码验证：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    Field theUnsafe = Unsafe.class.getDeclaredField(<span class="string">"theUnsafe"</span>);</span><br><span class="line">    theUnsafe.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    Unsafe unsafe = (Unsafe) theUnsafe.get(<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">    Thread t1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i == <span class="number">5</span>) &#123;</span><br><span class="line">                <span class="comment">// i == 5时，将当前线程挂起</span></span><br><span class="line">                unsafe.park(<span class="keyword">false</span>, <span class="number">0L</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">" printing i : "</span> + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;, <span class="string">" Thread__Unsafe__1"</span>);</span><br><span class="line"></span><br><span class="line">    t1.start();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 主线程休息三秒</span></span><br><span class="line">    Thread.sleep(<span class="number">3000L</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">" printing i : "</span> + i);</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">9</span>) &#123;</span><br><span class="line">            <span class="comment">// 将线程 t1 唤醒</span></span><br><span class="line">            unsafe.unpark(t1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    System.in.read();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-12.png" alt="Unsafe"><br>当线程t1运行到i=5时，被挂起，主线程执行，而主线程运行到i=9时，将t1唤醒，t1继续打印！ 在park出debug可以观察t1线程的状态：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-13.png" alt="Unsafe"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-14.png" alt="Unsafe"></p>
+<h2 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h2><p>对于数组，Unsafe提供了特别的方法返回不同类型数组在内存中的偏移量：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-16.png" alt="Unsafe"><br><code>arrayBaseOffset</code>方法返回数组在内存中的偏移量，这个值是固定的。<code>arrayIndexScale</code>返回数组中的每一个元素的内存地址换算因子。举个栗子，double数组（注意不是包装类型）每个元素占用8个字节，所以换算因子为8，int类型则为4，通过这两个方法我们就能定位数组中每个元素的内存地址，从而赋值，下面代码演示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">    Class&lt;Unsafe&gt; unsafeClass = Unsafe.class;</span><br><span class="line">    Constructor&lt;Unsafe&gt; constructor = unsafeClass.getDeclaredConstructor();</span><br><span class="line">    constructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    Unsafe unsafe = constructor.newInstance();</span><br><span class="line"></span><br><span class="line">    Integer[] integers = <span class="keyword">new</span> Integer[<span class="number">10</span>];</span><br><span class="line">    <span class="comment">// 打印数组的原始值</span></span><br><span class="line">    System.out.println(Arrays.toString(integers));</span><br><span class="line">    <span class="comment">// 获取Integer数组在内存中的固定的偏移量</span></span><br><span class="line">    <span class="keyword">long</span> arrayBaseOffset = unsafe.arrayBaseOffset(Integer[].class);</span><br><span class="line">    System.out.println(unsafe.arrayIndexScale(Integer[].class));</span><br><span class="line">    System.out.println(unsafe.arrayIndexScale(<span class="keyword">double</span>[].class));</span><br><span class="line">    <span class="comment">// 将数组中第一个元素的更新为100</span></span><br><span class="line">    unsafe.putObject(integers, arrayBaseOffset, <span class="number">100</span>);</span><br><span class="line">    <span class="comment">// 将数组中第五个元素更新为50  注意 引用类型占用4个字节，所以内存地址 需要 4 * 4 = 16</span></span><br><span class="line">    unsafe.putObject(integers, arrayBaseOffset + <span class="number">16</span>, <span class="number">50</span>);</span><br><span class="line">    <span class="comment">// 打印更新后的值</span></span><br><span class="line">    System.out.println(Arrays.toString(integers));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-17.png" alt="Unsafe"><br>我们通过获取Integer数组的内存偏移量，结合换算因子将第一个元素，第五个元素分别替换为了100，50。验证了我们的说法。</p>
+<p>数组的原子操作，juc包也已经提供了相应的工具类，比如<code>AtomicIntegerArray</code>内部就是同过Unsafe的上述方法实现了数组的原子操作。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-18.png" alt="Unsafe"></p>
+<h2 id="其它操作"><a href="#其它操作" class="headerlink" title="其它操作"></a>其它操作</h2><p>Unsafe还提供了操作系统级别的方法如获取内存页的大小<code>public native int pageSize();</code>，获取系统指针大小<code>public native int addressSize();</code><br>jdk8还加入了新的方法，内存屏障，它的目的是为了防止指令重排序（编译器为了优化速度，会在保证单线程不出错的情况下将某些代码的顺序调换，比如先分配内存，或者先返回引用等，这样在多线程环境下就会出错）：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//内存屏障，禁止load操作重排序。屏障前的load操作不能被重排序到屏障后，屏障后的load操作不能被重排序到屏障前</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">loadFence</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//内存屏障，禁止store操作重排序。屏障前的store操作不能被重排序到屏障后，屏障后的store操作不能被重排序到屏障前</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">storeFence</span><span class="params">()</span></span>;</span><br><span class="line"><span class="comment">//内存屏障，禁止load、store操作重排序</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">fullFence</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>jdk1.8引入的<code>StampedLock</code>就是基于此实现的乐观读写锁.<br>另外，jdk1.8引入了lambda表达式，它其实会帮我们调用Unsafe的<code>public native Class&lt;?&gt; defineAnonymousClass(Class&lt;?&gt; var1, byte[] var2, Object[] var3);</code>方法生成匿名内部类，如下面的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UnsafeTest2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Function&lt;String, Integer&gt; function = Integer::parseInt;</span><br><span class="line">        System.out.println(function.apply(<span class="string">"100"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查看字节码：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-19.png" alt="Unsafe"><br>发现它调用了<code>LambdaMetafactory.metafactory</code>方法，最终调用了<code>InnerClassLambdaMetafactory</code>的spinInnerClass方法：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/unsafe-20.png" alt="Unsafe"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过反射可以获取Unsafe类的实例，他可以帮助我们进行堆外内存操作，内存copy，内存复制，线程挂起，提供了cpu级别的cas原子操作。另外还有lambda的匿名内部类的生成，数组内存操作等。juc包基本全部基于此类实现！</p>
+<p><code>关注我，这里只有干货！</code></p>
+
+      
+      
+        <div class="page-reward">
+          <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang">赏</a></p>
+          <div class="hide_box"></div>
+          <div class="shang_box">
+            <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+            <div class="shang_tit">
+              <p>谢谢你支持我分享知识</p>
+            </div>
+            <div class="shang_payimg">
+              <img src="/img/wechatimg.jpg" alt="扫码支持" title="扫一扫">
+            </div>
+              <div class="pay_explain">扫码打赏，心意已收</div>
+            <div class="shang_payselect">
+              
+              
+                <div class="pay_item" data-id="wechat">
+                  <!--<span class="radiobox"></span>-->
+                  <span class="pay_logo"><img src="/img/weixin.png" alt="微信"></span>
+                </div>
+              
+            </div>
+            <div class="shang_info">
+              <p>打开<span id="shang_pay_txt">微信</span>扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+        <script type="text/javascript">
+          $(".pay_item").click(function(){
+            $(this).addClass('checked').siblings('.pay_item').removeClass('checked');
+            var dataid=$(this).attr('data-id');
+            $(".shang_payimg img").attr("src","/img/"+dataid+"img.jpg");
+            $("#shang_pay_txt").text(dataid=="alipay"?"支付宝":"微信");
+          });
+          function dashangToggle(){
+
+            $(".hide_box").fadeToggle();
+            $(".shang_box").fadeToggle();
+          }
+        </script>
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/05/05/jdk/jdk8-unsafe/">神奇的Unsafe，你get了吗</a></p>
+        <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
+        <p><span>发布时间:</span>2019年05月05日 - 16时05分</p>
+        <p><span>最后更新:</span>2019年05月05日 - 16时05分</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/05/05/jdk/jdk8-unsafe/" title="神奇的Unsafe，你get了吗">https://jsbintask.cn/2019/05/05/jdk/jdk8-unsafe/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://jsbintask.cn/2019/05/05/jdk/jdk8-unsafe/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script src="/js/clipboard.min.js"></script>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)" target="_blank">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/19/jdk/java-lock/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JAVA中各种锁介绍</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本使用"><span class="toc-number">2.</span> <span class="toc-text">基本使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CAS"><span class="toc-number">3.</span> <span class="toc-text">CAS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内存分配"><span class="toc-number">4.</span> <span class="toc-text">内存分配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程调度"><span class="toc-number">5.</span> <span class="toc-text">线程调度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组操作"><span class="toc-number">6.</span> <span class="toc-text">数组操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它操作"><span class="toc-number">7.</span> <span class="toc-text">其它操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">8.</span> <span class="toc-text">总结</span></a></li></ol>
+</div>
+<input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+<script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script>
+    var valueHide = "隐藏目录";
+    var valueShow = "显示目录";
+
+    if ($(".left-col").is(":hidden")) {
+        $("#tocButton").attr("value", valueShow);
+    }
+    $("#tocButton").click(function() {
+        if ($("#toc").is(":hidden")) {
+            $("#tocButton").attr("value", valueHide);
+            $("#toc").slideDown(320);
+        }
+        else {
+            $("#tocButton").attr("value", valueShow);
+            $("#toc").slideUp(350);
+        }
+    })
+    if ($(".toc").length < 1) {
+        $("#toc, #tocButton").hide();
+    }
+</script>
+
+
+
+
+
+<div class="bdsharebuttonbox">
+	<a href="#" class="fx fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+	<a href="#" class="fx fa-weixin bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+	<a href="#" class="fx fa-qq bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+	<a href="#" class="fx fa-facebook-official bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+	<a href="#" class="fx fa-twitter bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+	<a href="#" class="fx fa-linkedin bds_linkedin" data-cmd="linkedin" title="分享到linkedin"></a>
+	<a href="#" class="fx fa-files-o bds_copy" data-cmd="copy" title="分享到复制网址"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+
+
+
+    
+
+        <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="jdk8-unsafe"></div>
+<script type="text/javascript">
+    (function () {
+        var appid = 'cyu0pbbdV';
+        var conf = 'prod_63c6b3d3f6f2019a79293cbf63760587';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({appid: appid, conf: conf})
+            });
+        }
+    })(); </script>
+
+
+    
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+        
+            <a href="/2019/04/19/jdk/java-lock/" title="下一篇: JAVA中各种锁介绍">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/05/05/jdk/jdk8-unsafe/">神奇的Unsafe，你get了吗</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/19/jdk/java-lock/">JAVA中各种锁介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/18/netty/netty-startup-process/">netty极简教程（一）：从helloworld到编写一个聊天室</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/16/essay/nio/">BIO，NIO，AIO，同步，异步介绍</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/15/designpattern/observer/">从未这么明白的设计模式（二）：观察者模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/11/springcloud/springcloud-zuul-config/">SpringCloud-Zuul（三）：常用配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/09/jdk/jdk8-concurrentmodification/">谈一谈ConcurrentModificationException</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/03/springcloud/springcloud-customfilters/">SpringCloud-Zuul（二）：自定义Filter及内部路由源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/01/jdk/jdk8-threadlocal/">jdk你不得不了解的实现：ThreadLocal源码全解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/springcloud/springcloud-zuul-process/">SpringCloud-Zuul（一）：技术选型及请求流程源码走读</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/27/jdk/jdk8-hashset/">HashSet源码解析从一道面试题说起：HashSet内部是怎么实现的？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/26/jdk/jdk8-linkedlist/">jdk1.8 LinkedList源码全分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/22/jdk/jdk8-arraylist/">jdk8源码解析-ArrayList</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/21/api/restful-api-idempotent/">你的rest服务幂等吗？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/20/api/restful-api-best-practices/">你真的了解restful api吗？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/10/jdk/jdk8-threadpool/">线程池？面试？看这篇就够了！</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/09/springboot/ssm-jsbintask-bbs/">【干货】SSM，Jqeury, Bootstrap从零打造一个论坛系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/27/jdk/jdk8-hashmap-sourcecode/">HashMap源码全解析从一道面试题说起：请一行一行代码描述下hashmap put方法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/23/android/android-memo/">（干货）Android入门完整项目：一个有定时提醒功能的备忘录</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/interview/interview-redis-2/">redis面试必问（下）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/18/interview/interview-redis-1/">redis面试必问（上）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-high-concurrency-design/">mysql面试题：如何实现 MySQL 的读写分离？MySQL 主从复制原理是啥？如何解决 MySQL 主从同步的延时问题？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-db-shard/">数据库分库分表面试题整理</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/17/interview/interview-mysql-read-write-separation/">mysql面试题：如何实现 MySQL 的读写分离？MySQL 主从复制原理是啥？如何解决 MySQL 主从同步的延时问题？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/15/springboot/springboot-all-configs/">史上最全springboot配置，踩坑，注解，使用手册（持续更新中）</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/30/netty/netty-chatroom/">netty极简教程（一）：从helloworld到编写一个聊天室</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/29/designpattern/singleton/">从未这么明白的设计模式（一）：单例模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-custommiddleware/">消息中间件面试题：如果让你写一个消息队列，该如何进行架构设计？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-manymessage/">消息中间件面试题：如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时呢？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-one/">消息中间件面试题：如何保证消息不被重复消费</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-order/">消息中间件面试题：如何保证消息的顺序性</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-reliable/">消息中间件面试题：消息丢失怎么办？</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-highavailable/">消息中间件面试题：消息中间件的高可用</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/28/interview/interview-middleware-jms/">中间件面试题：消息队列的优缺点，区别</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-rabbitmq-jms/">springboot整合各种消息队列（二）：rabbitmq消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/middleware/docker-rabbitmq-install/">docker上配置运行rabbitmq</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/25/springboot/springboot-redis-jms/">springboot整合各种消息队列（一）：redis消息队列</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/webcontainer/weblogic-springboot-tx/">springboot在weblogic中的事务问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/22/api/ins-api/">ins获取个人信息</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/21/springsecurity-restful/">springboot整合springsecurity从Hello World到源码解析（五）：springsecurity+jwt整合restful服务</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/20/webcontainer/weblogic-httpbasic/">weblogic拦截http basic验证问题</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/16/springsecurity-architecture/">springboot整合springsecurity从Hello World到源码解析（四）：springsecurity基础架构解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/springsecurity-basicconfig/">springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/11/linux/linux-vsftpd-config/">linux环境中vsftp的常用配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-configsourcecode/">springboot整合springsecurity从Hello World到源码解析（二）-初始化配置源码解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/08/springsecurity-helloworld/">springboot整合springsecurity从HelloWorld到源码解析（一）-helloworld</a></li></ul>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+    <script>
+        $(".post-list").addClass("toc-article");
+        $(".post-list-item a").attr("target","_blank");
+        $("#post-nav-button > a:nth-child(2)").click(function() {
+            $(".fa-bars, .fa-times").toggle();
+            $(".post-list").toggle(300);
+            if ($(".toc").length > 0) {
+                $("#toc, #tocButton").toggle(200, function() {
+                    if ($(".switch-area").is(":visible")) {
+                        $("#tocButton").attr("value", valueHide);
+                        }
+                    })
+            }
+            else {
+            }
+        })
+    </script>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                &copy; 2019 jsbintask
+            </div>
+        </div>
+        
+        <div class="visit">
+            
+            <span id="busuanzi_container_site_pv" style="display:none">
+                <span id="site-visit" style="display: none">本站访问量:
+                    <span id="busuanzi_value_site_uv"></span>
+                </span>
+            </span>
+            
+            
+            <span>欢迎扫描左方二维码跟作者交流. </span>
+            
+            
+            <span id="busuanzi_container_page_pv" style="display:none">
+                <span id="page-visit" style="display: none">本文阅读量:
+                    <span id="busuanzi_value_page_pv"></span>
+                </span>
+            </span>
+            
+        </div>
+        
+    </div>
+</footer>
+    </div>
+    <script src="https://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var backgroundnum = 24;
+            var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+            $("#mobile-nav").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+            $(".left-col").css({"background-image": backgroundimg,"background-size": "cover","background-position": "center"});
+        })
+    </script>
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-136937264-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?f1c1bcd43bb13500d087f18deb22025f";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    $(document).ready(function() {
+        if ($("#comments").length < 1) {
+            $("#scroll > a:nth-child(2)").hide();
+        };
+    })
+</script>
+
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+  <script language="javascript">
+    $(function() {
+        $("a[title]").each(function() {
+            var a = $(this);
+            var title = a.attr('title');
+            if (title == undefined || title == "") return;
+            a.data('title', title).removeAttr('title').hover(
+
+            function() {
+                var offset = a.offset();
+                $("<div id=\"anchortitlecontainer\"></div>").appendTo($("body")).html(title).css({
+                    top: offset.top - a.outerHeight() - 15,
+                    left: offset.left + a.outerWidth()/2 + 1
+                }).fadeIn(function() {
+                    var pop = $(this);
+                    setTimeout(function() {
+                        pop.remove();
+                    }, pop.text().length * 800);
+                });
+            }, function() {
+                $("#anchortitlecontainer").remove();
+            });
+        });
+    });
+</script>
+
+
+
+  </div>
+</body>
+</html>
