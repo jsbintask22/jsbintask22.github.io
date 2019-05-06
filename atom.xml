@@ -63,7 +63,7 @@
   </entry>
   
   <entry>
-    <title>netty极简教程（一）：从helloworld到编写一个聊天室</title>
+    <title>netty极简教程（二）：Netty组件介绍</title>
     <link href="https://jsbintask.cn/2019/04/18/netty/netty-startup-process/"/>
     <id>https://jsbintask.cn/2019/04/18/netty/netty-startup-process/</id>
     <published>2019-04-18T03:11:00.000Z</published>
@@ -387,9 +387,9 @@
       <category term="recommend" scheme="https://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="https://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="https://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="https://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -411,9 +411,9 @@
       <category term="recommend" scheme="https://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="restful" scheme="https://jsbintask.cn/tags/restful/"/>
-    
       <category term="api" scheme="https://jsbintask.cn/tags/api/"/>
+    
+      <category term="restful" scheme="https://jsbintask.cn/tags/restful/"/>
     
   </entry>
   
@@ -1063,6 +1063,28 @@
   </entry>
   
   <entry>
+    <title>linux环境中vsftp的常用配置</title>
+    <link href="https://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/"/>
+    <id>https://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</id>
+    <published>2019-01-11T02:15:00.000Z</published>
+    <updated>2019-01-11T06:15:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg" alt="vsftpd"><br><a id="more"></a></p><h1 id="Linux上vsftpd的配置"><a href="#Linux上vsftpd的配置" class="headerlink" title="Linux上vsftpd的配置"></a>Linux上vsftpd的配置</h1><p>最近正好项目遇上需要配置ftp的情况，感觉对于ftp的配置都差不多，所以特意写下本篇博客，话不多说，直接动手。<br><strong><em>配置最终目的如下：<br>1.取消匿名登陆，必须账号密码登陆<br>2.只有配置文件中的用户允许登陆<br>3.所有用户登陆后访问相同的ftp环境<br>4.所有用户不能够切换到上级目录</em></strong></p><h2 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h2><p>新建一个不能ssh登陆的用户，作为我们的ftp的访问用户（不用root）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd ftp_user -d /home/ftp_user -s /sbin/nologin ftp_user  --新建用户 ftp_user并且主目录为/home/ftp_user</span><br><span class="line">chmod -R 755 /home/ftp_user  --修改该目录访问权限</span><br><span class="line">passwd ftp_user  --设置该账号密码</span><br></pre></td></tr></table></figure></p><h2 id="安装配置vsftpd"><a href="#安装配置vsftpd" class="headerlink" title="安装配置vsftpd"></a>安装配置vsftpd</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum -y install vsftpd  --安装</span><br><span class="line">cd /etc/vsftpd  --切换到vsftp目录下</span><br><span class="line">mv vsftpd.conf vsftpd.conf.bak  --备份原来的配置文件</span><br><span class="line">wget http://resource.jsbintask.cn/vsftpd/vsftpd.conf  --获取配置文件</span><br></pre></td></tr></table></figure><p>改配置文件已经做好了大多数的配置，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png" alt="vsftpd"><br>接下来编辑改配置文件，vim vsftpd.conf，在最下方加入我们一开始配置用户设置的主文件夹：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_root=/home/ftp_user</span><br></pre></td></tr></table></figure></p><p>接下来编辑ftpusers，删除所有配置，空文件就行（该文件是哪些用户不能访问）<br>编辑user_list（该文件控制哪些用户可以登录ftp），加入我们刚刚添加的用户ftp_user，删掉其他所有行数，例如：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png" alt="vsftpd"><br>只有用户jason和root可以登录。</p><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service vsftpd start</span><br></pre></td></tr></table></figure><p>如果启动过程中报错，重新编辑vsftp.conf，注释掉 改行（这是vsftpd2.3以后的新配置）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png" alt="vsftpd"><br>重新启动，成功。<br>接下来使用ftp工具连接即可</p><h2 id="问题解决："><a href="#问题解决：" class="headerlink" title="问题解决："></a>问题解决：</h2><ol><li>关闭防火墙或者开启如下端口  20， 21（ftp）， 61001-62000范围端口。</li><li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://resource.jsbintask.cn/vsftpd/config.sh</span><br></pre></td></tr></table></figure></li></ol><p>运行 config.sh，如果运行失败，请修改脚本中的 setsebool -P tftp_home_dir 1 为 setsebool -P ftp_home_dir 1</p><ol start="3"><li>编辑安全配置文件 vim /etc/sysconfig/selinux，SELINUX=enforcing 改为 SELINUX=disabled<br>再次访问，成功。<br>关注我！<br><img src="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg" alt="qrcode"></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg&quot; alt=&quot;vsftpd&quot;&gt;&lt;br&gt;
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://jsbintask.cn/tags/linux/"/>
+    
+      <category term="运维" scheme="https://jsbintask.cn/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
     <title>springboot整合springsecurity从Hello World到源码解析（三）-基础配置详解</title>
     <link href="https://jsbintask.cn/2019/01/11/springsecurity-basicconfig/"/>
     <id>https://jsbintask.cn/2019/01/11/springsecurity-basicconfig/</id>
@@ -1087,28 +1109,6 @@
       <category term="springboot" scheme="https://jsbintask.cn/tags/springboot/"/>
     
       <category term="源码" scheme="https://jsbintask.cn/tags/%E6%BA%90%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>linux环境中vsftp的常用配置</title>
-    <link href="https://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/"/>
-    <id>https://jsbintask.cn/2019/01/11/linux/linux-vsftpd-config/</id>
-    <published>2019-01-11T02:15:00.000Z</published>
-    <updated>2019-01-11T06:15:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg" alt="vsftpd"><br><a id="more"></a></p><h1 id="Linux上vsftpd的配置"><a href="#Linux上vsftpd的配置" class="headerlink" title="Linux上vsftpd的配置"></a>Linux上vsftpd的配置</h1><p>最近正好项目遇上需要配置ftp的情况，感觉对于ftp的配置都差不多，所以特意写下本篇博客，话不多说，直接动手。<br><strong><em>配置最终目的如下：<br>1.取消匿名登陆，必须账号密码登陆<br>2.只有配置文件中的用户允许登陆<br>3.所有用户登陆后访问相同的ftp环境<br>4.所有用户不能够切换到上级目录</em></strong></p><h2 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h2><p>新建一个不能ssh登陆的用户，作为我们的ftp的访问用户（不用root）<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd ftp_user -d /home/ftp_user -s /sbin/nologin ftp_user  --新建用户 ftp_user并且主目录为/home/ftp_user</span><br><span class="line">chmod -R 755 /home/ftp_user  --修改该目录访问权限</span><br><span class="line">passwd ftp_user  --设置该账号密码</span><br></pre></td></tr></table></figure></p><h2 id="安装配置vsftpd"><a href="#安装配置vsftpd" class="headerlink" title="安装配置vsftpd"></a>安装配置vsftpd</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum -y install vsftpd  --安装</span><br><span class="line">cd /etc/vsftpd  --切换到vsftp目录下</span><br><span class="line">mv vsftpd.conf vsftpd.conf.bak  --备份原来的配置文件</span><br><span class="line">wget http://resource.jsbintask.cn/vsftpd/vsftpd.conf  --获取配置文件</span><br></pre></td></tr></table></figure><p>改配置文件已经做好了大多数的配置，如下：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo1.png" alt="vsftpd"><br>接下来编辑改配置文件，vim vsftpd.conf，在最下方加入我们一开始配置用户设置的主文件夹：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">local_root=/home/ftp_user</span><br></pre></td></tr></table></figure></p><p>接下来编辑ftpusers，删除所有配置，空文件就行（该文件是哪些用户不能访问）<br>编辑user_list（该文件控制哪些用户可以登录ftp），加入我们刚刚添加的用户ftp_user，删掉其他所有行数，例如：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo2.png" alt="vsftpd"><br>只有用户jason和root可以登录。</p><h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service vsftpd start</span><br></pre></td></tr></table></figure><p>如果启动过程中报错，重新编辑vsftp.conf，注释掉 改行（这是vsftpd2.3以后的新配置）：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/vsftpd/vsftpd-demo3.png" alt="vsftpd"><br>重新启动，成功。<br>接下来使用ftp工具连接即可</p><h2 id="问题解决："><a href="#问题解决：" class="headerlink" title="问题解决："></a>问题解决：</h2><ol><li>关闭防火墙或者开启如下端口  20， 21（ftp）， 61001-62000范围端口。</li><li><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://resource.jsbintask.cn/vsftpd/config.sh</span><br></pre></td></tr></table></figure></li></ol><p>运行 config.sh，如果运行失败，请修改脚本中的 setsebool -P tftp_home_dir 1 为 setsebool -P ftp_home_dir 1</p><ol start="3"><li>编辑安全配置文件 vim /etc/sysconfig/selinux，SELINUX=enforcing 改为 SELINUX=disabled<br>再次访问，成功。<br>关注我！<br><img src="http://qiniu.jsbintask.cn/qrcode_jsbintask_1.jpg" alt="qrcode"></li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;img src=&quot;http://qiniu.jsbintask.cn/free_to_die_as_you_want___skyrim_by_watchtheskies45_dcx0jin-fullview.jpg-blog_960_440.jpg&quot; alt=&quot;vsftpd&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="linux" scheme="https://jsbintask.cn/tags/linux/"/>
-    
-      <category term="运维" scheme="https://jsbintask.cn/tags/%E8%BF%90%E7%BB%B4/"/>
     
   </entry>
   
