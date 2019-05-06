@@ -865,9 +865,9 @@
     
       <category term="springboot" scheme="https://jsbintask.cn/tags/springboot/"/>
     
-      <category term="jms" scheme="https://jsbintask.cn/tags/jms/"/>
-    
       <category term="rabbitmq" scheme="https://jsbintask.cn/tags/rabbitmq/"/>
+    
+      <category term="jms" scheme="https://jsbintask.cn/tags/jms/"/>
     
   </entry>
   
