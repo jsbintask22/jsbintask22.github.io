@@ -411,9 +411,9 @@
       <category term="recommend" scheme="https://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="api" scheme="https://jsbintask.cn/tags/api/"/>
-    
       <category term="restful" scheme="https://jsbintask.cn/tags/restful/"/>
+    
+      <category term="api" scheme="https://jsbintask.cn/tags/api/"/>
     
   </entry>
   
@@ -435,9 +435,9 @@
       <category term="recommend" scheme="https://jsbintask.cn/categories/recommend/"/>
     
     
-      <category term="api" scheme="https://jsbintask.cn/tags/api/"/>
-    
       <category term="restful" scheme="https://jsbintask.cn/tags/restful/"/>
+    
+      <category term="api" scheme="https://jsbintask.cn/tags/api/"/>
     
   </entry>
   
@@ -889,9 +889,9 @@
     
       <category term="springboot" scheme="https://jsbintask.cn/tags/springboot/"/>
     
-      <category term="jms" scheme="https://jsbintask.cn/tags/jms/"/>
-    
       <category term="rabbitmq" scheme="https://jsbintask.cn/tags/rabbitmq/"/>
+    
+      <category term="jms" scheme="https://jsbintask.cn/tags/jms/"/>
     
   </entry>
   
@@ -964,9 +964,9 @@
     </summary>
     
     
-      <category term="linux" scheme="https://jsbintask.cn/tags/linux/"/>
-    
       <category term="redis" scheme="https://jsbintask.cn/tags/redis/"/>
+    
+      <category term="linux" scheme="https://jsbintask.cn/tags/linux/"/>
     
   </entry>
   
