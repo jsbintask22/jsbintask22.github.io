@@ -6,29 +6,30 @@
   
   <title>
     
-    linux上安装配置redis5.0|
+    从未这么明白的设计模式（二）：装饰器模式|
     jsbintask的博客
     
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
-<meta name="keywords" content="linux,redis">
+  <meta name="keywords" content="java,设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux上安装配置redis5.0">
-<meta property="og:url" content="https://jsbintask.cn/2019/01/24/middleware/redis-install/index.html">
+<meta property="og:title" content="从未这么明白的设计模式（二）：装饰器模式">
+<meta property="og:url" content="https://jsbintask.cn/2019/05/23/designpattern/decorator/index.html">
 <meta property="og:site_name" content="jsbintask的博客">
-<meta property="og:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qiniu.jsbintask.cn/redis-white.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png">
-<meta property="og:updated_time" content="2019-01-24T03:11:00.000Z">
+<meta property="og:image" content="http://qiniu.jsbintask.cn/monaco-viewpoint-with-binoculars-telescope-2210x1473.jpg-blog_960_440.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-9.png">
+<meta property="og:updated_time" content="2019-05-23T03:11:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux上安装配置redis5.0">
-<meta name="twitter:description" content="下载安装 下载redis源码1wget http://download.redis.io/releases/redis-5.0.3.tar.gz">
-<meta name="twitter:image" content="http://qiniu.jsbintask.cn/redis-white.png">
+<meta name="twitter:title" content="从未这么明白的设计模式（二）：装饰器模式">
+<meta name="twitter:image" content="http://qiniu.jsbintask.cn/monaco-viewpoint-with-binoculars-telescope-2210x1473.jpg-blog_960_440.jpg">
   
   <link rel="alternative" href="/atom.xml" title="jsbintask的博客" type="application/atom+xml">
   
@@ -245,11 +246,11 @@
         </header>                
     </div>
 </nav>
-      <div class="body-wrap"><article id="post-middleware/redis-install" class="article article-type-post" itemscope="" itemprop="blogPost">
+      <div class="body-wrap"><article id="post-designpattern/decorator" class="article article-type-post" itemscope="" itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2019/01/24/middleware/redis-install/" class="article-date">
-      <time datetime="2019-01-24T03:11:00.000Z" itemprop="datePublished">2019-01-24</time>
+      <a href="/2019/05/23/designpattern/decorator/" class="article-date">
+      <time datetime="2019-05-23T03:11:00.000Z" itemprop="datePublished">2019-05-23</time>
 </a>
     </div>
   
@@ -262,7 +263,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      linux上安装配置redis5.0
+      从未这么明白的设计模式（二）：装饰器模式
     </h1>
   
 
@@ -270,10 +271,14 @@
       
       <div class="article-info article-info-post">
         
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -283,26 +288,39 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p><img src="http://qiniu.jsbintask.cn/redis-white.png" alt="cover"></p>
-<h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><ol>
-<li>下载redis源码<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.redis.io/releases/redis-5.0.3.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
+        <p><img src="http://qiniu.jsbintask.cn/monaco-viewpoint-with-binoculars-telescope-2210x1473.jpg-blog_960_440.jpg" alt="cover"><br><a id="more"></a></p>
+<blockquote>
+<p>本文原创地址：<a href="https://jsbintask.cn/2019/05/22/designpattern/decorator/">jsbintask的博客</a>(食用效果最佳)，转载请注明出处!</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>装饰器模式是为了运行时动态的扩展一个类的功能。它谨遵<code>开闭原则</code>，它实现的关键在于<code>继承和组合的结合使用</code>，解耦对象之间的关系。<br><code>各种设计模式学习地址：</code><a href="https://github.com/jsbintask22/design-pattern-learning" target="_blank" rel="noopener">https://github.com/jsbintask22/design-pattern-learning</a></p>
+<h2 id="栗子"><a href="#栗子" class="headerlink" title="栗子"></a>栗子</h2><p>首先我们列举一个案例，并且按照面向对象的思想来对应实体之间的关系。</p>
+<p>有一个咖啡店，销售各种各样的咖啡，拿铁，卡布奇洛，蓝山咖啡等，在冲泡前，会询问顾客是否要加糖，加奶，加薄荷等。这样不同的咖啡配上不同的调料就会卖出不同的价格。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-1.png" alt="Decorator"></p>
+<h2 id="V1"><a href="#V1" class="headerlink" title="V1"></a>V1</h2><p>针对上面的栗子，我们很容易就抽象出对应的实现，如上图。接着，我们就要编写对应的类来实现对应的功能。在这个例子中，主题当然就是<code>咖啡</code>，并且它有一个属性是<code>名字</code>，一个行为 <code>价格</code>，出于“面向对象”的思想，我们自然会设计出抽象类<code>Coffee</code>:<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-2.png" alt="Decorator"><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Coffee</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取咖啡得名字</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取咖啡的价格</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接着，按照继承的思想，我们要开始设计出具体的实现类，因为拿铁，卡布奇洛，蓝山搭配上不同的调料（上面三种）会有不同的价格，名字，所以我们至少得设计出 3 X 3 = 9 个类来分别对应它们的名字和价格：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-4.png" alt="Decorator"><br>嗯！我想不用说这样设计得缺陷也很明显了！ 由于不同的咖啡和不同的调料得各种任意组合，使得出现了<code>类爆炸</code>的现象。既然有这么明显的缺陷，那我们当然得改！ 我们可以考虑把各种调料当作属性加入到Coffee这个抽象类中，接着在实现类中计算价格和名字时，分别判断是否加入了各种调料包，得到不同的名字和价格！</p>
+<p>按照上面的思想，我们的Coffee类现在变成了这样：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Coffee</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 是否加了牛奶</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">boolean</span> addedMilk;</span><br><span class="line">    <span class="comment">// 是否加了糖</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">boolean</span> addedSugar;</span><br><span class="line">    <span class="comment">// 是否加了薄荷</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">boolean</span> addedMint;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取咖啡得名字</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">getName</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取咖啡的价格</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接着，我们实现一种咖啡，蓝山咖啡：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BuleCoffee</span> <span class="keyword">extends</span> <span class="title">Coffee</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        StringBuilder name = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        name.append(<span class="string">"蓝山"</span>);</span><br><span class="line">        <span class="keyword">if</span> (addedMilk) &#123;</span><br><span class="line">            name.append(<span class="string">"牛奶"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (addedMilk) &#123;</span><br><span class="line">            name.append(<span class="string">"薄荷"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (addedSugar) &#123;</span><br><span class="line">            name.append(<span class="string">"加糖"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> name.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">double</span> price = <span class="number">10</span>;</span><br><span class="line">        <span class="keyword">if</span> (addedMilk) &#123;</span><br><span class="line">            price += <span class="number">1.1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (addedMilk) &#123;</span><br><span class="line">            price += <span class="number">3.2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (addedSugar) &#123;</span><br><span class="line">            price += <span class="number">2.7</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> price;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>嗯！现在似乎比上面愉快多了。其实不然！我们仔细分析这种设计，会发现它似乎不太符合”封装的思想“，比如说针对拿铁，对于加薄荷而言，对他总是多余的！ 而对于蓝山而言，牛奶又显得很多余！ 所以这种设计也并不合理。 另外，我们假设coffee，拿铁等实体类来自第三方类库，我们并不能改动这些类的实现， 又要怎么得到名字和价格呢？ </p>
+<p>这个时候，我们就得使用<code>装饰器</code>模式来动态的扩展类行为！ 所以我们设计出V3版本。</p>
+<h2 id="V3"><a href="#V3" class="headerlink" title="V3"></a>V3</h2><h3 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h3><p>首先，我们需要了解一个面向对象的一个基本设计原则：<code>开闭原则</code>，它指的是<code>类应该对修改关闭，对扩展开放</code>。 </p>
+<p>怎么理解呢？ 就比如我们上方说的：假如cofee和它的一众实现拿铁，卡布奇洛，蓝山来自第三方类库，并且这个类库已经很”适合“，”实用“了。 而我们为了得到加入不同调料的咖啡的名字和价格，我们就得修改这些实现，而这样的修改，总是免不了<code>稳定性</code>的改变。对原本的系统来说也是一种风险！  所以我们应该 <code>对修改关闭，对扩展开放</code>;</p>
+<h3 id="继承和组合"><a href="#继承和组合" class="headerlink" title="继承和组合"></a>继承和组合</h3><p>遵循开闭原则，那我们就得对外扩展，那怎么对外扩展呢？ 这也是装饰器模式实现的关键，利用<code>继承和组合</code>的结合； 现在我们可以考虑设计出一个装饰类，它也继承自coffee，并且它内部有一个coffee的实例对象：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-5.png" alt="Decorator"><br>现在，我们多了一个<code>咖啡装饰器</code>: CoffeeDecorator:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">CoffeeDecorator</span> <span class="keyword">implements</span> <span class="title">Coffee</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Coffee delegate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CoffeeDecorator</span><span class="params">(Coffee coffee)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.delegate = coffee;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> delegate.getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> delegate.getPrice();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接着，我们将牛奶，薄荷作为抽象出一个类，继承自CoffeeDecorator，所以，现在类图就成了这样：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-6.png" alt="Decorator"><br>我们实现一个<code>MilkCoffeeDecorator</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MilkCoffeeDecorator</span> <span class="keyword">extends</span> <span class="title">CoffeeDecorator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MilkCoffeeDecorator</span><span class="params">(Coffee coffee)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(coffee);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"牛奶, "</span> + <span class="keyword">super</span>.getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.1</span> + <span class="keyword">super</span>.getPrice();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>按同样的方法可以实现出<code>MintCoffeeDecorator</code>，<code>SugarCoffeeDecorator</code>。接着我们写一个测试类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">App</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 得到一杯原始的蓝山咖啡</span></span><br><span class="line">        Coffee blueCoffee = <span class="keyword">new</span> BlueCoffee();</span><br><span class="line">        System.out.println(blueCoffee.getName() + <span class="string">": "</span> + blueCoffee.getPrice());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 加入牛奶</span></span><br><span class="line">        blueCoffee = <span class="keyword">new</span> MilkCoffeeDecorator(blueCoffee);</span><br><span class="line">        System.out.println(blueCoffee.getName() + <span class="string">": "</span> + blueCoffee.getPrice());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 再加入薄荷</span></span><br><span class="line">        blueCoffee = <span class="keyword">new</span> MintCoffeeDecorator(blueCoffee);</span><br><span class="line">        System.out.println(blueCoffee.getName() + <span class="string">": "</span> + blueCoffee.getPrice());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 再加入糖</span></span><br><span class="line">        blueCoffee = <span class="keyword">new</span> SugarCoffeeDecorator(blueCoffee);</span><br><span class="line">        System.out.println(blueCoffee.getName() + <span class="string">": "</span> + blueCoffee.getPrice());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-7.png" alt="Decorator"><br>从结果我们可以看出，随着不断加入各种调料，价格，名字都在改变！ 这说明我们加入不同的调料，动态的改变了咖啡的名字和价格！</p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><p>从上面的最后的装饰器模式的实现来看，我们可以得出以下结论：</p>
+<ol>
+<li>通过装饰器模式可以动态的将责任附加到原有的对象上，而不改变原有的code。</li>
+<li>遵循<code>开闭原则</code></li>
+<li>装饰者和被装饰者有相同的父类（如栗子中的Coffee）</li>
+<li>可以用多个装饰器装饰同一个对象。（见运行类）</li>
+<li>装饰者可以在被装饰者的行为之前或之后动态的加上自己的行为。(参考装饰实现)</li>
+<li>组合比继承更加的灵活（上面的coffee代理）</li>
 </ol>
-<a id="more"></a>
-<ol start="2">
-<li><p>解压编译</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-5.0.3.tar.gz</span><br><span class="line"><span class="built_in">cd</span> redis-5.0.3</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改配置文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ../redis.conf</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>找到下图配置，并且去掉前面注释， 后面改成你的密码即可：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo1.png" alt="/pass"><br>去除protectd-mode模式，并且设置所有ip均能访问：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo3.png" alt="/pass"><br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo4.png" alt="/pass"></p>
-<ol start="4">
-<li>启动设置，连接测试<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">src/redis-server redis.conf &amp;</span><br><span class="line">src/redis-cli -a &#123;你的密码&#125;</span><br><span class="line"><span class="built_in">set</span> name jsbintask</span><br><span class="line">get name</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><img src="https://raw.githubusercontent.com/jsbintask22/static/master/middleware/redis-demo2.png" alt="/redis"><br>这样就安装设置就成功了。<br>本文原创地址：<a href="https://jsbintask.cn/2019/01/24/middleware/redis-install/">https://jsbintask.cn/2019/01/24/middleware/redis-install/</a>，未经允许，禁止转载。</p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>到现在，我们已经实现了一个自己的装饰器，我们来看看jdk中用到的装饰器实现.</p>
+<h3 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h3><p>我们可以查看FilterInputStream：<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-8.png" alt="Decorator"><br>它的主要是实现者为<code>BufferedInputStream</code>:<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/design-mode/decorator-9.png" alt="Decorator"><br>所以我们经常可以使用BufferedInputStream装饰一个InputStream，比如FileInputStream：<br><code>new BufferedInputStream(FileInputStream);</code><br>这就是装饰器模式的典型应用。</p>
+<h3 id="tomcat"><a href="#tomcat" class="headerlink" title="tomcat"></a>tomcat</h3><p>在tomcat的HttpServletRequest的内部实现代码中，<code>RequestFacde</code>继承自HttpServlet，而它内部的实现也是通过代理<code>Request</code>对象，而Request对象继承自HttpServlet，Request内部代理了<code>org.apache.coyote.Request</code>来实现的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>装饰器模式充分展示了组合的灵活。利用它来实现扩展。它同时也是开闭原则的体现。 如果相对某个类实现运行时功能动态的扩展。 这个时候你就可以考虑使用装饰者模式！</p>
+<p><code>关注我，这里只有干货!</code></p>
 
       
       
@@ -353,13 +371,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2019/01/24/middleware/redis-install/">linux上安装配置redis5.0</a></p>
+        <p><span>本文标题:</span><a href="/2019/05/23/designpattern/decorator/">从未这么明白的设计模式（二）：装饰器模式</a></p>
         <p><span>文章作者:</span><a href="/" title="访问 jsbintask 的个人博客">jsbintask</a></p>
-        <p><span>发布时间:</span>2019年01月24日 - 11时11分</p>
-        <p><span>最后更新:</span>2019年01月24日 - 11时11分</p>
+        <p><span>发布时间:</span>2019年05月23日 - 11时11分</p>
+        <p><span>最后更新:</span>2019年05月23日 - 11时11分</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2019/01/24/middleware/redis-install/" title="linux上安装配置redis5.0">https://jsbintask.cn/2019/01/24/middleware/redis-install/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://jsbintask.cn/2019/01/24/middleware/redis-install/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/05/23/designpattern/decorator/" title="从未这么明白的设计模式（二）：装饰器模式">https://jsbintask.cn/2019/05/23/designpattern/decorator/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://jsbintask.cn/2019/05/23/designpattern/decorator/　　作者: jsbintask" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script src="/js/clipboard.min.js"></script>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
@@ -372,18 +390,9 @@
 
 <nav id="article-nav">
   
-    <a href="/2019/01/25/springboot/springboot-redis-jms/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption"><</strong>
-      <div class="article-nav-title">
-        
-          springboot整合各种消息队列（一）：redis消息队列
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/01/22/webcontainer/weblogic-springboot-tx/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">springboot在weblogic中的事务问题</div>
+    <a href="/2019/05/05/jdk/jdk8-unsafe/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">神奇的Unsafe，你get了吗</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -394,7 +403,7 @@
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载安装"><span class="toc-number">1.</span> <span class="toc-text">下载安装</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栗子"><span class="toc-number">2.</span> <span class="toc-text">栗子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V1"><span class="toc-number">3.</span> <span class="toc-text">V1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V3"><span class="toc-number">4.</span> <span class="toc-text">V3</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#开闭原则"><span class="toc-number">4.1.</span> <span class="toc-text">开闭原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#继承和组合"><span class="toc-number">4.2.</span> <span class="toc-text">继承和组合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思考"><span class="toc-number">4.3.</span> <span class="toc-text">思考</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#扩展"><span class="toc-number">5.</span> <span class="toc-text">扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IO"><span class="toc-number">5.1.</span> <span class="toc-text">IO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tomcat"><span class="toc-number">5.2.</span> <span class="toc-text">tomcat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
 </div>
 <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
 
@@ -442,7 +451,7 @@
     
 
         <!--PC和WAP自适应版-->
-<div id="SOHUCS" sid="redis-install"></div>
+<div id="SOHUCS" sid="designpattern-decorator"></div>
 <script type="text/javascript">
     (function () {
         var appid = 'cyu0pbbdV';
@@ -485,13 +494,11 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2019/01/25/springboot/springboot-redis-jms/" title="上一篇: springboot整合各种消息队列（一）：redis消息队列">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
         
-            <a href="/2019/01/22/webcontainer/weblogic-springboot-tx/" title="下一篇: springboot在weblogic中的事务问题">
+            <a href="/2019/05/05/jdk/jdk8-unsafe/" title="下一篇: 神奇的Unsafe，你get了吗">
                 <i class="fa fa-angle-right"></i>
             </a>
         
