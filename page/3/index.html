@@ -156,7 +156,7 @@
                 
                     <section class="switch-part switch-part2">
                         <div class="widget tagcloud" id="js-tagcloud">
-                            <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/api/" style="font-size: 12.22px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/jdk/" style="font-size: 15.56px;">jdk</a> <a href="/tags/jms/" style="font-size: 11.11px;">jms</a> <a href="/tags/linux/" style="font-size: 12.22px;">linux</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 11.11px;">netty</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 13.33px;">redis</a> <a href="/tags/restful/" style="font-size: 11.11px;">restful</a> <a href="/tags/springboot/" style="font-size: 16.67px;">springboot</a> <a href="/tags/springcloud/" style="font-size: 12.22px;">springcloud</a> <a href="/tags/springsecurity/" style="font-size: 14.44px;">springsecurity</a> <a href="/tags/ssm/" style="font-size: 10px;">ssm</a> <a href="/tags/weblogic/" style="font-size: 11.11px;">weblogic</a> <a href="/tags/zuul/" style="font-size: 12.22px;">zuul</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/源码/" style="font-size: 18.89px;">源码</a> <a href="/tags/设计模式/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 17.78px;">面试</a>
+                            <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/api/" style="font-size: 12.22px;">api</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/java/" style="font-size: 20px;">java</a> <a href="/tags/jdk/" style="font-size: 15.56px;">jdk</a> <a href="/tags/jms/" style="font-size: 11.11px;">jms</a> <a href="/tags/linux/" style="font-size: 12.22px;">linux</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/netty/" style="font-size: 11.11px;">netty</a> <a href="/tags/rabbit/" style="font-size: 10px;">rabbit</a> <a href="/tags/rabbitmq/" style="font-size: 10px;">rabbitmq</a> <a href="/tags/redis/" style="font-size: 13.33px;">redis</a> <a href="/tags/restful/" style="font-size: 11.11px;">restful</a> <a href="/tags/seata/" style="font-size: 10px;">seata</a> <a href="/tags/springboot/" style="font-size: 16.67px;">springboot</a> <a href="/tags/springcloud/" style="font-size: 12.22px;">springcloud</a> <a href="/tags/springsecurity/" style="font-size: 14.44px;">springsecurity</a> <a href="/tags/ssm/" style="font-size: 10px;">ssm</a> <a href="/tags/weblogic/" style="font-size: 11.11px;">weblogic</a> <a href="/tags/zuul/" style="font-size: 12.22px;">zuul</a> <a href="/tags/事务/" style="font-size: 10px;">事务</a> <a href="/tags/分布式事务/" style="font-size: 10px;">分布式事务</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a> <a href="/tags/架构/" style="font-size: 10px;">架构</a> <a href="/tags/源码/" style="font-size: 18.89px;">源码</a> <a href="/tags/设计模式/" style="font-size: 13.33px;">设计模式</a> <a href="/tags/运维/" style="font-size: 10px;">运维</a> <a href="/tags/面试/" style="font-size: 17.78px;">面试</a>
                         </div>
                     </section>
                 
@@ -242,6 +242,80 @@
     </div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-jdk/jdk8-linkedlist" class="article article-type-post" itemscope="" itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/26/jdk/jdk8-linkedlist/" class="article-date">
+      <time datetime="2019-03-26T08:05:00.000Z" itemprop="datePublished">2019-03-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/26/jdk/jdk8-linkedlist/">jdk1.8 LinkedList源码全分析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              <blockquote>
+<p>本文原创地址，<code>我的博客</code>：<a href="https://jsbintask.cn/2019/03/26/jdk/jdk8-linkedlist/">https://jsbintask.cn/2019/03/26/jdk/jdk8-linkedlist/</a>(食用效果最佳)，转载请注明出处!</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>LinkedList</code>内部是一个链表的实现，一个节点除了保持自身的数据外，还持有前，后两个节点的引用。所以就数据存储上来说，它相比使用数组作为底层数据结构的<code>ArrayList</code>来说，会更加耗费空间。但也正因为这个特性，它删除，插入节点很快！LinkedList没有任何同步手段，所以多线程环境须慎重考虑，可以使用<code>Collections.synchronizedList(new LinkedList(...));</code>保证线程安全。<br><img src="https://raw.githubusercontent.com/jsbintask22/static/master/jdk/linkedlist-2.png" alt="LinkedList"></p>
+<blockquote>
+<p>友情链接：<a href="https://www.jianshu.com/p/a01659ca07f8" target="_blank" rel="noopener">jdk1.8 ArrayList源码全分析</a><br>
+          
+      
+      
+    </p></blockquote></div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/recommend/">recommend</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jdk/">jdk</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/源码/">源码</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/03/26/jdk/jdk8-linkedlist/#more">阅读全文 >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-jdk/jdk8-arraylist" class="article article-type-post" itemscope="" itemprop="blogPost">
   
@@ -657,78 +731,9 @@
 
 
   
-    <article id="post-android/android-memo" class="article article-type-post" itemscope="" itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/23/android/android-memo/" class="article-date">
-      <time datetime="2019-02-23T08:05:00.000Z" itemprop="datePublished">2019-02-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/23/android/android-memo/">（干货）Android入门完整项目：一个有定时提醒功能的备忘录</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              <p><img src="http://qiniu.jsbintask.cn/d396zy4-aff6fa96-0caa-44a3-87f2-a2f0bc0d1c61.jpg-blog_960_440.jpg" alt="android"><br>
-          
-      
-      
-    </p></div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/recommend/">recommend</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2019/02/23/android/android-memo/#more">阅读全文 >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>
